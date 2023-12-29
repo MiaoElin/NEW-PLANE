@@ -1,4 +1,4 @@
-public enum RoleType{
+public enum Ally{
     none,
     player,
     enemy
