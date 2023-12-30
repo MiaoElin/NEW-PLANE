@@ -11,6 +11,8 @@ public class Template
     {
         planeTMs = new Dictionary<int, PlaneTM>();
         foodTMs = new Dictionary<int, FoodTM>();
+        bulTMs = new Dictionary<int, BulTM>();
+
     }
     public void Init(AssetsContext assets)
     {
