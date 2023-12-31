@@ -19,6 +19,8 @@ public class Context
     public UIContext uIContext;
     // ====Camera====
     public Camera2D camera2D;
+    // =====player====
+    public PlaneEntity player;
 
     public Context()
     {
@@ -30,6 +32,7 @@ public class Context
         gameContext = new GameContext();
         uIContext=new UIContext ();
         camera2D=new Camera2D ();
+        player =new PlaneEntity ();
 
     }
 }

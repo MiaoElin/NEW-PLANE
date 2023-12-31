@@ -1,14 +1,15 @@
 using System.Numerics;
 using Raylib_cs;
-public static class UIApp_Login
+public static class UIApp
 {
+    #region Login:Panel
     public static void Login_Open(UIContext con)
     {
         ref Panel_Login Panel = ref con.panel_Login;
         if (Panel == null)
         {
             Panel = new Panel_Login();
-            Panel.Ctor();
+            Panel.Ctor(); //构造函数，延迟构造，可以先new。把初始的参数放这里，这样不会重复初始化赋值
         }
         con.panel_Login.Init();
 
@@ -48,4 +49,11 @@ public static class UIApp_Login
             con.panel_Login.Draw();
         }
     }
+    #endregion Login:Panel
+    #region Setting:Panel
+    public static void Setting_Open(UIContext con)
+    {
+
+    }
+    #endregion Setting:Panel
 }

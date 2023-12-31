@@ -4,7 +4,6 @@ public class InputEntity
 {
     public Vector2 moveAxis;
     public bool isSpaceDown;
-    public Vector2 mosPos;
     public void Process()
     {
         float x = moveAxis.X;
@@ -27,7 +26,6 @@ public class InputEntity
         }
         moveAxis = new Vector2(x, y);
         isSpaceDown=Raylib.IsKeyDown(KeyboardKey.KEY_SPACE);
-        mosPos=Raylib.GetMousePosition();
 
     }
 }

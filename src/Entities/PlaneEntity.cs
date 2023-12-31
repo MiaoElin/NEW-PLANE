@@ -15,4 +15,11 @@ public class PlaneEntity{
     public void Move(){
 
     }
+    public void Draw(){
+        // Rectangle src =new Rectangle(0,0,texture2D.Width,texture2D.Height);
+        // Rectangle dest= new Rectangle (pos.X,pos.Y,size.X*2,size.X*2);
+        // Vector2 center=new Vector2 (size.X,size.X);
+        // Raylib.DrawTexturePro(texture2D,src,dest,center,0,Color.WHITE);
+        Raylib.DrawCircleV(pos,size.X,Color.RED);
+    }
 }

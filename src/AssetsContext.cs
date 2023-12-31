@@ -23,7 +23,7 @@ public class AssetsContext
         bullet2 = Raylib.LoadTexture("Assets/bullet2.npg");
         bullet3 = Raylib.LoadTexture("Assets/bullet3.npg");
     }
-    public void Unload(){
+    public void UnloadTexture(){
         Raylib.UnloadTexture(map);
         Raylib.UnloadTexture(player1);
         Raylib.UnloadTexture(enemy1);

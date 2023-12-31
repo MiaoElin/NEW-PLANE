@@ -17,27 +17,32 @@ public class Program
             Raylib.BeginDrawing();
             Raylib.ClearBackground(Color.WHITE);
             float dt = Raylib.GetFrameTime();
-            ref Camera2D cam=ref con.camera2D;
-            
+            ref Camera2D cam = ref con.camera2D;
+
             // 全局输入
             con.input.Process();
             // =====Tick=====
-            InfraController.Tick(con,dt);//包含相机初始化
+            InfraController.Tick(con, dt);//包含相机初始化
             LoginController.Tick(con);
-            
+            GameController.Tick(con);
+
+
             // =====Draw World=====
             Raylib.BeginMode2D(cam);
             LoginController.Draw(con);
+            GameController.Draw(con);
             Raylib.EndMode2D();
 
             // =====Draw UI=====
-                LoginController.DrawUI(con);
+            LoginController.DrawUI(con);
 
             Raylib.EndDrawing();
         }
+        con.assets.UnloadTexture();
         Raylib.CloseWindow();
     }
-    static void Init(Context con){
+    static void Init(Context con)
+    {
         InfraController.Init(con);
         LoginController.Init(con);
     }

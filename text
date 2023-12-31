@@ -1,0 +1,44 @@
+// using System.Numerics;
+// using Raylib_cs;
+// public class Program
+// {
+//     // struct 假设PlaneEntity内字段占24b内存；
+//     PlaneEntity plane; //在栈上开了一个24b的内存
+//     plane=new PlaneEntity();// 对该内存里的值全赋值为0；
+//     PlaneEntity p = plane; // 在栈上新开了一个24内存，赋值为plane的值；
+
+//     PlaneEntity plane; //在栈上开了一个24b的内存
+//     plane=new PlaneEntity();// 对该内存里的值全赋值为0；
+//     ref PlaneEntity p =ref plane; //在栈上开了一个8b的空间存plane的地址，叫p，这时候改p也会改plane的值
+
+//     //class
+//     PlaneEntity plane;//在栈上开了8b的空间，存地址，此时为null，名叫plane，
+//     plane=new PlaneEntity();//在堆上开了24b的内存，plane为该堆的地址，指向该堆
+//     PlaneEntity p = plane; //在栈上新开了一个叫p的8b内存，p的值等于plane的值，于是p地址等于plane的地址，此时修改p也就修改了plane；
+//     p=new PlaneEntity();//是否对p和plane都进行了初始化了？
+
+//     // class
+//     UIContext uicon = new UIContext();//在栈上开了8b 在堆上开了24b；
+//     Panel_Login panel = uicon.panel_Login;//在栈上开了一个叫panel的8b内存，panel的值等于panel_Login的值，为0，（因为panel_Login没有new过，0地址是无法赋值的，new的话会开新区）
+//     panel=new Panel_Login();//在堆上新开了12b的内存；这时候panel的指针存档为新堆区域的地址；
+//     uicon.panel_Login=panel;//panel_Login的地址等于panel的地址 指向新堆区域的值；
+
+// UIContext uicon = new UIContext();//在栈上开了8b 在堆上开了24b；
+//     ref Panel_Login panel= ref uicon.panel_Login;//在栈上开了一个8b的空间存了panel_Login的地址，此时只要修改这个地址的值也就修改了这
+
+//     public class PlaneEntity
+//     {
+//         public int a;
+//     }
+//     public void Yo()
+//     {
+//         public PlaneEntity[]arr;
+//         arr = new PlaneEntity[1];
+//         arr[0]= new PlaneEntity ();
+//         PlaneEntity a=arr[0];
+//         a.hp=10;
+
+//     }
+
+// }
+

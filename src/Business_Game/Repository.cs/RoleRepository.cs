@@ -1,11 +1,11 @@
 using System.Numerics;
 using Raylib_cs;
-public class RoleRepository
+public class PlaneRepo
 {
 
     Dictionary<int, PlaneEntity> all;
     PlaneEntity[] tempArray;
-    public RoleRepository()
+    public PlaneRepo()
     {
         all = new Dictionary<int, PlaneEntity>();
         tempArray = new PlaneEntity[2000];

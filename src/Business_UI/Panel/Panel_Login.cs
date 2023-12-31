@@ -26,7 +26,7 @@ public class Panel_Login
         btn_setting.color = Color.BLACK;
         btn_setting.pos = new Vector2(310, 625);
         btn_setting.size = new Vector2(100, 30);
-        btn_setting.text = "  SETTING";
+        btn_setting.text = "   SETTING";
 
     }
     // Ctor 延迟构造的作用

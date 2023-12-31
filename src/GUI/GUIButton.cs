@@ -30,15 +30,13 @@ public class GUIButton
     {
         if (IsMOuseInBtn())
         {
-            System.Console.WriteLine("0000");
             Raylib.DrawRectangleV(pos, size, Color.GREEN);
             Raylib.DrawText(text, (int)pos.X + 10, (int)pos.Y + 8, 12, Color.WHITE);
+            return;
         }
-        else
-        {
-            Raylib.DrawRectangleV(pos, size, color);
-            Raylib.DrawText(text, (int)pos.X + 10, (int)pos.Y + 8, 12, Color.WHITE);
-        }
+        Raylib.DrawRectangleV(pos, size, color);
+        Raylib.DrawText(text, (int)pos.X + 10, (int)pos.Y + 8, 12, Color.WHITE);
+
 
     }
 }

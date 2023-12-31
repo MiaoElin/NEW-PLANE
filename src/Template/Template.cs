@@ -27,6 +27,9 @@ public class Template
         bulTMs.Add(1, CreateBulTM(1, assets.bullet1, new Vector2(5, 5), SharpType.circle));
         bulTMs.Add(2, CreateBulTM(2, assets.bullet2, new Vector2(5, 5), SharpType.circle));
         bulTMs.Add(3, CreateBulTM(3, assets.bullet3, new Vector2(5, 5), SharpType.circle));
+        System.Console.WriteLine(planeTMs.Count);
+
+        
 
     }
     PlaneTM CreatePlaneTM(int typeID, int hp, float moveSpeed, BulType bulType, Texture2D texture2D, Vector2 size, SharpType sharpType)
