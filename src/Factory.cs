@@ -1,12 +1,10 @@
 using System.Numerics;
 using Raylib_cs;
-public static class Factory
-{
-    public static PlaneEntity CreatPlane(Template template, IDService iDService, int typeID, Vector2 pos, Ally ally)
-    {
+public static class Factory {
+    public static PlaneEntity CreatPlane(Template template, IDService iDService, int typeID, Vector2 pos, Ally ally) {
         bool has = template.TryGetPlaneTM(typeID, out PlaneTM tm);
-        if (!has)
-        {
+        if (!has) {
+            System.Console.WriteLine("不存在" + typeID);
             return null;
         }
         PlaneEntity plane = new PlaneEntity();
@@ -20,14 +18,11 @@ public static class Factory
         plane.texture2D = tm.texture2D;
         plane.size = tm.size;
         plane.sharpType = tm.sharpType;
-        System.Console.WriteLine("ppppp");
         return plane;
     }
-    public static FoodEntity CreateFood(Template template, IDService iDService, int typeID, Vector2 pos)
-    {
+    public static FoodEntity CreateFood(Template template, IDService iDService, int typeID, Vector2 pos) {
         bool has = template.TryGetFoodTM(typeID, out FoodTM tm);
-        if (!has)
-        {
+        if (!has) {
             return null;
         }
         FoodEntity food = new FoodEntity();
@@ -39,11 +34,9 @@ public static class Factory
         food.sharpType = tm.sharpType;
         return food;
     }
-    public static BulletEntity CreateBul(Template template, IDService iDService, int typeID, Vector2 pos, Ally ally)
-    {
+    public static BulletEntity CreateBul(Template template, IDService iDService, int typeID, Vector2 pos, Ally ally) {
         bool has = template.TryGetBulTM(typeID, out BulTM tm);
-        if (!has)
-        {
+        if (!has) {
             return null;
         }
         BulletEntity bullet = new BulletEntity();

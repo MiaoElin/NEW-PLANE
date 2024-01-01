@@ -1,7 +1,7 @@
+using System.Diagnostics;
 using System.Numerics;
 using Raylib_cs;
-public class AssetsContext
-{
+public class AssetsContext {
     public Texture2D map;
     public Texture2D player1;
     public Texture2D enemy1;
@@ -11,19 +11,24 @@ public class AssetsContext
     public Texture2D bullet1;
     public Texture2D bullet2;
     public Texture2D bullet3;
-    public void Init()
-    {
-        map = Raylib.LoadTexture("Assets/map.npg");
-        player1 = Raylib.LoadTexture("Assets/player1.npg");
-        enemy1 = Raylib.LoadTexture("Assets/enemy1.npg");
-        enemy2 = Raylib.LoadTexture("Assets/enemy2.npg");
-        food1 = Raylib.LoadTexture("Assets/food1.npg");
-        food2 = Raylib.LoadTexture("Assets/food2.npg");
-        bullet1 = Raylib.LoadTexture("Assets/bullet1.npg");
-        bullet2 = Raylib.LoadTexture("Assets/bullet2.npg");
-        bullet3 = Raylib.LoadTexture("Assets/bullet3.npg");
+    public void Init() {
+        map = LoadTexture("Assets/map.png");
+        player1 = LoadTexture("Assets/player1.png");
+        enemy1 = LoadTexture("Assets/enemy1.png");
+        enemy2 = LoadTexture("Assets/enemy2.png");
+        food1 = LoadTexture("Assets/food1.png");
+        food2 = LoadTexture("Assets/food2.png");
+        bullet1 = LoadTexture("Assets/bullet1.png");
+        bullet2 = LoadTexture("Assets/bullet2.png");
+        bullet3 = LoadTexture("Assets/bullet3.png");
+
     }
-    public void UnloadTexture(){
+    public Texture2D LoadTexture(String filepath) {
+        Texture2D tex = Raylib.LoadTexture(filepath);
+        Debug.Assert(tex.Width != 0);
+        return tex;
+    }
+    public void UnloadTexture() {
         Raylib.UnloadTexture(map);
         Raylib.UnloadTexture(player1);
         Raylib.UnloadTexture(enemy1);

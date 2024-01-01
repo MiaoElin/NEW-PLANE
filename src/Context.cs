@@ -1,7 +1,6 @@
 using System.Numerics;
 using Raylib_cs;
-public class Context
-{
+public class Context {
     public int widowWidth;
     public int widowHeigth;
     public int baseSize;
@@ -20,19 +19,16 @@ public class Context
     // ====Camera====
     public Camera2D camera2D;
     // =====player====
-    public PlaneEntity player;
 
-    public Context()
-    {
-        input=new InputEntity ();
+    public Context() {
+        input = new InputEntity();
         iDService = new IDService();
         assets = new AssetsContext();
         template = new Template();
         loginContext = new LoginContext();
         gameContext = new GameContext();
-        uIContext=new UIContext ();
-        camera2D=new Camera2D ();
-        player =new PlaneEntity ();
+        uIContext = new UIContext();
+        camera2D = new Camera2D();
 
     }
 }

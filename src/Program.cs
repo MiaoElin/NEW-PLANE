@@ -1,9 +1,7 @@
 ﻿using System.Numerics;
 using Raylib_cs;
-public class Program
-{
-    public static void Main()
-    {
+public class Program {
+    public static void Main() {
         Raylib.InitWindow(720, 1080, "PlaneGame");
         Raylib.SetTargetFPS(60);
 
@@ -12,8 +10,7 @@ public class Program
         Init(con);
         // Enter
         LoginController.Enter(con);
-        while (!Raylib.WindowShouldClose())
-        {
+        while (!Raylib.WindowShouldClose()) {
             Raylib.BeginDrawing();
             Raylib.ClearBackground(Color.WHITE);
             float dt = Raylib.GetFrameTime();
@@ -35,14 +32,14 @@ public class Program
 
             // =====Draw UI=====
             LoginController.DrawUI(con);
+            GameController.DrawUI(con);
 
             Raylib.EndDrawing();
         }
         con.assets.UnloadTexture();
         Raylib.CloseWindow();
     }
-    static void Init(Context con)
-    {
+    static void Init(Context con) {
         InfraController.Init(con);
         LoginController.Init(con);
     }
