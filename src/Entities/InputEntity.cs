@@ -6,8 +6,8 @@ public class InputEntity
     public bool isSpaceDown;
     public void Process()
     {
-        float x = moveAxis.X;
-        float y = moveAxis.Y;
+        float x = 0;
+        float y = 0;
         if (Raylib.IsKeyDown(KeyboardKey.KEY_UP))
         {
             y = -1;

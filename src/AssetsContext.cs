@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Numerics;
 using Raylib_cs;
 public class AssetsContext {
-    public Texture2D map;
+    public Texture2D map1;
     public Texture2D player1;
     public Texture2D enemy1;
     public Texture2D enemy2;
@@ -12,7 +12,7 @@ public class AssetsContext {
     public Texture2D bullet2;
     public Texture2D bullet3;
     public void Init() {
-        map = LoadTexture("Assets/map.png");
+        map1 = LoadTexture("Assets/map1.png");
         player1 = LoadTexture("Assets/player1.png");
         enemy1 = LoadTexture("Assets/enemy1.png");
         enemy2 = LoadTexture("Assets/enemy2.png");
@@ -29,7 +29,7 @@ public class AssetsContext {
         return tex;
     }
     public void UnloadTexture() {
-        Raylib.UnloadTexture(map);
+        Raylib.UnloadTexture(map1);
         Raylib.UnloadTexture(player1);
         Raylib.UnloadTexture(enemy1);
         Raylib.UnloadTexture(enemy2);

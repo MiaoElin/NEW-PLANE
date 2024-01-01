@@ -18,7 +18,6 @@ public class Context {
     public UIContext uIContext;
     // ====Camera====
     public Camera2D camera2D;
-    // =====player====
 
     public Context() {
         input = new InputEntity();

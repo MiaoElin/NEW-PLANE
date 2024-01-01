@@ -5,4 +5,6 @@ public struct FoodTM{
     public Texture2D texture2D;
     public Vector2 size;
     public SharpType sharpType;
+    public MoveType moveType;
+
 }

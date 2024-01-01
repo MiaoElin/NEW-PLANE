@@ -4,6 +4,7 @@ public class Program {
     public static void Main() {
         Raylib.InitWindow(720, 1080, "PlaneGame");
         Raylib.SetTargetFPS(60);
+        Raylib.SetExitKey(KeyboardKey.KEY_NULL);
 
         Context con = new Context();
         // Init
@@ -21,7 +22,7 @@ public class Program {
             // =====Tick=====
             InfraController.Tick(con, dt);//包含相机初始化
             LoginController.Tick(con);
-            GameController.Tick(con);
+            GameController.Tick(con,dt);
 
 
             // =====Draw World=====

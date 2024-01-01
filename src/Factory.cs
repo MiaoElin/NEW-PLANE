@@ -1,10 +1,10 @@
 using System.Numerics;
 using Raylib_cs;
 public static class Factory {
-    public static PlaneEntity CreatPlane(Template template, IDService iDService, int typeID, Vector2 pos, Ally ally) {
+    public static PlaneEntity CreatePlane(Template template, IDService iDService, int typeID, Vector2 pos, Ally ally) {
         bool has = template.TryGetPlaneTM(typeID, out PlaneTM tm);
         if (!has) {
-            System.Console.WriteLine("不存在" + typeID);
+            PLog.LogError("Factory.Createplane: typeID{typeID} not found");
             return null;
         }
         PlaneEntity plane = new PlaneEntity();
@@ -23,6 +23,7 @@ public static class Factory {
     public static FoodEntity CreateFood(Template template, IDService iDService, int typeID, Vector2 pos) {
         bool has = template.TryGetFoodTM(typeID, out FoodTM tm);
         if (!has) {
+            PLog.LogError("Factory.CreateFood: typeID{typeID} not found");
             return null;
         }
         FoodEntity food = new FoodEntity();
@@ -37,6 +38,7 @@ public static class Factory {
     public static BulletEntity CreateBul(Template template, IDService iDService, int typeID, Vector2 pos, Ally ally) {
         bool has = template.TryGetBulTM(typeID, out BulTM tm);
         if (!has) {
+            PLog.LogError("Factory.CreateBul: typeID{typeID} not found");
             return null;
         }
         BulletEntity bullet = new BulletEntity();

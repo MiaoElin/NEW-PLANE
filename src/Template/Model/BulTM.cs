@@ -5,4 +5,6 @@ public struct BulTM{
     public Vector2 size;
     public SharpType sharpType;
     public int typeID;
+    public MoveType moveType;
+
 }

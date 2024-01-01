@@ -8,4 +8,6 @@ public class BulletEntity{
     public int typeID;
     public Ally ally;
     public int entityID;
+    public MoveType moveType;
+
 }

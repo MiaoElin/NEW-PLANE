@@ -4,16 +4,18 @@ public class PlaneEntity {
     public Texture2D texture2D;
     public Vector2 size;
     public SharpType sharpType;
+    public MoveType moveType;
+    public Ally ally;
+    public BulType bulType;
     public Vector2 pos;
     public int entityID;
     public int typeID;
-    public Ally ally;
-    public BulType bulType;
+
     public int hp;
     public int hpMax;
     public float moveSpeed;
-    public void Move() {
-
+    public void Move(Vector2 dir, float dt) {
+        pos += Raymath.Vector2Normalize(dir) * moveSpeed * dt;
     }
     public void Draw() {
         Rectangle src = new Rectangle(0, 0, texture2D.Width, texture2D.Height);
