@@ -38,7 +38,7 @@ public static class Factory {
     public static BulletEntity CreateBul(Template template, IDService iDService, int typeID, Vector2 pos, Ally ally) {
         bool has = template.TryGetBulTM(typeID, out BulTM tm);
         if (!has) {
-            PLog.LogError("Factory.CreateBul: typeID{typeID} not found");
+            PLog.LogError($"Factory.CreateBul: typeID{typeID} not found");
             return null;
         }
         BulletEntity bullet = new BulletEntity();
@@ -51,5 +51,18 @@ public static class Factory {
         bullet.sharpType = tm.sharpType;
         return bullet;
     }
-
+    public static WaveEntity CreateWave(Template template, IDService iDService, int typeID) {
+        bool has = template.tryGetWaveTM(1, out WaveTM tm);
+        if (!has) {
+            PLog.LogError($"Factory.CreateWava: typeID{typeID} not found");
+        }
+        WaveEntity wave = new WaveEntity();
+        wave.entityID = iDService.waveIDRecord++;
+        wave.time = 0;
+        wave.level = tm.level;
+        wave.map = tm.map;
+        wave.spawnMaintainSec = tm.spawnMaintainSec;
+        wave.waveSpawnTMs = tm.waveSpawnTMs;
+        return wave;
+    }
 }

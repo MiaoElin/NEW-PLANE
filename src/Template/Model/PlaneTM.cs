@@ -6,6 +6,7 @@ public struct PlaneTM{
     public float moveSpeed;
     public BulType bulType;
     public MoveType moveType;
+    public Ally ally;
     
     // draw
     public Texture2D texture2D;

@@ -1,8 +1,8 @@
 using System.Numerics;
 using Raylib_cs;
 public static class PlaneDomain {
-    public static PlaneEntity SpawnPlane(Context con, Template template, IDService iDService, int typeID, Vector2 pos, Ally ally) {
-        PlaneEntity plane = Factory.CreatePlane(template, iDService, typeID, pos, ally);
+    public static PlaneEntity SpawnPlane(Context con, int typeID, Vector2 pos, Ally ally) {
+        PlaneEntity plane = Factory.CreatePlane(con.template, con.iDService, typeID, pos, ally);
         con.gameContext.planeRepo.Add(plane);
         return plane;
     }
@@ -18,6 +18,14 @@ public static class PlaneDomain {
             if (plane.moveType == MoveType.DontMove) {
                 plane.Move(new(0, 0), dt);
             }
+
+        }
+    }
+    public static void Draw(Context con) {
+        int Length = con.gameContext.planeRepo.TakeAll(out PlaneEntity[] nowAll);
+        for (int i = 0; i < Length; i++) {
+            var tem = nowAll[i];
+            tem.Draw();
 
         }
     }

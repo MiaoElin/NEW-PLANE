@@ -9,5 +9,6 @@ public class BulletEntity{
     public Ally ally;
     public int entityID;
     public MoveType moveType;
+    public BulType bulType;
 
 }

@@ -11,6 +11,8 @@ public class AssetsContext {
     public Texture2D bullet1;
     public Texture2D bullet2;
     public Texture2D bullet3;
+    public Texture2D bullet4;
+    public Texture2D boss1;
     public void Init() {
         map1 = LoadTexture("Assets/map1.png");
         player1 = LoadTexture("Assets/player1.png");
@@ -21,6 +23,8 @@ public class AssetsContext {
         bullet1 = LoadTexture("Assets/bullet1.png");
         bullet2 = LoadTexture("Assets/bullet2.png");
         bullet3 = LoadTexture("Assets/bullet3.png");
+        bullet4 = LoadTexture("Assets/bullet4.png");
+        boss1 = LoadTexture("Assets/boss1.png");
 
     }
     public Texture2D LoadTexture(String filepath) {
@@ -38,5 +42,7 @@ public class AssetsContext {
         Raylib.UnloadTexture(bullet1);
         Raylib.UnloadTexture(bullet2);
         Raylib.UnloadTexture(bullet3);
+        Raylib.UnloadTexture(bullet4);
+        Raylib.UnloadTexture(boss1);
     }
 }

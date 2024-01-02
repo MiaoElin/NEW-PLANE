@@ -5,11 +5,14 @@ public static class GameController {
 
     }
     public static void EnterGame(Context con) {
+
+        // 生成波次
+        WaveEntity wave = WaveDomain.SpawnWave(con, 1);
         // 生成我方飞机
-        PlaneEntity player = PlaneDomain.SpawnPlane(con, con.template, con.iDService, 1, new Vector2(0, 0), Ally.player);
+        PlaneEntity player = PlaneDomain.SpawnPlane(con, TypeIDConst.PLAYER_PLANE_TYPEID, new Vector2(0, 0), Ally.player);
+        con.gameContext.player=player;
         con.gameContext.isInGame = true;
-        player = con.gameContext.player;
-        // 初始化敌机（选择关卡）
+
     }
     public static void Tick(Context con, float dt) {
         GameContext game = con.gameContext;
@@ -20,16 +23,19 @@ public static class GameController {
         if (!game.isInGame || game.isPause) {
             return;
         }
-        AssetsContext assets = con.assets;
-        Rectangle src = new Rectangle(0, 0, assets.map1.Width, assets.map1.Height);
-        Rectangle dest = new Rectangle(-360, 540, 720, 1080);
-        Raylib.DrawTexturePro(assets.map1, src, dest, new(-360, 540), 0, Color.WHITE);
+
         // 生成敌人
+        int WaveLen = con.gameContext.waveRepo.TakeAll(out WaveEntity[] all_Wave);
+        for (int i = 0;i < WaveLen; i++){
+            var wave=all_Wave[i];
+            WaveDomain.SpwanEntities()
+
+        }
 
         // 飞机移动
-        int Length = con.gameContext.planeRepo.TakeAll(out PlaneEntity[] all);
-        for (int i = 0; i < Length; i++) {
-            var plane = all[i];
+        int planeLen = con.gameContext.planeRepo.TakeAll(out PlaneEntity[] all_Plane);
+        for (int i = 0; i < planeLen; i++) {
+            var plane = all_Plane[i];
             PlaneDomain.Move(con, plane, dt);
         }
     }
@@ -38,12 +44,7 @@ public static class GameController {
         if (!game.isInGame) {
             return;
         }
-        int Length = con.gameContext.planeRepo.TakeAll(out PlaneEntity[] nowAll);
-        for (int i = 0; i < Length; i++) {
-            var tem = nowAll[i];
-            tem.Draw();
 
-        }
 
 
 

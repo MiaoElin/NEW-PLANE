@@ -7,5 +7,6 @@ public class WaveEntity{
     public float spawnMaintainSec;
     public Texture2D map;
     public WaveSpawnTM[]waveSpawnTMs;
+    public float time;
     
 }

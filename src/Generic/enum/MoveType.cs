@@ -4,5 +4,6 @@ public enum MoveType {
     ByLine,  //
     ByTrack, //追踪
     StaticDirection, // 静态方向
+    RightLeft,
     DontMove
 }

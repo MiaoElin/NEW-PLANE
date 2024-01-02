@@ -12,8 +12,8 @@ public class PlaneRepo {
         all.Add(role.entityID, role);
 
     }
-    public void TryGetPlane(int entityID, out PlaneEntity plane) {
-        all.TryGetValue(entityID, out plane);
+    public bool TryGet(int entityID, out PlaneEntity plane) {
+        return  all.TryGetValue(entityID, out plane);
     }
     public void Remove(PlaneEntity role) {
         all.Remove(role.entityID);
