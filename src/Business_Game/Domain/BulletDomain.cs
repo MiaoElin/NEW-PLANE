@@ -1,11 +1,40 @@
 using System.Numerics;
 using Raylib_cs;
+
 public static class BulletDomain {
+
+    public static void SpawnBulletByBulCount(Context ctx, int typeID, BulPerCount perCount, Vector2 planePos, Vector2 planeDir, Vector2 targetPos, Ally ally) {
+        if (perCount == BulPerCount.onebul) {
+            SpawnBullet(ctx, typeID, planePos, planeDir, targetPos, ally);
+        } else if (perCount == BulPerCount.twobul) {
+            BulletEntity b1 = SpawnBullet(ctx, typeID, planePos, planeDir, targetPos, ally);
+            b1.pos.X -= 0.5f * b1.size.X;
+            BulletEntity b2 = SpawnBullet(ctx, typeID, planePos, planeDir, targetPos, ally);
+            b2.pos.X += 0.5f * b2.size.X;
+        } else if (perCount == BulPerCount.threebul) {
+            System.Diagnostics.Debug.WriteLine("TODO");
+        }
+    }
+
+    public static BulletEntity SpawnBullet(Context ctx, int typeID, Vector2 planePos, Vector2 planeDir, Vector2 targetPos, Ally ally) {
+        BulletEntity bul = Factory.CreateBul(ctx.template, ctx.iDService, typeID, planePos, planeDir, ally);
+        MoveType moveType = bul.moveType;
+        if (moveType == MoveType.ByLine_Shooter) {
+            bul.firstDir = planeDir;
+        } else if (moveType == MoveType.ByLine_FaceTarget) {
+            bul.firstDir = targetPos - planePos;
+        } else if (moveType == MoveType.StaticDirection) {
+            // Do Nothing
+        }
+        ctx.gameContext.bulRepo.Add(bul);
+        return bul;
+    }
+
     public static void SpawnBul(Context con, PlaneEntity plane, float dt) {
-       PlaneEntity player = con.gameContext.player;
+        PlaneEntity player = con.gameContext.GetPlayer();
         if (plane.ally == Ally.enemy) {
             if (plane.bulPerCount == BulPerCount.onebul) {
-                ref float timer =ref plane.bulTimer;
+                ref float timer = ref plane.bulTimer;
                 timer -= dt;
                 if (timer <= 0) {
                     Vector2 firstDir = player.pos - plane.pos;
@@ -16,7 +45,7 @@ public static class BulletDomain {
                 }
 
             } else if (plane.bulPerCount == BulPerCount.twobul) {
-                ref float timer =ref plane.bulTimer;
+                ref float timer = ref plane.bulTimer;
                 timer -= dt;
                 if (timer <= 0) {
                     BulletEntity bul1 = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, Vector2.Zero, Ally.enemy);
@@ -30,7 +59,7 @@ public static class BulletDomain {
                     timer = bul2.spawnInterval;
                 }
             } else if (plane.bulPerCount == BulPerCount.threebul) {
-                ref float timer =ref plane.bulTimer;
+                ref float timer = ref plane.bulTimer;
                 timer -= dt;
                 if (timer <= 0) {
                     Vector2 firstDir = player.pos - plane.pos;
@@ -46,11 +75,11 @@ public static class BulletDomain {
         }
         if (plane.ally == Ally.player) {
             if (plane.bulPerCount == BulPerCount.onebul) {
-                ref float timer =ref plane.bulTimer;
+                ref float timer = ref plane.bulTimer;
                 timer -= dt;
                 if (timer <= 0) {
                     BulletEntity bul = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, Vector2.Zero, Ally.player);
-                    if (bul.moveType == MoveType.ByLine) {
+                    if (bul.moveType == MoveType.ByLine_Shooter) {
                         // 找此刻最近的敌人 敌人pos-子弹pos=dir，记住这个dir为firstDir;
                         // 只有byline的情况要用到firstDir
                     }
@@ -58,7 +87,7 @@ public static class BulletDomain {
                     timer = bul.spawnInterval;
                 }
             } else if (plane.bulPerCount == BulPerCount.twobul) {
-                ref float timer =ref plane.bulTimer;
+                ref float timer = ref plane.bulTimer;
                 timer -= dt;
                 if (timer <= 0) {
                     BulletEntity bul1 = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, Vector2.Zero, Ally.player);
@@ -72,7 +101,7 @@ public static class BulletDomain {
                     timer = bul1.spawnInterval;
                 }
             } else if (plane.bulPerCount == BulPerCount.threebul) {
-                ref float timer =ref plane.bulTimer;
+                ref float timer = ref plane.bulTimer;
                 timer -= dt;
                 if (timer <= 0) {
                     BulletEntity bul1 = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, Vector2.Zero, Ally.player);
@@ -109,10 +138,10 @@ public static class BulletDomain {
                 bul.Move(dir, dt);
             }
             if (bul.moveType == MoveType.ByTrack) {
-                Vector2 dir = con.gameContext.player.pos - bul.pos;
+                Vector2 dir = con.gameContext.GetPlayer().pos - bul.pos;
                 bul.Move(dir, dt);
             }
-            if (bul.moveType == MoveType.ByLine) {
+            if (bul.moveType == MoveType.ByLine_Shooter) {
                 bul.Move(bul.firstDir, dt);
             }
         }

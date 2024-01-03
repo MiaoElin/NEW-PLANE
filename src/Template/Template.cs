@@ -36,7 +36,7 @@ public class Template {
         // 子弹
         bulTMs.Add(1, CreateBulTM(1, assets.bullet1, new Vector2(12, 12), 800, SharpType.circle, MoveType.StaticDirection,0));
         bulTMs.Add(2, CreateBulTM(2, assets.bullet2, new Vector2(12, 12), 300, SharpType.circle, MoveType.StaticDirection,1.5f));
-        bulTMs.Add(3, CreateBulTM(3, assets.bullet3, new Vector2(12, 12), 200, SharpType.circle, MoveType.ByLine,2));
+        bulTMs.Add(3, CreateBulTM(3, assets.bullet3, new Vector2(12, 12), 200, SharpType.circle, MoveType.ByLine_Shooter,2));
         bulTMs.Add(4, CreateBulTM(4, assets.bullet4, new Vector2(14, 14), 600, SharpType.circle, MoveType.StaticDirection,2));
 
         // Wave 波次

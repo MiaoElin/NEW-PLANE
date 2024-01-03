@@ -20,7 +20,8 @@ public static class Factory {
         plane.size = tm.size;
         plane.sharpType = tm.sharpType;
         plane.moveType=tm.moveType;
-        plane.bulTimer=0;
+        plane.bulTimer= 2;
+        plane.bulInterval = 2;
         return plane;
     }
     public static FoodEntity CreateFood(Template template, IDService iDService, int typeID, Vector2 pos) {
