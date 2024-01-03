@@ -7,8 +7,12 @@ public class GameContext {
     // =====Repository====
     public PlaneRepo planeRepo;
     public WaveRepo waveRepo;
+    public BulRepo bulRepo;
+    public FoodRepo foodRepo;
     // =====player====
     public PlaneEntity player;
+    // =====Wave=====
+    public WaveEntity wave1;
 
     public GameContext() {
         isEnteringGame = false;
@@ -17,5 +21,8 @@ public class GameContext {
         planeRepo = new PlaneRepo();
         player = new PlaneEntity();
         waveRepo=new WaveRepo ();
+        bulRepo=new BulRepo ();
+        foodRepo=new FoodRepo ();
+        wave1=new WaveEntity ();
     }
 }

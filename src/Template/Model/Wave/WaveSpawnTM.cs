@@ -8,7 +8,8 @@ public class WaveSpawnTM{
     public float interval;
     public float timer;
     public Texture2D map;
-
+    public SpawnPos spawnPos;
+    public Ally ally;
     
     
 

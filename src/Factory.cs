@@ -12,12 +12,15 @@ public static class Factory {
         plane.typeID = typeID;
         plane.pos = pos;
         plane.entityID = iDService.planeIDRecord++;
-        plane.bulType = tm.bulType;
+        plane.bulPerCount = tm.bulPerCount;
+        plane.bulTypeID=tm.bulTypeID;
         plane.hp = tm.hp;
         plane.moveSpeed = tm.moveSpeed;
         plane.texture2D = tm.texture2D;
         plane.size = tm.size;
         plane.sharpType = tm.sharpType;
+        plane.moveType=tm.moveType;
+        plane.bulTimer=0;
         return plane;
     }
     public static FoodEntity CreateFood(Template template, IDService iDService, int typeID, Vector2 pos) {
@@ -35,7 +38,7 @@ public static class Factory {
         food.sharpType = tm.sharpType;
         return food;
     }
-    public static BulletEntity CreateBul(Template template, IDService iDService, int typeID, Vector2 pos, Ally ally) {
+    public static BulletEntity CreateBul(Template template, IDService iDService, int typeID, Vector2 pos,Vector2 firstDir, Ally ally) {
         bool has = template.TryGetBulTM(typeID, out BulTM tm);
         if (!has) {
             PLog.LogError($"Factory.CreateBul: typeID{typeID} not found");
@@ -45,10 +48,14 @@ public static class Factory {
         bullet.ally = ally;
         bullet.pos = pos;
         bullet.typeID = typeID;
+        bullet.firstDir=firstDir;
         bullet.entityID = iDService.bulIDRecord++;
         bullet.size = tm.size;
         bullet.texture2D = tm.texture2D;
         bullet.sharpType = tm.sharpType;
+        bullet.moveSpeed=tm.moveSpeed;
+        bullet.moveType=tm.moveType;
+        bullet.spawnInterval=tm.spawnInterval;
         return bullet;
     }
     public static WaveEntity CreateWave(Template template, IDService iDService, int typeID) {

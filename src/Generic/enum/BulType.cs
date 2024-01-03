@@ -1,4 +1,4 @@
-public enum BulType{
+public enum BulPerCount{
     none,
     onebul,
     twobul,

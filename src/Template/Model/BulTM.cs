@@ -6,7 +6,7 @@ public struct BulTM{
     public SharpType sharpType;
     public int typeID;
     public MoveType moveType;
-    public BulType bulType;
-    public Ally ally;
-
+    public float moveSpeed;
+    public float spawnInterval;
+    public float timer;
 }

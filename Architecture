@@ -5,9 +5,9 @@ Util
 Context
 AssetsContext/RoleRepository
 Factory
-Entity/UI/templat
+Entity/UI/template
 GUI、Service（可以存字段）
 Helper(一般不存字段)
-Raylib
+Generic
 
 

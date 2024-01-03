@@ -10,6 +10,7 @@ public class Context {
     public Template template;
     // ====Service====
     public IDService iDService;
+    public RandomService r;
     // ====Assets====
     public AssetsContext assets;
     // ====Context====
@@ -28,6 +29,7 @@ public class Context {
         gameContext = new GameContext();
         uIContext = new UIContext();
         camera2D = new Camera2D();
+        r=new RandomService ();
 
     }
 }

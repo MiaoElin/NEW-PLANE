@@ -1,6 +1,6 @@
 public enum EntityType{
     none,
-    plane,
-    bullet,
-    food
+    Plane,
+    Bullet,
+    Food
 }

@@ -6,5 +6,7 @@ public struct FoodTM{
     public Vector2 size;
     public SharpType sharpType;
     public MoveType moveType;
+    public SpawnPos spawnPos;
+    public FoodType foodType;
 
 }

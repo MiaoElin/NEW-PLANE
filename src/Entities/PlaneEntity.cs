@@ -6,7 +6,8 @@ public class PlaneEntity {
     public SharpType sharpType;
     public MoveType moveType;
     public Ally ally;
-    public BulType bulType;
+    public BulPerCount bulPerCount;
+    public int bulTypeID;
     public Vector2 pos;
     public int entityID;
     public int typeID;
@@ -14,6 +15,7 @@ public class PlaneEntity {
     public int hp;
     public int hpMax;
     public float moveSpeed;
+    public float bulTimer;
     public void Move(Vector2 dir, float dt) {
         pos += Raymath.Vector2Normalize(dir) * moveSpeed * dt;
     }

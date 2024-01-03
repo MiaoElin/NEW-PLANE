@@ -9,5 +9,6 @@ public class FoodEntity{
     public Vector2 size;
     public SharpType sharpType;
     public MoveType moveType;
+    public FoodType foodType;
 
 }

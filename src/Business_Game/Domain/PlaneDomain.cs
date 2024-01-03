@@ -22,11 +22,10 @@ public static class PlaneDomain {
         }
     }
     public static void Draw(Context con) {
-        int Length = con.gameContext.planeRepo.TakeAll(out PlaneEntity[] nowAll);
-        for (int i = 0; i < Length; i++) {
+        int PlaneLen = con.gameContext.planeRepo.TakeAll(out PlaneEntity[] nowAll);
+        for (int i = 0; i < PlaneLen; i++) {
             var tem = nowAll[i];
             tem.Draw();
-
         }
     }
 }
