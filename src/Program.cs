@@ -1,6 +1,9 @@
 ﻿using System.Numerics;
 using Raylib_cs;
 public class Program {
+    public static void Log() {
+        System.Console.WriteLine("LOGGG");
+    }
     public static void Main() {
         Raylib.InitWindow(720, 1080, "PlaneGame");
         Raylib.SetTargetFPS(60);

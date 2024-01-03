@@ -7,8 +7,8 @@ public static class GameController {
     public static void EnterGame(Context con) {
 
         // 生成我方飞机
-        ref PlaneEntity player = ref con.gameContext.player;
-        player = PlaneDomain.SpawnPlane(con, TypeIDConst.PLAYER_PLANE_TYPEID, new Vector2(0, 460), Ally.player);
+        PlaneEntity player = PlaneDomain.SpawnPlane(con, TypeIDConst.PLAYER_PLANE_TYPEID, new Vector2(0, 460), Ally.player);
+        con.gameContext.playerEntityID = player.entityID;
         con.gameContext.isInGame = true;
         // 生成波次
         con.gameContext.wave1 = WaveDomain.SpawnWave(con, 1);
@@ -40,8 +40,11 @@ public static class GameController {
         for (int i = 0; i < planeLen; i++) {
             var plane = all_Plane[i];
             PlaneDomain.Move(con, plane, dt);
+            if (plane.ally == Ally.enemy) {
+                PlaneDomain.EnemyTryShoot(con, plane, dt);
+            }
             // 子弹生成
-            BulletDomain.SpawnBul(con, plane, dt);
+            // BulletDomain.SpawnBul(con, plane, dt);
         }
         // 子弹移动
         int bulLen = con.gameContext.bulRepo.TakeAll(out BulletEntity[] all_Bullets);
