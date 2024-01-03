@@ -1,48 +1,68 @@
 using System.Numerics;
 using Raylib_cs;
+
 public class Template {
+
     Dictionary<int, PlaneTM> planeTMs;
     Dictionary<int, FoodTM> foodTMs;
     Dictionary<int, BulTM> bulTMs;
     Dictionary<int, WaveTM> waveTMs;
-
+    Dictionary<int, SkillTM> skillTMs;
 
     public Template() {
         planeTMs = new Dictionary<int, PlaneTM>();
         foodTMs = new Dictionary<int, FoodTM>();
         bulTMs = new Dictionary<int, BulTM>();
         waveTMs = new Dictionary<int, WaveTM>();
-
+        skillTMs = new Dictionary<int, SkillTM>();
     }
+
     public void Init(AssetsContext assets) {
+
+        // 技能
+        SkillTM s1_1 = new SkillTM(1, 1, true, ShooterType.onebul, 1, 1f, 0.2f);
+        SkillTM s2_1 = new SkillTM(2, 1, true, ShooterType.twobul, 1, 1f, 0.4f);
+        SkillTM s3_1 = new SkillTM(3, 1, true, ShooterType.onebul, 1, 1f, 0.3f);
+        SkillTM s4_1 = new SkillTM(4, 1, true, ShooterType.threebul, 1, 1f, 0.2f);
+        SkillTM s5_1 = new SkillTM(5, 1, true, ShooterType.onebul, 1, 1f, 0.2f);
+        skillTMs.Add(1, s1_1);
+        skillTMs.Add(2, s2_1);
+        skillTMs.Add(3, s3_1);
+        skillTMs.Add(4, s4_1);
+        skillTMs.Add(5, s5_1);
+
         // 飞机
-        planeTMs.Add(1, CreatePlaneTM(typeID: 1,
-                                      hp:100,
-                                      300,
-                                      BulPerCount.threebul,
-                                      4,
-                                      assets.boss1,
-                                      new Vector2(100, 100),
-                                      SharpType.circle,
-                                      MoveType.RightLeft,
-                                      SpawnPos.TopMiddle));
-        planeTMs.Add(2, CreatePlaneTM(2, 20, 60, BulPerCount.twobul, 2,assets.enemy1, new Vector2(40, 40), SharpType.circle, MoveType.ByTrack, SpawnPos.RandomPosOn_Top));
-        planeTMs.Add(3, CreatePlaneTM(3, 20, 0, BulPerCount.onebul,3, assets.enemy2, new Vector2(40, 40), SharpType.circle, MoveType.DontMove, SpawnPos.RandomPosOn_UpperHalf));
-        planeTMs.Add(TypeIDConst.PLAYER_PLANE_TYPEID, CreatePlaneTM(1, 100, 300, BulPerCount.onebul,1, assets.player1, new Vector2(30, 30), SharpType.circle, MoveType.ByInput, SpawnPos.BottomMiddle));
+        var p1 = CreatePlaneTM(1, 100, 300, ShooterType.threebul, 4, assets.boss1, new Vector2(100, 100), SharpType.circle, MoveType.RightLeft, SpawnPos.TopMiddle);
+        p1.skills = new SkillTM[] { s1_1, s2_1 };
+        planeTMs.Add(1, p1);
+
+        var p2 = CreatePlaneTM(2, 20, 60, ShooterType.twobul, 2, assets.enemy1, new Vector2(40, 40), SharpType.circle, MoveType.ByTrack, SpawnPos.RandomPosOn_Top);
+        p2.skills = new SkillTM[] { s2_1 };
+        planeTMs.Add(2, p2);
+
+        var p3 = CreatePlaneTM(3, 20, 0, ShooterType.onebul, 3, assets.enemy2, new Vector2(40, 40), SharpType.circle, MoveType.DontMove, SpawnPos.RandomPosOn_UpperHalf);
+        p3.skills = new SkillTM[] { s3_1 };
+        planeTMs.Add(3, p3);
+
+        int playerTypeID = TypeIDConst.PLAYER_PLANE_TYPEID;
+        var p4 = CreatePlaneTM(playerTypeID, 100, 300, ShooterType.onebul, 1, assets.player1, new Vector2(30, 30), SharpType.circle, MoveType.ByInput, SpawnPos.BottomMiddle);
+        p4.skills = new SkillTM[] { s4_1 };
+        planeTMs.Add(playerTypeID, p4);
 
         // 食物
         foodTMs.Add(1, CreateFoodTM(1, assets.food1, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.BulFood));
         foodTMs.Add(2, CreateFoodTM(2, assets.food2, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.HpFood));
         // 子弹
-        bulTMs.Add(1, CreateBulTM(1, assets.bullet1, new Vector2(12, 12), 800, SharpType.circle, MoveType.StaticDirection,0));
-        bulTMs.Add(2, CreateBulTM(2, assets.bullet2, new Vector2(12, 12), 300, SharpType.circle, MoveType.StaticDirection,1.5f));
-        bulTMs.Add(3, CreateBulTM(3, assets.bullet3, new Vector2(12, 12), 200, SharpType.circle, MoveType.ByLine_Shooter,2));
-        bulTMs.Add(4, CreateBulTM(4, assets.bullet4, new Vector2(14, 14), 600, SharpType.circle, MoveType.StaticDirection,2));
+        bulTMs.Add(1, CreateBulTM(1, assets.bullet1, new Vector2(12, 12), 800, SharpType.circle, MoveType.StaticDirection, 0));
+        bulTMs.Add(2, CreateBulTM(2, assets.bullet2, new Vector2(12, 12), 300, SharpType.circle, MoveType.StaticDirection, 1.5f));
+        bulTMs.Add(3, CreateBulTM(3, assets.bullet3, new Vector2(12, 12), 200, SharpType.circle, MoveType.ByLine_Shooter, 2));
+        bulTMs.Add(4, CreateBulTM(4, assets.bullet4, new Vector2(14, 14), 600, SharpType.circle, MoveType.StaticDirection, 2));
 
         // Wave 波次
         WaveInit(assets);
 
     }
+
     void WaveInit(AssetsContext assets) {
         WaveInit_W1(assets);
     }
@@ -113,7 +133,7 @@ public class Template {
 
         waveTMs.Add(1, w1);
     }
-    PlaneTM CreatePlaneTM(int typeID, int hp, float moveSpeed, BulPerCount bulPerCount,int bulTypeID, Texture2D texture2D, Vector2 size, SharpType sharpType, MoveType moveType, SpawnPos spawnPos) {
+    PlaneTM CreatePlaneTM(int typeID, int hp, float moveSpeed, ShooterType bulPerCount, int bulTypeID, Texture2D texture2D, Vector2 size, SharpType sharpType, MoveType moveType, SpawnPos spawnPos) {
         PlaneTM tm = new PlaneTM();
         tm.typeID = typeID;
         tm.hp = hp;
@@ -122,7 +142,7 @@ public class Template {
         tm.size = size;
         tm.sharpType = sharpType;
         tm.bulPerCount = bulPerCount;
-        tm.bulTypeID=bulTypeID;
+        tm.bulTypeID = bulTypeID;
         tm.moveType = moveType;
         tm.spawnPos = spawnPos;
         return tm;
@@ -137,7 +157,7 @@ public class Template {
         tm.foodType = foodType;
         return tm;
     }
-    BulTM CreateBulTM(int typeID, Texture2D texture2D, Vector2 size, float moveSpeed, SharpType sharpType, MoveType moveType,float SpawnInterval) {
+    BulTM CreateBulTM(int typeID, Texture2D texture2D, Vector2 size, float moveSpeed, SharpType sharpType, MoveType moveType, float SpawnInterval) {
         BulTM tm = new BulTM();
         tm.texture2D = texture2D;
         tm.typeID = typeID;
@@ -145,8 +165,8 @@ public class Template {
         tm.sharpType = sharpType;
         tm.moveType = moveType;
         tm.moveSpeed = moveSpeed;
-        tm.spawnInterval=SpawnInterval;
-        tm.timer=0;
+        tm.spawnInterval = SpawnInterval;
+        tm.timer = 0;
 
         return tm;
     }

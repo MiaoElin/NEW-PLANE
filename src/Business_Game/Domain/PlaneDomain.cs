@@ -21,7 +21,7 @@ public static class PlaneDomain {
         if (plane.ally == Ally.enemy) {
             if (plane.moveType == MoveType.ByTrack) {
                 Vector2 playerPos = con.gameContext.GetPlayer().pos;
-                Vector2 dir =  playerPos- plane.pos;
+                Vector2 dir = playerPos - plane.pos;
                 plane.Move(dir, dt);
                 // plane.LookAt(playerPos);
             }
@@ -32,15 +32,51 @@ public static class PlaneDomain {
         }
     }
 
+    public static void PlaneEat(Context ctx, PlaneEntity plane, FoodEntity food) {
+        // if (food.hasSkill) {
+        //      SkillModel skill = Factory.CreateSkill(food.skillTypeID);
+        //      plane.skillSlotComponent.Add(skill);
+        // }
+    }
+
+    public static void PlayerTryShoot(Context ctx, PlaneEntity plane, float dt) {
+        // 玩家发射子弹
+    }
+
     public static void EnemyTryShoot(Context ctx, PlaneEntity plane, float dt) {
-        if (plane.bulTimer <= 0) {
-            plane.bulTimer = plane.bulInterval;
+        plane.skillSlotComponent.Foreach((SkillModel skill) => {
+
+            // 技能CD
+            skill.cd -= dt;
+            if (skill.cd > 0) {
+                return;
+            }
+
+            // 是否发射
+            if (!skill.hasShootBullet) {
+                return;
+            }
+
+            // 每次间隔
+            skill.shootIntervalTimer -= dt;
+            skill.shootMaintainTimer -= dt;
+            if (skill.shootIntervalTimer > 0) {
+                return;
+            }
+            skill.shootIntervalTimer = skill.shootInterval;
+
+            // 总持续时长
+            if (skill.shootMaintainTimer <= 0) {
+                skill.shootMaintainTimer = skill.shootMaintainSec;
+                skill.cd = skill.cdMax;
+                return;
+            }
+
             // 发射
             PlaneEntity playerPlane = ctx.gameContext.GetPlayer();
-            BulletDomain.SpawnBulletByBulCount(ctx, plane.bulTypeID, plane.bulPerCount, plane.pos, plane.dir, playerPlane.pos, plane.ally);
-        } else {
-            plane.bulTimer -= dt;
-        }
+            BulletDomain.SpawnBulletByBulCount(ctx, skill.shootBulletTypeID, skill.shooterType, plane.pos, plane.dir, playerPlane.pos, plane.ally);
+
+        });
     }
 
     public static void Draw(Context con) {

@@ -18,12 +18,15 @@ public class PlaneEntity {
     public float moveSpeed;
 
     // ==== Shooter ====
-    public int bulTypeID;
-    public BulPerCount bulPerCount;
-    public float bulTimer;
-    public float bulInterval;
+    public int bulTypeID; // REMOVE
+    public ShooterType bulPerCount; // REMOVE
+    public float bulTimer; // REMOVE
+    public float bulInterval; // REMOVE
+    public PlaneSkillSlotComponent skillSlotComponent;
 
-    public PlaneEntity() { }
+    public PlaneEntity() {
+        skillSlotComponent = new PlaneSkillSlotComponent();
+    }
 
     public void Move(Vector2 dir, float dt) {
         pos += Raymath.Vector2Normalize(dir) * moveSpeed * dt;

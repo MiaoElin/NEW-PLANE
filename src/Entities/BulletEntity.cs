@@ -10,7 +10,7 @@ public class BulletEntity {
     public Ally ally;
     public int entityID;
     public MoveType moveType;
-    public BulPerCount bulType;
+    public ShooterType bulType;
     public Vector2 firstDir;
     public float spawnInterval;
     public float timer;

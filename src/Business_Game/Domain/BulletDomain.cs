@@ -3,16 +3,16 @@ using Raylib_cs;
 
 public static class BulletDomain {
 
-    public static void SpawnBulletByBulCount(Context ctx, int typeID, BulPerCount perCount, Vector2 planePos, Vector2 planeDir, Vector2 targetPos, Ally ally) {
-        if (perCount == BulPerCount.onebul) {
+    public static void SpawnBulletByBulCount(Context ctx, int typeID, ShooterType perCount, Vector2 planePos, Vector2 planeDir, Vector2 targetPos, Ally ally) {
+        if (perCount == ShooterType.onebul) {
             SpawnBullet(ctx, typeID, planePos, planeDir, targetPos, ally);
-        } else if (perCount == BulPerCount.twobul) {
+        } else if (perCount == ShooterType.twobul) {
             BulletEntity b1 = SpawnBullet(ctx, typeID, planePos, planeDir, targetPos, ally);
             b1.pos.X -= 0.5f * b1.size.X;
             BulletEntity b2 = SpawnBullet(ctx, typeID, planePos, planeDir, targetPos, ally);
             b2.pos.X += 0.5f * b2.size.X;
-        } else if (perCount == BulPerCount.threebul) {
-            System.Diagnostics.Debug.WriteLine("TODO");
+        } else if (perCount == ShooterType.threebul) {
+            System.Console.WriteLine("TODO 3bul");
         }
     }
 
@@ -33,7 +33,7 @@ public static class BulletDomain {
     public static void SpawnBul(Context con, PlaneEntity plane, float dt) {
         PlaneEntity player = con.gameContext.GetPlayer();
         if (plane.ally == Ally.enemy) {
-            if (plane.bulPerCount == BulPerCount.onebul) {
+            if (plane.bulPerCount == ShooterType.onebul) {
                 ref float timer = ref plane.bulTimer;
                 timer -= dt;
                 if (timer <= 0) {
@@ -44,7 +44,7 @@ public static class BulletDomain {
                     System.Console.WriteLine(timer);
                 }
 
-            } else if (plane.bulPerCount == BulPerCount.twobul) {
+            } else if (plane.bulPerCount == ShooterType.twobul) {
                 ref float timer = ref plane.bulTimer;
                 timer -= dt;
                 if (timer <= 0) {
@@ -58,7 +58,7 @@ public static class BulletDomain {
                     con.gameContext.bulRepo.Add(bul2);
                     timer = bul2.spawnInterval;
                 }
-            } else if (plane.bulPerCount == BulPerCount.threebul) {
+            } else if (plane.bulPerCount == ShooterType.threebul) {
                 ref float timer = ref plane.bulTimer;
                 timer -= dt;
                 if (timer <= 0) {
@@ -74,7 +74,7 @@ public static class BulletDomain {
             }
         }
         if (plane.ally == Ally.player) {
-            if (plane.bulPerCount == BulPerCount.onebul) {
+            if (plane.bulPerCount == ShooterType.onebul) {
                 ref float timer = ref plane.bulTimer;
                 timer -= dt;
                 if (timer <= 0) {
@@ -86,7 +86,7 @@ public static class BulletDomain {
                     con.gameContext.bulRepo.Add(bul);
                     timer = bul.spawnInterval;
                 }
-            } else if (plane.bulPerCount == BulPerCount.twobul) {
+            } else if (plane.bulPerCount == ShooterType.twobul) {
                 ref float timer = ref plane.bulTimer;
                 timer -= dt;
                 if (timer <= 0) {
@@ -100,7 +100,7 @@ public static class BulletDomain {
                     con.gameContext.bulRepo.Add(bul2);
                     timer = bul1.spawnInterval;
                 }
-            } else if (plane.bulPerCount == BulPerCount.threebul) {
+            } else if (plane.bulPerCount == ShooterType.threebul) {
                 ref float timer = ref plane.bulTimer;
                 timer -= dt;
                 if (timer <= 0) {

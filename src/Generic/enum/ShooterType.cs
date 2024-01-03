@@ -1,4 +1,4 @@
-public enum BulPerCount{ // MuzzleType
+public enum ShooterType {
     none,
     onebul,
     twobul,     // 平行2发
