@@ -10,10 +10,8 @@ public class BulletEntity {
     public Ally ally;
     public int entityID;
     public MoveType moveType;
-    public BulPerCount bulType;
+    public ShooterType bulType;
     public Vector2 firstDir;
-    public float spawnInterval;
-    public float timer;
     public void Move(Vector2 dir, float dt) {
         pos += Raymath.Vector2Normalize(dir) * moveSpeed * dt;
         

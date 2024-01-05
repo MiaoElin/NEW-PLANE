@@ -3,6 +3,7 @@ using Raylib_cs;
 public static class PlaneDomain {
     public static PlaneEntity SpawnPlane(Context con, int typeID, Vector2 pos, Ally ally) {
         PlaneEntity plane = Factory.CreatePlane(con.template, con.iDService, typeID, pos, ally);
+        // System.Console.WriteLine(plane.planeSkillComponent.all[0].cd);
         con.gameContext.planeRepo.Add(plane);
         return plane;
     }
@@ -12,7 +13,7 @@ public static class PlaneDomain {
         }
         if (plane.ally == Ally.enemy) {
             if (plane.moveType == MoveType.ByTrack) {
-                Vector2 dir = con.gameContext.player.pos - plane.pos;
+                Vector2 dir = con.gameContext.TryGetPlayer().pos - plane.pos;
                 plane.Move(dir, dt);
             }
             if (plane.moveType == MoveType.DontMove) {
@@ -20,6 +21,30 @@ public static class PlaneDomain {
             }
 
         }
+    }
+    public static void TryShootBul(Context con, PlaneEntity plane, float dt) {
+        plane.planeSkillComponent.ForEach((SkillModel skill) => {
+            skill.cd -= dt;
+            if (skill.cd > 0) {
+                return;
+            }
+            if (!skill.hasBul) {
+                return;
+            }
+            skill.shootMaintainTimer -= dt;
+            skill.bulSpawntimer -= dt;
+            if (skill.shootMaintainTimer <= 0) {
+                skill.shootMaintainTimer = skill.shootMaintainSec;
+                skill.cd = skill.cdMax;
+                return;
+            }
+            if (skill.bulSpawntimer > 0) {
+                return;
+            }
+            skill.bulSpawntimer=skill.bulSpawnInterval;
+            BulletDomain.SpawnBulByBulType(con, plane, dt);
+        });
+
     }
     public static void Draw(Context con) {
         int PlaneLen = con.gameContext.planeRepo.TakeAll(out PlaneEntity[] nowAll);

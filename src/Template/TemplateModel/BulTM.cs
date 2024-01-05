@@ -7,6 +7,4 @@ public struct BulTM{
     public int typeID;
     public MoveType moveType;
     public float moveSpeed;
-    public float spawnInterval;
-    public float timer;
 }

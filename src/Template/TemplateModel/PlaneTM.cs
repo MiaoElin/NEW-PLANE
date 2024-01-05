@@ -4,7 +4,7 @@ public struct PlaneTM{
     public int typeID;
     public int hp;
     public float moveSpeed;
-    public BulPerCount bulPerCount;
+    public ShooterType shooterType;
     public int bulTypeID;
     public MoveType moveType;
     
@@ -13,5 +13,6 @@ public struct PlaneTM{
     public Vector2 size;
     public  SharpType sharpType;
     public SpawnPos spawnPos;
+    public SkillTM[]skills;
 
 }

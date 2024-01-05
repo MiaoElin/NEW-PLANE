@@ -1,115 +1,70 @@
 using System.Numerics;
 using Raylib_cs;
 public static class BulletDomain {
-    public static void SpawnBul(Context con, PlaneEntity plane, float dt) {
-       PlaneEntity player = con.gameContext.player;
-        if (plane.ally == Ally.enemy) {
-            if (plane.bulPerCount == BulPerCount.onebul) {
-                ref float timer =ref plane.bulTimer;
-                timer -= dt;
-                if (timer <= 0) {
-                    Vector2 firstDir = player.pos - plane.pos;
-                    BulletEntity bul = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, firstDir, Ally.enemy);
-                    con.gameContext.bulRepo.Add(bul);
-                    timer = bul.spawnInterval;
-                    System.Console.WriteLine(timer);
-                }
-
-            } else if (plane.bulPerCount == BulPerCount.twobul) {
-                ref float timer =ref plane.bulTimer;
-                timer -= dt;
-                if (timer <= 0) {
-                    BulletEntity bul1 = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, Vector2.Zero, Ally.enemy);
+    public static BulletEntity SpawnBul(Context con, PlaneEntity plane, float dt) {
+        BulletEntity bul = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, plane.ally);
+        con.gameContext.bulRepo.Add(bul);
+        if (bul.moveType == MoveType.ByLine) {
+            bul.firstDir = con.gameContext.TryGetPlayer().pos - bul.pos;
+        }
+        return bul;
+    }
+    public static void SpawnBulByBulType(Context con, PlaneEntity plane, float dt) {
+            if (plane.ally == Ally.enemy) {
+                if (plane.shooterType == ShooterType.onebul) {
+                    BulletEntity bul = SpawnBul(con, plane, dt);
+                } else if (plane.shooterType == ShooterType.twobul) {
+                    BulletEntity bul1 = SpawnBul(con, plane, dt);
                     bul1.pos.X -= 0.5f * bul1.size.X;
-                    bul1.firstDir = player.pos - plane.pos;
-                    con.gameContext.bulRepo.Add(bul1);
-                    BulletEntity bul2 = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, Vector2.Zero, Ally.enemy);
+                    BulletEntity bul2 = SpawnBul(con, plane, dt);
                     bul2.pos.X += 0.5f * bul2.size.X;
-                    bul2.firstDir = player.pos - plane.pos;
-                    con.gameContext.bulRepo.Add(bul2);
-                    timer = bul2.spawnInterval;
-                }
-            } else if (plane.bulPerCount == BulPerCount.threebul) {
-                ref float timer =ref plane.bulTimer;
-                timer -= dt;
-                if (timer <= 0) {
-                    Vector2 firstDir = player.pos - plane.pos;
-                    BulletEntity bul1 = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, firstDir, Ally.enemy);
-                    con.gameContext.bulRepo.Add(bul1);
-                    BulletEntity bul2 = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, firstDir, Ally.enemy);
-                    con.gameContext.bulRepo.Add(bul2);
-                    BulletEntity bul3 = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, firstDir, Ally.enemy);
-                    con.gameContext.bulRepo.Add(bul3);
-                    timer = bul1.spawnInterval;
+                } else if (plane.shooterType == ShooterType.threebul) {
+                    BulletEntity bul1 = SpawnBul(con, plane, dt);
+                    BulletEntity bul2 = SpawnBul(con, plane, dt);
+                    BulletEntity bul3 = SpawnBul(con, plane, dt);
                 }
             }
-        }
         if (plane.ally == Ally.player) {
-            if (plane.bulPerCount == BulPerCount.onebul) {
-                ref float timer =ref plane.bulTimer;
-                timer -= dt;
-                if (timer <= 0) {
-                    BulletEntity bul = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, Vector2.Zero, Ally.player);
-                    if (bul.moveType == MoveType.ByLine) {
-                        // 找此刻最近的敌人 敌人pos-子弹pos=dir，记住这个dir为firstDir;
-                        // 只有byline的情况要用到firstDir
-                    }
-                    con.gameContext.bulRepo.Add(bul);
-                    timer = bul.spawnInterval;
-                }
-            } else if (plane.bulPerCount == BulPerCount.twobul) {
-                ref float timer =ref plane.bulTimer;
-                timer -= dt;
-                if (timer <= 0) {
-                    BulletEntity bul1 = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, Vector2.Zero, Ally.player);
-                    bul1.pos.X -= 1f * bul1.size.X;
-                    bul1.firstDir = player.pos - plane.pos;
-                    con.gameContext.bulRepo.Add(bul1);
-                    BulletEntity bul2 = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, Vector2.Zero, Ally.player);
-                    bul2.pos.X += 1f * bul2.size.X;
-                    bul2.firstDir = player.pos - plane.pos;
-                    con.gameContext.bulRepo.Add(bul2);
-                    timer = bul1.spawnInterval;
-                }
-            } else if (plane.bulPerCount == BulPerCount.threebul) {
-                ref float timer =ref plane.bulTimer;
-                timer -= dt;
-                if (timer <= 0) {
-                    BulletEntity bul1 = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, Vector2.Zero, Ally.player);
-                    con.gameContext.bulRepo.Add(bul1);
-                    BulletEntity bul2 = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, Vector2.Zero, Ally.player);
-                    con.gameContext.bulRepo.Add(bul2);
-                    BulletEntity bul3 = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, Vector2.Zero, Ally.player);
-                    con.gameContext.bulRepo.Add(bul3);
-                    timer = bul1.spawnInterval;
-                }
-
+            if (!con.input.isSpaceDown) {
+                return;
+            }
+            
+            if (plane.shooterType == ShooterType.onebul) {
+                SpawnBul(con, plane, dt);
+            } else if (plane.shooterType == ShooterType.twobul) {
+                BulletEntity bul1 = SpawnBul(con, plane, dt);
+                bul1.pos.X -= 0.5f * bul1.size.X;
+                BulletEntity bul2 = SpawnBul(con, plane, dt);
+                bul2.pos.X += 0.5f * bul2.size.X;
+            } else if (plane.shooterType == ShooterType.threebul) {
+                BulletEntity bul1 = SpawnBul(con, plane, dt);
+                BulletEntity bul2 = SpawnBul(con, plane, dt);
+                BulletEntity bul3 = SpawnBul(con, plane, dt);
             }
         }
-
-
     }
     public static void Move(Context con, float dt, BulletEntity bul) {
-        // if (bul.ally == Ally.player) {
-        //     if (bul.moveType == MoveType.StaticDirection) {
-        //         Vector2 dir = new Vector2(0, -1);
-        //         bul.Move(dir, dt);
-        //     }
-        //     if (bul.moveType == MoveType.ByTrack) {
-        //         // 找此刻最近的敌人，追踪
+        PlaneEntity player = con.gameContext.TryGetPlayer();
+        if (bul.ally == Ally.player) {
+            if (bul.moveType == MoveType.StaticDirection) {
+                Vector2 dir = new Vector2(0, -1);
+                bul.Move(dir, dt);
+            }
+            if (bul.moveType == MoveType.ByTrack) {
+                // 找此刻最近的敌人，追踪
 
-        //     }
-        //     if (bul.moveType == MoveType.ByLine) {
-        //         // 找此刻最近的敌人 记住那个dir，保持这个dir移动
-        //     }
-        // }
+            }
+            if (bul.moveType == MoveType.ByLine) {
+                // 找此刻最近的敌人 记住那个dir，保持这个dir移动
+            }
+        }
         if (bul.ally == Ally.enemy) {
             if (bul.moveType == MoveType.StaticDirection) {
                 Vector2 dir = new Vector2(0, 1);
                 bul.Move(dir, dt);
             }
             if (bul.moveType == MoveType.ByTrack) {
-                Vector2 dir = con.gameContext.player.pos - bul.pos;
+                Vector2 dir = player.pos - bul.pos;
                 bul.Move(dir, dt);
             }
             if (bul.moveType == MoveType.ByLine) {

@@ -6,7 +6,7 @@ public class PlaneEntity {
     public SharpType sharpType;
     public MoveType moveType;
     public Ally ally;
-    public BulPerCount bulPerCount;
+    public ShooterType shooterType;
     public int bulTypeID;
     public Vector2 pos;
     public int entityID;
@@ -15,7 +15,11 @@ public class PlaneEntity {
     public int hp;
     public int hpMax;
     public float moveSpeed;
-    public float bulTimer;
+    // public float bulTimer;
+    public PlaneSkillComponent planeSkillComponent;
+    public PlaneEntity(){
+        planeSkillComponent=new PlaneSkillComponent ();
+    }
     public void Move(Vector2 dir, float dt) {
         pos += Raymath.Vector2Normalize(dir) * moveSpeed * dt;
     }
