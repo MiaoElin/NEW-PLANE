@@ -50,7 +50,7 @@ public static class WaveDomain {
                     PlaneDomain.SpawnPlane(con, tm.entityTypeID, con.r.GetRandomPosOn_Upperhalf(), Ally.enemy);
                 }
                 if (tm.spawnPos == SpawnPos.TopMiddle) {
-                    PlaneDomain.SpawnPlane(con, tm.entityTypeID, new Vector2(0, 460), Ally.enemy);
+                    PlaneDomain.SpawnPlane(con, tm.entityTypeID, new Vector2(0, -460), Ally.enemy);
                 }
             }
         }

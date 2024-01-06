@@ -13,6 +13,6 @@ public struct PlaneTM{
     public Vector2 size;
     public  SharpType sharpType;
     public SpawnPos spawnPos;
-    public SkillTM[]skills;
+    public SkillTM[]skillTMs;
 
 }

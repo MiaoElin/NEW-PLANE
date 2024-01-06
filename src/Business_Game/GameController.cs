@@ -7,8 +7,8 @@ public static class GameController {
     public static void EnterGame(Context con) {
 
         // 生成我方飞机
-        PlaneEntity player = PlaneDomain.SpawnPlane(con,4, new Vector2(0, 460),Ally.player);
-        con.gameContext.playerEntityID=player.entityID;
+        PlaneEntity player = PlaneDomain.SpawnPlane(con, 4, new Vector2(0, 460), Ally.player);
+        con.gameContext.playerEntityID = player.entityID;
         con.gameContext.isInGame = true;
         // 生成波次
         con.gameContext.wave1 = WaveDomain.SpawnWave(con, 1);
@@ -41,21 +41,25 @@ public static class GameController {
             var plane = all_Plane[i];
             PlaneDomain.Move(con, plane, dt);
             // 发射子弹
-            PlaneDomain.TryShootBul(con,plane,dt);
-            
+            PlaneDomain.TryShootBul(con, plane, dt);
         }
         // 子弹移动
         int bulLen = con.gameContext.bulRepo.TakeAll(out BulletEntity[] all_Bullets);
         for (int i = 0; i < bulLen; i++) {
             var bul = all_Bullets[i];
             BulletDomain.Move(con, dt, bul);
-            // 碰撞检测 移除死亡的子弹
-            BulletDomain.Remove(con,bul);
-            
+            // 碰撞检测 移除死亡的子弹 和死亡的飞机
+            BulletDomain.Remove(con, bul);
+
+        }
+        // 食物移动
+        // 吃食物
+        int foodLen = con.gameContext.foodRepo.TakeAll(out FoodEntity[] all_foods);
+        for (int i = 0; i < foodLen; i++) {
+            var food = all_foods[i];
+            FoodDomain.EatFood(con, con.gameContext.TryGetPlayer(), food);
         }
 
-
-        // 食物移动
     }
     public static void Draw(Context con) {
         GameContext game = con.gameContext;
@@ -78,10 +82,10 @@ public static class GameController {
             // PLog.LogError("not ingame");
             return;
         }
-        float hpInsGreen= con.gameContext.TryGetPlayer().hp;
-        Raylib.DrawRectangleV(new Vector2 (0,0),new Vector2 (200,30),Color.RED);
-        Raylib.DrawRectangleV(new Vector2 (0,0),new Vector2 (hpInsGreen*2,30),Color.GREEN);
-        string hp= hpInsGreen.ToString();
-        Raylib.DrawText(hp+"/100",95,10,15,Color.WHITE);
+        float hpInsGreen = con.gameContext.TryGetPlayer().hp;
+        Raylib.DrawRectangleV(new Vector2(0, 0), new Vector2(200, 30), Color.RED);
+        Raylib.DrawRectangleV(new Vector2(0, 0), new Vector2(hpInsGreen * 2, 30), Color.GREEN);
+        string hp = hpInsGreen.ToString();
+        Raylib.DrawText(hp + "/100", 95, 10, 15, Color.WHITE);
     }
 }

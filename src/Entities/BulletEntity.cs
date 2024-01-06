@@ -10,7 +10,7 @@ public class BulletEntity {
     public Ally ally;
     public int entityID;
     public MoveType moveType;
-    public ShooterType bulType;
+    public ShooterType shooterType;
     public Vector2 firstDir;
     public bool isDead;
     public int lethality;//杀伤力

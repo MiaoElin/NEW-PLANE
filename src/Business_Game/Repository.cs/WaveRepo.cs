@@ -16,12 +16,12 @@ public class WaveRepo{
     public void remove(int entityID){
         all.Remove(entityID);
     }
-    public int TakeAll(out WaveEntity []nowAll){
+    public int TakeAll(out WaveEntity []temp){
         if(all.Count>tempArray.Length){
             tempArray=new WaveEntity[all.Count*2];
         }
         all.Values.CopyTo(tempArray,0);
-        nowAll=tempArray;
+        temp=tempArray;
         return all.Count;
     }
 }

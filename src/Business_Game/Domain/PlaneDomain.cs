@@ -24,11 +24,11 @@ public static class PlaneDomain {
     }
     public static void TryShootBul(Context con, PlaneEntity plane, float dt) {
         plane.planeSkillComponent.ForEach((SkillModel skill) => {
+            if (skill.shooterType != plane.shooterType) {
+                return;
+            }
             skill.cd -= dt;
             if (skill.cd > 0) {
-                return;
-            } 
-            if (!skill.hasBul) {
                 return;
             }
             skill.shootMaintainTimer -= dt;
@@ -41,7 +41,7 @@ public static class PlaneDomain {
             if (skill.bulSpawntimer > 0) {
                 return;
             }
-            skill.bulSpawntimer=skill.bulSpawnInterval;
+            skill.bulSpawntimer = skill.bulSpawnInterval;
             BulletDomain.SpawnBulByBulType(con, plane, dt);
         });
 

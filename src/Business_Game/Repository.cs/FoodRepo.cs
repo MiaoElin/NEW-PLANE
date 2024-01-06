@@ -13,15 +13,15 @@ public class FoodRepo {
     public bool TryGetFood(int entityID, out FoodEntity food) {
         return all.TryGetValue(entityID, out food);
     }
-    public void Remove(int entityID) {
-        all.Remove(entityID);
+    public void Remove(FoodEntity food) {
+        all.Remove(food.entityID);
     }
-    public int TakeAll(out FoodEntity[] nowAll) {
+    public int TakeAll(out FoodEntity[] temp) {
         if (all.Count > tempArray.Length) {
             tempArray = new FoodEntity[all.Count * 2];
         }
         all.Values.CopyTo(tempArray, 0);
-        nowAll = tempArray;
+        temp = tempArray;
         return all.Count;
     }
 

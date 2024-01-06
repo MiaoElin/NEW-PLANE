@@ -19,12 +19,12 @@ public class PlaneRepo {
         all.Remove(role.entityID);
 
     }
-    public int TakeAll(out PlaneEntity[] nowAll) {
+    public int TakeAll(out PlaneEntity[] temp) {
         if (tempArray.Length < all.Count) {
             tempArray = new PlaneEntity[all.Count * 2];
         }
         all.Values.CopyTo(tempArray, 0);
-        nowAll = tempArray;
+        temp = tempArray;
         return all.Count;
     }
 }

@@ -17,10 +17,12 @@ public class Template {
 
     }
     public void Init(AssetsContext assets) {
-        SkillTM s1 = new SkillTM(1, 1, true, 0.6f, 0.3f);
-        SkillTM s2 = new SkillTM(2,1, true, 0.6f, 0.3f);
-        SkillTM s3 = new SkillTM(3, 1, true, 1f, 0.3f);
-        SkillTM s4 = new SkillTM(4, 0, true, 0.2f, 0.2f);
+        SkillTM s1 = new SkillTM(1, 1, 0.6f, 0.3f, ShooterType.threebul, 1);
+        SkillTM s2 = new SkillTM(2, 1, 0.6f, 0.3f, ShooterType.twobul, 2);
+        SkillTM s3 = new SkillTM(3, 1, 1f, 0.3f, ShooterType.onebul, 3);
+        SkillTM s4 = new SkillTM(4, 0, 0.2f, 0.2f, ShooterType.onebul, 4);
+        SkillTM s5 = new SkillTM(5, 0, 0.2f, 0.2f, ShooterType.twobul, 5);
+        SkillTM s6 = new SkillTM(6, 0, 0.2f, 0.2f, ShooterType.threebul, 6);
         skillTMs.Add(1, s1);
         skillTMs.Add(2, s2);
         skillTMs.Add(3, s3);
@@ -28,33 +30,34 @@ public class Template {
         // 飞机
         SkillTM[] ps1 = new SkillTM[] { s1 };
         planeTMs.Add(1, CreatePlaneTM(typeID: 1,
-                                      hp: 100,
-                                      300,
+                                      hp: 500,
+                                      moveSpeed: 300,
                                       ShooterType.threebul,
-                                      4,
+                                      bulTypeID: 4,
                                       assets.boss1,
-                                      new Vector2(100, 100),
+                                     size: new Vector2(100, 100),
                                       SharpType.circle,
                                       MoveType.RightLeft,
                                       SpawnPos.TopMiddle,
-                                      ps1));
+                                     skillTMs: ps1));
         SkillTM[] ps2 = new SkillTM[] { s2 };
-        PlaneTM  p2=CreatePlaneTM(2, 20, 60, ShooterType.twobul, 2, assets.enemy1, new Vector2(40, 40), SharpType.circle, MoveType.ByTrack, SpawnPos.RandomPosOn_Top,ps2);
-        planeTMs.Add(2,p2);
-        System.Console.WriteLine(p2.skills[0].cdMax);
+        PlaneTM p2 = CreatePlaneTM(2, 20, 60, ShooterType.twobul, 2, assets.enemy1, new Vector2(40, 40), SharpType.circle, MoveType.ByTrack, SpawnPos.RandomPosOn_Top, ps2);
+        planeTMs.Add(2, p2);
         SkillTM[] ps3 = new SkillTM[] { s3 };
-        planeTMs.Add(3, CreatePlaneTM(3, 20, 0, ShooterType.onebul, 3, assets.enemy2, new Vector2(40, 40), SharpType.circle, MoveType.DontMove, SpawnPos.RandomPosOn_UpperHalf,ps3));
-        SkillTM[] ps4 = new SkillTM[] { s4 };
-        planeTMs.Add(4, CreatePlaneTM(4, 100, 300, ShooterType.onebul, 4, assets.player1, new Vector2(30, 30), SharpType.circle, MoveType.ByInput, SpawnPos.BottomMiddle,ps4));
+        planeTMs.Add(3, CreatePlaneTM(3, 20, 0, ShooterType.onebul, 3, assets.enemy2, new Vector2(40, 40), SharpType.circle, MoveType.DontMove, SpawnPos.RandomPosOn_UpperHalf, ps3));
+        SkillTM[] ps4 = new SkillTM[] { s4, s5, s6 };
+        planeTMs.Add(4, CreatePlaneTM(4, 100, 300, ShooterType.onebul, 4, assets.player1, new Vector2(30, 30), SharpType.circle, MoveType.ByInput, SpawnPos.BottomMiddle, ps4));
 
         // 食物
-        foodTMs.Add(1, CreateFoodTM(1, assets.food1, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.BulFood));
-        foodTMs.Add(2, CreateFoodTM(2, assets.food2, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.HpFood));
+        foodTMs.Add(1, CreateFoodTM(1, assets.food1, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.HpFood));
+        foodTMs.Add(2, CreateFoodTM(2, assets.food2, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.TwoBulFood));
         // 子弹 4号是player的初始子弹
-        bulTMs.Add(4, CreateBulTM(1, assets.bullet1, new Vector2(30,30), 800, SharpType.circle, MoveType.StaticDirection,ShooterType.onebul,10));
-        bulTMs.Add(2, CreateBulTM(2, assets.bullet2, new Vector2(30,30), 300, SharpType.circle, MoveType.StaticDirection,ShooterType.twobul,5));
-        bulTMs.Add(3, CreateBulTM(3, assets.bullet3, new Vector2(30,30), 200, SharpType.circle, MoveType.ByLine,ShooterType.onebul,10));
-        bulTMs.Add(1, CreateBulTM(4, assets.bullet4, new Vector2(30,30), 600, SharpType.circle, MoveType.StaticDirection,ShooterType.threebul,10));
+        bulTMs.Add(4, CreateBulTM(1, assets.bullet1, new Vector2(30, 30), 800, SharpType.circle, MoveType.StaticDirection, ShooterType.onebul, 10));
+        bulTMs.Add(2, CreateBulTM(2, assets.bullet2, new Vector2(30, 30), 300, SharpType.circle, MoveType.StaticDirection, ShooterType.twobul, 5));
+        bulTMs.Add(3, CreateBulTM(3, assets.bullet3, new Vector2(30, 30), 200, SharpType.circle, MoveType.ByLine, ShooterType.onebul, 10));
+        bulTMs.Add(1, CreateBulTM(4, assets.bullet4, new Vector2(40, 40), 600, SharpType.circle, MoveType.StaticDirection, ShooterType.threebul, 10));
+        bulTMs.Add(5, CreateBulTM(1, assets.bullet1, new Vector2(30, 30), 800, SharpType.circle, MoveType.StaticDirection, ShooterType.twobul, 5));
+
 
         // Wave 波次
         WaveInit(assets);
@@ -130,7 +133,7 @@ public class Template {
 
         waveTMs.Add(1, w1);
     }
-    PlaneTM CreatePlaneTM(int typeID, int hp, float moveSpeed, ShooterType shooterType, int bulTypeID, Texture2D texture2D, Vector2 size, SharpType sharpType, MoveType moveType, SpawnPos spawnPos, SkillTM[]skills) {
+    PlaneTM CreatePlaneTM(int typeID, int hp, float moveSpeed, ShooterType shooterType, int bulTypeID, Texture2D texture2D, Vector2 size, SharpType sharpType, MoveType moveType, SpawnPos spawnPos, SkillTM[] skillTMs) {
         PlaneTM tm = new PlaneTM();
         tm.typeID = typeID;
         tm.hp = hp;
@@ -142,7 +145,7 @@ public class Template {
         tm.bulTypeID = bulTypeID;
         tm.moveType = moveType;
         tm.spawnPos = spawnPos;
-        tm.skills=skills;
+        tm.skillTMs = skillTMs;
         return tm;
     }
     FoodTM CreateFoodTM(int typeID, Texture2D texture2D, Vector2 size, SharpType sharpType, MoveType moveType, FoodType foodType) {
@@ -155,7 +158,7 @@ public class Template {
         tm.foodType = foodType;
         return tm;
     }
-    BulTM CreateBulTM(int typeID, Texture2D texture2D, Vector2 size, float moveSpeed, SharpType sharpType, MoveType moveType,ShooterType shooterType,int lethality) {
+    BulTM CreateBulTM(int typeID, Texture2D texture2D, Vector2 size, float moveSpeed, SharpType sharpType, MoveType moveType, ShooterType shooterType, int lethality) {
         BulTM tm = new BulTM();
         tm.texture2D = texture2D;
         tm.typeID = typeID;
@@ -163,8 +166,8 @@ public class Template {
         tm.sharpType = sharpType;
         tm.moveType = moveType;
         tm.moveSpeed = moveSpeed;
-        tm.lethality=lethality;
-        tm.shooterType=shooterType;
+        tm.lethality = lethality;
+        tm.shooterType = shooterType;
         return tm;
     }
     public bool TryGetPlaneTM(int typeID, out PlaneTM tm) {

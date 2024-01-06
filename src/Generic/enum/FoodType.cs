@@ -1,5 +1,6 @@
 public enum FoodType{
     None,
     HpFood,
-    BulFood
+    TwoBulFood,
+    ThreeBulFood
 }

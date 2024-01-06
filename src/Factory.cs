@@ -21,15 +21,16 @@ public static class Factory {
         plane.shooterType = tm.shooterType;
         plane.bulTypeID = tm.bulTypeID;
         plane.isDead =false;
-        SkillTM[] skillTMs = tm.skills;
+        SkillTM[] skillTMs = tm.skillTMs;
         if (skillTMs != null) {
             for (int i = 0; i < skillTMs.Length; i++) {
                 var skillTM = skillTMs[i];
                 SkillModel skill = new SkillModel();
                 skill.typeID = skillTM.typeID;
                 skill.cdMax = skillTM.cdMax;
-                skill.cd = skill.cdMax;
-                skill.hasBul = skillTM.hasbul;
+                skill.cd = skillTM.cdMax;
+                skill.bulTypeID=skillTM.bulTypeID;
+                skill.shooterType=skillTM.shooterType;
                 skill.shootMaintainSec = skillTM.shootMaintainSec;
                 skill.shootMaintainTimer = skillTM.shootMaintainSec;
                 skill.bulSpawnInterval = skillTM.bulSpawnInterval;
@@ -54,10 +55,11 @@ public static class Factory {
         food.size = tm.size;
         food.sharpType = tm.sharpType;
         food.ally=tm.ally;
+        food.foodType=tm.foodType;
         food.isDead=false;
         return food;
     }
-    public static BulletEntity CreateBul(Template template, IDService iDService, int typeID, Vector2 pos, Ally ally) {
+    public static BulletEntity CreateBul(Template template, IDService iDService, int typeID, Vector2 pos,Vector2 firstDir, Ally ally) {
         bool has = template.TryGetBulTM(typeID, out BulTM tm);
         if (!has) {
             PLog.LogError($"Factory.CreateBul: typeID{typeID} not found");
@@ -68,6 +70,7 @@ public static class Factory {
         bullet.pos = pos;
         bullet.typeID = typeID;
         bullet.entityID = iDService.bulIDRecord++;
+        bullet.firstDir=firstDir;
         bullet.size = tm.size;
         bullet.texture2D = tm.texture2D;
         bullet.sharpType = tm.sharpType;
@@ -75,6 +78,7 @@ public static class Factory {
         bullet.moveType = tm.moveType;
         bullet.sharpType=tm.sharpType;
         bullet.lethality=tm.lethality;
+        bullet.shooterType=tm.shooterType;
         bullet.isDead=false;
         return bullet;
     }

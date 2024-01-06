@@ -16,12 +16,12 @@ public class BulRepo {
     public void Remove(BulletEntity bul) {
         all.Remove(bul.entityID);
     }
-    public int TakeAll(out BulletEntity[] nowAll) {
+    public int TakeAll(out BulletEntity[] temp) {
         if (all.Count > tempArray.Length) {
             tempArray = new BulletEntity[all.Count * 2];
         }
         all.Values.CopyTo(tempArray, 0);
-        nowAll = tempArray;
+        temp = tempArray;
         return all.Count;
     }
 }
