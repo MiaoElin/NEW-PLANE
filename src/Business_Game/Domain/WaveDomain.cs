@@ -34,7 +34,9 @@ public static class WaveDomain {
     }
     static void SpwanEntity_Player(Context con, WaveSpawnTM tm) {
         if (tm.ally == Ally.player) {
-
+            if (tm.entityType == EntityType.Food) {
+                FoodDomain.SpawnFood(con, tm.entityTypeID, con.r.GetRandomPosOn_LowerHalf());
+            }
         }
     }
 
@@ -50,11 +52,8 @@ public static class WaveDomain {
                 if (tm.spawnPos == SpawnPos.TopMiddle) {
                     PlaneDomain.SpawnPlane(con, tm.entityTypeID, new Vector2(0, 460), Ally.enemy);
                 }
-            } else if (tm.entityType == EntityType.Food) {
-                FoodDomain.SpawnFood(con, tm.entityTypeID, con.r.GetRandomPosOn_LowerHalf());
             }
         }
-
     }
 
 }

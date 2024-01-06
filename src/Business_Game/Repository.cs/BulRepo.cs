@@ -13,8 +13,8 @@ public class BulRepo {
     public bool TryGetBul(int entityID, out BulletEntity bul) {
         return all.TryGetValue(entityID, out bul);
     }
-    public void Remove(int entityID) {
-        all.Remove(entityID);
+    public void Remove(BulletEntity bul) {
+        all.Remove(bul.entityID);
     }
     public int TakeAll(out BulletEntity[] nowAll) {
         if (all.Count > tempArray.Length) {

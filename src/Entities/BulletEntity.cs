@@ -12,6 +12,8 @@ public class BulletEntity {
     public MoveType moveType;
     public ShooterType bulType;
     public Vector2 firstDir;
+    public bool isDead;
+    public int lethality;//杀伤力
     public void Move(Vector2 dir, float dt) {
         pos += Raymath.Vector2Normalize(dir) * moveSpeed * dt;
         

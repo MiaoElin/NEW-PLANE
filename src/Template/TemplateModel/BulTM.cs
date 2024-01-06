@@ -7,4 +7,6 @@ public struct BulTM{
     public int typeID;
     public MoveType moveType;
     public float moveSpeed;
+    public int lethality;
+    public ShooterType shooterType;
 }

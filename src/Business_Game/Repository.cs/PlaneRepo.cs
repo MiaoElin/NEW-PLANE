@@ -27,5 +27,4 @@ public class PlaneRepo {
         nowAll = tempArray;
         return all.Count;
     }
-
 }

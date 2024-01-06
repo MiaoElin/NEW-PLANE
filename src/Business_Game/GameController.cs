@@ -40,15 +40,18 @@ public static class GameController {
         for (int i = 0; i < planeLen; i++) {
             var plane = all_Plane[i];
             PlaneDomain.Move(con, plane, dt);
-            // 子弹生成
-            // BulletDomain.SpawnBulByBulType(con, plane, dt);
+            // 发射子弹
             PlaneDomain.TryShootBul(con,plane,dt);
+            
         }
         // 子弹移动
         int bulLen = con.gameContext.bulRepo.TakeAll(out BulletEntity[] all_Bullets);
         for (int i = 0; i < bulLen; i++) {
             var bul = all_Bullets[i];
             BulletDomain.Move(con, dt, bul);
+            // 碰撞检测 移除死亡的子弹
+            BulletDomain.Remove(con,bul);
+            
         }
 
 
@@ -64,6 +67,7 @@ public static class GameController {
         // 子弹绘制
         BulletDomain.Draw(con);
         // 食物绘制
+        FoodDomain.Draw(con);
 
 
 
@@ -74,6 +78,10 @@ public static class GameController {
             // PLog.LogError("not ingame");
             return;
         }
-        // Raylib.DrawRectangleV(new Vector2 (0,0),new Vector2 (100,30),Color.BLACK);
+        float hpInsGreen= con.gameContext.TryGetPlayer().hp;
+        Raylib.DrawRectangleV(new Vector2 (0,0),new Vector2 (200,30),Color.RED);
+        Raylib.DrawRectangleV(new Vector2 (0,0),new Vector2 (hpInsGreen*2,30),Color.GREEN);
+        string hp= hpInsGreen.ToString();
+        Raylib.DrawText(hp+"/100",95,10,15,Color.WHITE);
     }
 }

@@ -18,6 +18,4 @@ public class PlaneSkillComponent {
     public void ForEach(Action<SkillModel>action){
         all.ForEach(action);
     }
-
-
 }

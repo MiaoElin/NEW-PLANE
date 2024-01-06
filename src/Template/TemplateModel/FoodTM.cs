@@ -8,5 +8,6 @@ public struct FoodTM{
     public MoveType moveType;
     public SpawnPos spawnPos;
     public FoodType foodType;
+    public Ally ally;
 
 }

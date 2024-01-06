@@ -51,10 +51,10 @@ public class Template {
         foodTMs.Add(1, CreateFoodTM(1, assets.food1, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.BulFood));
         foodTMs.Add(2, CreateFoodTM(2, assets.food2, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.HpFood));
         // 子弹 4号是player的初始子弹
-        bulTMs.Add(4, CreateBulTM(1, assets.bullet1, new Vector2(30,30), 800, SharpType.circle, MoveType.StaticDirection));
-        bulTMs.Add(2, CreateBulTM(2, assets.bullet2, new Vector2(30,30), 300, SharpType.circle, MoveType.StaticDirection));
-        bulTMs.Add(3, CreateBulTM(3, assets.bullet3, new Vector2(30,30), 200, SharpType.circle, MoveType.ByLine));
-        bulTMs.Add(1, CreateBulTM(4, assets.bullet4, new Vector2(30,30), 600, SharpType.circle, MoveType.StaticDirection));
+        bulTMs.Add(4, CreateBulTM(1, assets.bullet1, new Vector2(30,30), 800, SharpType.circle, MoveType.StaticDirection,ShooterType.onebul,10));
+        bulTMs.Add(2, CreateBulTM(2, assets.bullet2, new Vector2(30,30), 300, SharpType.circle, MoveType.StaticDirection,ShooterType.twobul,5));
+        bulTMs.Add(3, CreateBulTM(3, assets.bullet3, new Vector2(30,30), 200, SharpType.circle, MoveType.ByLine,ShooterType.onebul,10));
+        bulTMs.Add(1, CreateBulTM(4, assets.bullet4, new Vector2(30,30), 600, SharpType.circle, MoveType.StaticDirection,ShooterType.threebul,10));
 
         // Wave 波次
         WaveInit(assets);
@@ -103,7 +103,7 @@ public class Template {
         w1_s3.interval = 8f;
         w1_s3.timer = 0;
         w1_s3.spawnPos = SpawnPos.RandomPosOn_LowerHalf;
-        w1_s3.ally = Ally.enemy;
+        w1_s3.ally = Ally.player;
         w1_all[2] = w1_s3;
         // 第二种食物
         WaveSpawnTM w1_s4 = new WaveSpawnTM();
@@ -114,7 +114,7 @@ public class Template {
         w1_s4.interval = 12f;
         w1_s4.timer = 0;
         w1_s4.spawnPos = SpawnPos.RandomPosOn_LowerHalf;
-        w1_s4.ally = Ally.enemy;
+        w1_s4.ally = Ally.player;
         w1_all[3] = w1_s4;
         // boss
         WaveSpawnTM w1_boss = new WaveSpawnTM();
@@ -155,7 +155,7 @@ public class Template {
         tm.foodType = foodType;
         return tm;
     }
-    BulTM CreateBulTM(int typeID, Texture2D texture2D, Vector2 size, float moveSpeed, SharpType sharpType, MoveType moveType) {
+    BulTM CreateBulTM(int typeID, Texture2D texture2D, Vector2 size, float moveSpeed, SharpType sharpType, MoveType moveType,ShooterType shooterType,int lethality) {
         BulTM tm = new BulTM();
         tm.texture2D = texture2D;
         tm.typeID = typeID;
@@ -163,6 +163,8 @@ public class Template {
         tm.sharpType = sharpType;
         tm.moveType = moveType;
         tm.moveSpeed = moveSpeed;
+        tm.lethality=lethality;
+        tm.shooterType=shooterType;
         return tm;
     }
     public bool TryGetPlaneTM(int typeID, out PlaneTM tm) {

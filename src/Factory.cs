@@ -20,6 +20,7 @@ public static class Factory {
         plane.moveType = tm.moveType;
         plane.shooterType = tm.shooterType;
         plane.bulTypeID = tm.bulTypeID;
+        plane.isDead =false;
         SkillTM[] skillTMs = tm.skills;
         if (skillTMs != null) {
             for (int i = 0; i < skillTMs.Length; i++) {
@@ -52,6 +53,8 @@ public static class Factory {
         food.texture2D = tm.texture2D;
         food.size = tm.size;
         food.sharpType = tm.sharpType;
+        food.ally=tm.ally;
+        food.isDead=false;
         return food;
     }
     public static BulletEntity CreateBul(Template template, IDService iDService, int typeID, Vector2 pos, Ally ally) {
@@ -70,6 +73,9 @@ public static class Factory {
         bullet.sharpType = tm.sharpType;
         bullet.moveSpeed = tm.moveSpeed;
         bullet.moveType = tm.moveType;
+        bullet.sharpType=tm.sharpType;
+        bullet.lethality=tm.lethality;
+        bullet.isDead=false;
         return bullet;
     }
     public static WaveEntity CreateWave(Template template, IDService iDService, int typeID) {

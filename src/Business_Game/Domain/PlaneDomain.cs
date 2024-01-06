@@ -27,7 +27,7 @@ public static class PlaneDomain {
             skill.cd -= dt;
             if (skill.cd > 0) {
                 return;
-            }
+            } 
             if (!skill.hasBul) {
                 return;
             }
