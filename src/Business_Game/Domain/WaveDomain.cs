@@ -44,13 +44,13 @@ public static class WaveDomain {
         if (tm.ally == Ally.enemy) {
             if (tm.entityType == EntityType.Plane) {
                 if (tm.spawnPos == SpawnPos.RandomPosOn_Top) {
-                    PlaneDomain.SpawnPlane(con, tm.entityTypeID, con.r.GetRandomPosOn_Top(), Ally.enemy);
+                    PlaneDomain.SpawnPlane(con, tm.entityTypeID, con.r.GetRandomPosOn_Top(), tm.ally);
                 }
                 if (tm.spawnPos == SpawnPos.RandomPosOn_UpperHalf) {
-                    PlaneDomain.SpawnPlane(con, tm.entityTypeID, con.r.GetRandomPosOn_Upperhalf(), Ally.enemy);
+                    PlaneDomain.SpawnPlane(con, tm.entityTypeID, con.r.GetRandomPosOn_Upperhalf(), tm.ally);
                 }
                 if (tm.spawnPos == SpawnPos.TopMiddle) {
-                    PlaneDomain.SpawnPlane(con, tm.entityTypeID, new Vector2(0, -460), Ally.enemy);
+                    PlaneDomain.SpawnPlane(con, tm.entityTypeID, new Vector2(0, -460),tm.ally);
                 }
             }
         }

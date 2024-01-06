@@ -42,7 +42,7 @@ public static class PlaneDomain {
                 return;
             }
             skill.bulSpawntimer = skill.bulSpawnInterval;
-            BulletDomain.SpawnBulByBulType(con, plane, dt);
+            BulletDomain.SpawnBulShooterType(con, plane, dt);
         });
 
     }

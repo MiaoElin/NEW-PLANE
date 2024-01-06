@@ -11,9 +11,8 @@ public static class FoodDomain {
             if(food.foodType==FoodType.TwoBulFood){
                 player.shooterType=ShooterType.twobul;
             }if(food.foodType==FoodType.ThreeBulFood){
-                // "to do"
+                player.shooterType=ShooterType.threebul;
             }if(food.foodType==FoodType.HpFood){
-                System.Console.WriteLine("hphphp");
                 player.hp+=10;
                 if(player.hp>=100){
                     player.hp=100;
