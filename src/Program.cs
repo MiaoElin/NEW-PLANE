@@ -13,7 +13,7 @@ public class Program {
         LoginController.Enter(con);
         while (!Raylib.WindowShouldClose()) {
             Raylib.BeginDrawing();
-            Raylib.ClearBackground(Color.WHITE);
+            Raylib.ClearBackground(Color.DARKGRAY);
             float dt = Raylib.GetFrameTime();
             ref Camera2D cam = ref con.camera2D;
 

@@ -90,6 +90,7 @@ public static class Factory {
         WaveEntity wave = new WaveEntity();
         wave.entityID = iDService.waveIDRecord++;
         wave.time = 0;
+        wave.isDead=false;
         wave.level = tm.level;
         wave.map = tm.map;
         wave.spawnMaintainSec = tm.spawnMaintainSec;

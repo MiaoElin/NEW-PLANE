@@ -12,7 +12,9 @@ public class GameContext {
     // =====player====
     public int playerEntityID;
     // =====Wave=====
-    public WaveEntity wave1;
+    public int WaveEntityID;
+    // ====boss====
+    public int bossEntityID;
 
     public GameContext() {
         isEnteringGame = false;
@@ -22,10 +24,17 @@ public class GameContext {
         waveRepo = new WaveRepo();
         bulRepo = new BulRepo();
         foodRepo = new FoodRepo();
-        wave1 = new WaveEntity();
     }
     public PlaneEntity TryGetPlayer() {
         planeRepo.TryGet(playerEntityID, out PlaneEntity  player);
         return player;
+    }
+    public WaveEntity TtyGetWave(){
+        waveRepo.TryGet(WaveEntityID,out WaveEntity wave);
+        return wave;
+    }
+    public PlaneEntity TryGetBoss(){
+        planeRepo.TryGet(bossEntityID,out PlaneEntity boss);
+        return boss;
     }
 }

@@ -11,7 +11,8 @@ public static class GameController {
         con.gameContext.playerEntityID = player.entityID;
         con.gameContext.isInGame = true;
         // 生成波次
-        con.gameContext.wave1 = WaveDomain.SpawnWave(con, 1);
+        WaveEntity wave = WaveDomain.SpawnWave(con, 1);
+        con.gameContext.WaveEntityID = wave.entityID;
 
     }
     public static void Tick(Context con, float dt) {
@@ -23,18 +24,25 @@ public static class GameController {
         if (!game.isInGame || game.isPause) {
             return;
         }
+        if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE)) {
+            con.gameContext.isPause = true;
+            UIApp.Setting_Open(con.uIContext);
+        }
+        if (con.gameContext.isPause == true) {
+            if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE)) {
+                con.gameContext.isPause = false;
+                UIApp.Setting_Closed(con.uIContext);
+
+            }
+        }
         // 生成地图
-        ref WaveEntity wave1 = ref con.gameContext.wave1;
-        Rectangle src = new Rectangle(0, 0, wave1.map.Width, wave1.map.Height);
+        WaveEntity wave = con.gameContext.TtyGetWave();
+        Rectangle src = new Rectangle(0, 0, wave.map.Width, wave.map.Height);
         Rectangle dest = new Rectangle(0, 0, 720, 1080);
-        Raylib.DrawTexturePro(wave1.map, src, dest, new(0, 0), 0, Color.WHITE);
+        Raylib.DrawTexturePro(wave.map, src, dest, new(0, 0), 0, Color.WHITE);
 
         // 生成波次里的entity
-        int WaveLen = con.gameContext.waveRepo.TakeAll(out WaveEntity[] all_Wave);
-        for (int i = 0; i < WaveLen; i++) {
-            var wave = all_Wave[i];
-            WaveDomain.SpwanEntities(con, wave, dt);
-        }
+        WaveDomain.SpwanEntities(con, wave, dt);
         // 飞机移动
         int planeLen = con.gameContext.planeRepo.TakeAll(out PlaneEntity[] all_Plane);
         for (int i = 0; i < planeLen; i++) {
@@ -59,6 +67,18 @@ public static class GameController {
             var food = all_foods[i];
             FoodDomain.EatFood(con, con.gameContext.TryGetPlayer(), food);
         }
+        // 判定是否过关
+        if (con.gameContext.TryGetBoss().isDead == true) {
+            wave.isDead = true;
+            UIApp.Win_Open(con.uIContext);
+            if (UIApp.Win_IsClickContinue(con.uIContext)) {
+                con.gameContext.WaveEntityID += 1;
+                if (con.gameContext.WaveEntityID > 2) {
+                    // todo通关页
+                }
+            }
+        }
+
 
     }
     public static void Draw(Context con) {
@@ -87,5 +107,8 @@ public static class GameController {
         Raylib.DrawRectangleV(new Vector2(0, 0), new Vector2(hpInsGreen * 2, 30), Color.GREEN);
         string hp = hpInsGreen.ToString();
         Raylib.DrawText(hp + "/100", 95, 10, 15, Color.WHITE);
+
+        // Panel 绘制
+        UIApp.Win_Draw(con.uIContext);
     }
 }

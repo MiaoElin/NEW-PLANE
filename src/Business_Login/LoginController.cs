@@ -28,11 +28,7 @@ public static class LoginController
             UIApp.Login_Closed(con.uIContext);
             UIApp.Setting_Open(con.uIContext);
         }
-        if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE))
-        {
-            con.gameContext.isPause = true;
-            UIApp.Setting_Open(con.uIContext);
-        }
+
     }
     public static void Draw(Context con)
     {
@@ -40,7 +36,7 @@ public static class LoginController
     }
     public static void DrawUI(Context con)
     {
-        UIApp.Draw(con.uIContext);
+        UIApp.Login_Draw(con.uIContext);
 
     }
 

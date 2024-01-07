@@ -8,5 +8,6 @@ public class WaveEntity{
     public Texture2D map;
     public WaveSpawnTM[]waveSpawnTMs;
     public float time;
+    public bool isDead;
     
 }
