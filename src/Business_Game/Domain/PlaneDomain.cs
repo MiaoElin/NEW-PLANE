@@ -23,6 +23,9 @@ public static class PlaneDomain {
         }
     }
     public static void TryShootBul(Context con, PlaneEntity plane, float dt) {
+        if(plane.isDead){
+            return ;
+        }
         plane.planeSkillComponent.ForEach((SkillModel skill) => {
             if (skill.shooterType != plane.shooterType) {
                 return;
@@ -50,6 +53,9 @@ public static class PlaneDomain {
         int PlaneLen = con.gameContext.planeRepo.TakeAll(out PlaneEntity[] nowAll);
         for (int i = 0; i < PlaneLen; i++) {
             var tem = nowAll[i];
+            if(tem.isDead){
+                return;
+            }
             tem.Draw();
         }
     }

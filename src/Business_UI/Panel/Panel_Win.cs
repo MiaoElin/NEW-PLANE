@@ -5,13 +5,14 @@ public class Panel_Win {
     public bool isOpen;
     public void Ctor() {
         btn_Continue = new GUIButton();
-        // Raylib.ClearBackground(Color.DARKGRAY);
         btn_Continue.colorBg = Color.BLACK;
         btn_Continue.colorMouseIN = Color.GREEN;
         btn_Continue.colorText = Color.WHITE;
-        btn_Continue.pos = new Vector2(-50, 250);
-        btn_Continue.size = new Vector2(100, 30);
-        btn_Continue.text = "CONTINUE";
+        btn_Continue.pos = new Vector2(285, 800);
+        btn_Continue.size = new Vector2(150, 45);
+        btn_Continue.font = "   CONTINUE";
+        btn_Continue.fontSize=20;
+        
     }
     public void Init() {
         isOpen = true;
@@ -20,6 +21,7 @@ public class Panel_Win {
         return btn_Continue.isClick();
     }
     public void Draw() {
+        Raylib.DrawRectangle(0,0,720,1080,Color.BLACK);
         btn_Continue.Draw();
     }
 

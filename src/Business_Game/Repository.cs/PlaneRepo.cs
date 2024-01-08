@@ -27,8 +27,8 @@ public class PlaneRepo {
         temp = tempArray;
         return all.Count;
     }
-    public bool FindNearlyEnemy( BulletEntity bul, out PlaneEntity nearlyenemy) {
-        float nearlyDistance = float.MaxValue;
+    public bool FindNearlyEnemy( Vector2 pos, float radius, out PlaneEntity nearlyenemy) {
+        float nearlyDistance = radius*radius;
         float index = -1;
         nearlyenemy = default;
         int length= TakeAll(out PlaneEntity[]temp);
@@ -38,7 +38,7 @@ public class PlaneRepo {
                 continue;
             }
             if (plane.ally == Ally.enemy) {
-                float distance = Vector2.Distance(plane.pos, bul.pos);
+                float distance = Vector2.DistanceSquared(plane.pos, pos);
                 if (distance < nearlyDistance) {
                     nearlyDistance = distance;
                     nearlyenemy = plane;

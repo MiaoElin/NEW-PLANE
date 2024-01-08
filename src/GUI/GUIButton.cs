@@ -6,8 +6,9 @@ public class GUIButton
     public Vector2 size;
     public Color colorBg;
     public Color colorMouseIN;
-    public string text;
+    public string font;
     public Color colorText;
+    public int fontSize;
     public GUIButton()
     {
 
@@ -33,11 +34,11 @@ public class GUIButton
         if (IsMOuseInBtn())
         {
             Raylib.DrawRectangleV(pos, size, colorMouseIN);
-            Raylib.DrawText(text, (int)pos.X + 10, (int)pos.Y + 8, 12, colorText);
+            Raylib.DrawText(font, (int)pos.X + 10, (int)pos.Y + 8, fontSize, colorText);
             return;
         }
         Raylib.DrawRectangleV(pos, size, colorBg);
-        Raylib.DrawText(text, (int)pos.X + 10, (int)pos.Y + 8, 12, colorText);
+        Raylib.DrawText(font, (int)pos.X + 10, (int)pos.Y + 8, fontSize, colorText);
 
 
     }

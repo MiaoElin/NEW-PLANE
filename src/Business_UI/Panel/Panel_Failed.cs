@@ -11,18 +11,19 @@ public class Panel_Failed {
         btn_Rebirth.colorBg = Color.BLACK;
         btn_Rebirth.colorMouseIN = Color.GREEN;
         btn_Rebirth.colorText = Color.WHITE;
-        btn_Rebirth.pos = new Vector2(-50, 50);
-        btn_Rebirth.text = "  REBIRTH";
+        btn_Rebirth.pos = new Vector2(310, 490);
+        btn_Rebirth.font = "  REBIRTH";
         btn_Rebirth.size = new Vector2(100, 30);
+        btn_Rebirth.fontSize=12;
 
         btn_Exit = new GUIButton();
         btn_Exit.colorBg = Color.BLACK;
         btn_Rebirth.colorBg = Color.BLACK;
         btn_Rebirth.colorMouseIN = Color.GREEN;
         btn_Rebirth.colorText = Color.WHITE;
-        btn_Exit.pos = new Vector2(-50, 150);
-        btn_Exit.text = "  ExitGame";
-
+        btn_Exit.pos = new Vector2(310, 690);
+        btn_Exit.font = "  ExitGame";
+        btn_Exit.fontSize=12;
 
     }
     public void Init() {
@@ -36,6 +37,6 @@ public class Panel_Failed {
     }
     public void Draw() {
         btn_Rebirth.Draw();
-        Raylib.DrawText(text_Defeat, -50, -150, 20, Color.BLACK);
+        Raylib.DrawText(text_Defeat, 310, 390, 50, Color.BLACK);
     }
 }

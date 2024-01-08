@@ -16,13 +16,13 @@ public class Panel_Login {
         btn_start.colorText = Color.WHITE;
         btn_start.pos = new Vector2(310, 425);
         btn_start.size = new Vector2(100, 30);
-        btn_start.text = "START GAME";
+        btn_start.font = "START GAME";
 
         btn_exit = new GUIButton();
         btn_exit.colorBg = Color.BLACK;
         btn_exit.pos = new Vector2(310, 525);
         btn_exit.size = new Vector2(100, 30);
-        btn_exit.text = "  Exit GAME";
+        btn_exit.font = "  Exit GAME";
         btn_exit.colorMouseIN = Color.GREEN;
         btn_exit.colorText = Color.WHITE;
 
@@ -30,7 +30,7 @@ public class Panel_Login {
         btn_setting.colorBg = Color.BLACK;
         btn_setting.pos = new Vector2(310, 625);
         btn_setting.size = new Vector2(100, 30);
-        btn_setting.text = "   SETTING";
+        btn_setting.font = "   SETTING";
         btn_setting.colorMouseIN = Color.GREEN;
         btn_setting.colorText = Color.WHITE;
 

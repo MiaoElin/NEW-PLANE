@@ -29,7 +29,7 @@ public class Template {
         skillTMs.Add(4, s4);
         // 飞机
         SkillTM[] ps1 = new SkillTM[] { s1 };
-        planeTMs.Add(1, CreatePlaneTM(typeID: 1, hp: 500, moveSpeed: 300, ShooterType.threebul, bulTypeID: 4, assets.boss1, size: new Vector2(100, 100), SharpType.circle, MoveType.RightLeft, SpawnPos.TopMiddle, skillTMs: ps1));
+        planeTMs.Add(1, CreatePlaneTM(typeID: 1, hp: 20, moveSpeed: 300, ShooterType.threebul, bulTypeID: 4, assets.boss1, size: new Vector2(100, 100), SharpType.circle, MoveType.RightLeft, SpawnPos.TopMiddle, skillTMs: ps1));
         SkillTM[] ps2 = new SkillTM[] { s2 };
         PlaneTM p2 = CreatePlaneTM(2, 20, 60, ShooterType.twobul, 2, assets.enemy1, new Vector2(40, 40), SharpType.circle, MoveType.ByTrack, SpawnPos.RandomPosOn_Top, ps2);
         planeTMs.Add(2, p2);
@@ -64,7 +64,7 @@ public class Template {
         w1.typeID = 1;
         w1.map = assets.map1;
         w1.level = 1;
-        w1.spawnMaintainSec = float.MaxValue;
+        w1.spawnMaintainSec = 31;
         w1.waveSpawnTMs = new WaveSpawnTM[6];
         ref WaveSpawnTM[] w1_all = ref w1.waveSpawnTMs;
         // 第一波的第一种 敌人飞机
@@ -72,7 +72,7 @@ public class Template {
         w1_s1.entityType = EntityType.Plane;
         w1_s1.entityTypeID = 2;
         w1_s1.beginTime = 1;
-        w1_s1.endTime = 60;
+        w1_s1.endTime = 30;
         w1_s1.interval = 6f;
         w1_s1.timer = 0;
         w1_s1.spawnPos = SpawnPos.RandomPosOn_Top;
@@ -83,7 +83,7 @@ public class Template {
         w1_s2.entityType = EntityType.Plane;
         w1_s2.entityTypeID = 3;
         w1_s2.beginTime = 2;
-        w1_s2.endTime = 60;
+        w1_s2.endTime = 30;
         w1_s2.interval = 5f;
         w1_s2.timer = 0;
         w1_s2.spawnPos = SpawnPos.RandomPosOn_UpperHalf;
@@ -94,7 +94,7 @@ public class Template {
         w1_s3.entityType = EntityType.Food;
         w1_s3.entityTypeID = 1;
         w1_s3.beginTime = 10f;
-        w1_s3.endTime = 60f;
+        w1_s3.endTime = 30;
         w1_s3.interval = 12f;
         w1_s3.timer = 0;
         w1_s3.spawnPos = SpawnPos.RandomPosOn_LowerHalf;
@@ -105,7 +105,7 @@ public class Template {
         w1_s4.entityType = EntityType.Food;
         w1_s4.entityTypeID = 2;
         w1_s4.beginTime = 15;
-        w1_s4.endTime = 60f;
+        w1_s4.endTime = 30;
         w1_s4.interval = 16f;
         w1_s4.timer = 0;
         w1_s4.spawnPos = SpawnPos.RandomPosOn_LowerHalf;
@@ -115,8 +115,8 @@ public class Template {
         WaveSpawnTM w1_boss = new WaveSpawnTM();
         w1_boss.entityType = EntityType.Plane;
         w1_boss.entityTypeID = 1;
-        w1_boss.beginTime = 60f;
-        w1_boss.endTime = float.MaxValue;
+        w1_boss.beginTime = 30;
+        w1_boss.endTime = 31;
         w1_boss.interval = float.MaxValue;
         w1_boss.timer = 0;
         w1_boss.spawnPos = SpawnPos.TopMiddle;
@@ -125,14 +125,90 @@ public class Template {
         WaveSpawnTM w1_s5 = new WaveSpawnTM();
         w1_s5.entityType = EntityType.Food;
         w1_s5.entityTypeID = 3;
-        w1_s5.beginTime = 30;
-        w1_s5.endTime = 60f;
+        w1_s5.beginTime = 25;
+        w1_s5.endTime = 30;
         w1_s5.interval = 15f;
         w1_s5.timer = 0;
         w1_s5.spawnPos = SpawnPos.RandomPosOn_LowerHalf;
         w1_s5.ally = Ally.player;
-        w1_all[5]=w1_s5;
+        w1_all[5] = w1_s5;
         waveTMs.Add(1, w1);
+        
+        // // 第二波
+        // WaveTM w2 = new WaveTM();
+        // w2.typeID = 2;
+        // w2.map = assets.map2;
+        // w2.level = 2;
+        // w2.spawnMaintainSec = 31;
+        // w2.waveSpawnTMs = new WaveSpawnTM[6];
+        // ref WaveSpawnTM[] w2_all = ref w2.waveSpawnTMs;
+        // // 第二波的第一种 敌人飞机
+        // WaveSpawnTM w2_s1 = new WaveSpawnTM();
+        // w2_s1.entityType = EntityType.Plane;
+        // w2_s1.entityTypeID = 2;
+        // w2_s1.beginTime = 1;
+        // w2_s1.endTime = 30;
+        // w2_s1.interval = 6f;
+        // w2_s1.timer = 0;
+        // w2_s1.spawnPos = SpawnPos.RandomPosOn_Top;
+        // w2_s1.ally = Ally.enemy;
+        // w2_all[0] = w2_s1;
+        // // 第二种   敌人飞机
+        // WaveSpawnTM w2_s2 = new WaveSpawnTM();
+        // w2_s2.entityType = EntityType.Plane;
+        // w2_s2.entityTypeID = 3;
+        // w2_s2.beginTime = 2;
+        // w2_s2.endTime = 30;
+        // w2_s2.interval = 5f;
+        // w2_s2.timer = 0;
+        // w2_s2.spawnPos = SpawnPos.RandomPosOn_UpperHalf;
+        // w2_s2.ally = Ally.enemy;
+        // w2_all[1] = w2_s2;
+        // // 第一种食物
+        // WaveSpawnTM w2_s3 = new WaveSpawnTM();
+        // w2_s3.entityType = EntityType.Food;
+        // w2_s3.entityTypeID = 1;
+        // w2_s3.beginTime = 10f;
+        // w2_s3.endTime = 30;
+        // w2_s3.interval = 12f;
+        // w2_s3.timer = 0;
+        // w2_s3.spawnPos = SpawnPos.RandomPosOn_LowerHalf;
+        // w2_s3.ally = Ally.player;
+        // w2_all[2] = w2_s3;
+        // // 第二种食物
+        // WaveSpawnTM w2_s4 = new WaveSpawnTM();
+        // w2_s4.entityType = EntityType.Food;
+        // w2_s4.entityTypeID = 2;
+        // w2_s4.beginTime = 15;
+        // w2_s4.endTime = 30;
+        // w2_s4.interval = 16f;
+        // w2_s4.timer = 0;
+        // w2_s4.spawnPos = SpawnPos.RandomPosOn_LowerHalf;
+        // w2_s4.ally = Ally.player;
+        // w2_all[3] = w2_s4;
+        // // boss
+        // WaveSpawnTM w2_boss = new WaveSpawnTM();
+        // w2_boss.entityType = EntityType.Plane;
+        // w2_boss.entityTypeID = 1;
+        // w2_boss.beginTime = 30;
+        // w2_boss.endTime = 31;
+        // w2_boss.interval = float.MaxValue;
+        // w2_boss.timer = 0;
+        // w2_boss.spawnPos = SpawnPos.TopMiddle;
+        // w2_boss.ally = Ally.enemy;
+        // w2_all[4] = w2_boss;
+        // WaveSpawnTM w2_s5 = new WaveSpawnTM();
+        // w2_s5.entityType = EntityType.Food;
+        // w2_s5.entityTypeID = 3;
+        // w2_s5.beginTime = 25;
+        // w2_s5.endTime = 30;
+        // w2_s5.interval = 15f;
+        // w2_s5.timer = 0;
+        // w2_s5.spawnPos = SpawnPos.RandomPosOn_LowerHalf;
+        // w2_s5.ally = Ally.player;
+        // w2_all[5] = w2_s5;
+        // waveTMs.Add(1, w2);
+
     }
     PlaneTM CreatePlaneTM(int typeID, int hp, float moveSpeed, ShooterType shooterType, int bulTypeID, Texture2D texture2D, Vector2 size, SharpType sharpType, MoveType moveType, SpawnPos spawnPos, SkillTM[] skillTMs) {
         PlaneTM tm = new PlaneTM();

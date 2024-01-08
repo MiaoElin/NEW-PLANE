@@ -24,6 +24,7 @@ public class GameContext {
         waveRepo = new WaveRepo();
         bulRepo = new BulRepo();
         foodRepo = new FoodRepo();
+        WaveEntityID=0;//先默认一，以后应该是以加载的游戏进程和登入选择的关卡为主
     }
     public PlaneEntity TryGetPlayer() {
         planeRepo.TryGet(playerEntityID, out PlaneEntity  player);

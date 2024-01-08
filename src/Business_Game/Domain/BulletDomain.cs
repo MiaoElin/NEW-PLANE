@@ -88,17 +88,20 @@ public static class BulletDomain {
                 con.gameContext.bulRepo.Remove(bul);
                 if (player.hp <= 0) {
                     player.isDead = true;
-                    con.gameContext.planeRepo.Remove(player);
+                    // con.gameContext.planeRepo.Remove(player);
                 }
             }
         }
         if (bul.ally == Ally.player) {
-            if (con.gameContext.planeRepo.FindNearlyEnemy(bul, out PlaneEntity nearlyEnemy)) {
+            if (con.gameContext.planeRepo.FindNearlyEnemy(bul.pos,bul.size.X, out PlaneEntity nearlyEnemy)) {
                 if (IntersectHelper.IscircleIntersect(bul.pos, bul.size.X, nearlyEnemy.pos, nearlyEnemy.size.X)) {
                     nearlyEnemy.hp -= bul.lethality;
                     System.Console.WriteLine(nearlyEnemy.hp);
                     if (nearlyEnemy.hp <= 0) {
                         nearlyEnemy.isDead = true;
+                        if(nearlyEnemy.entityID==con.gameContext.bossEntityID){
+                            return ;
+                        }
                         con.gameContext.planeRepo.Remove(nearlyEnemy);
                     }
                     bul.isDead = true;

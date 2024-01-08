@@ -37,7 +37,6 @@ public static class LoginController
     public static void DrawUI(Context con)
     {
         UIApp.Login_Draw(con.uIContext);
-
     }
 
 }

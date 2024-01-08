@@ -81,20 +81,22 @@ public static class UIApp {
             panel = new Panel_Win();
             panel.Ctor();
         }
-        System.Console.WriteLine("open");
         panel.Init();
     }
     public static void Win_Closed(UIContext uic) {
+        if(uic.panel_Win==null){
+            return ;
+        }
         uic.panel_Win.isOpen = false;
     }
     public static bool Win_IsClickContinue(UIContext uic) {
-        if (uic.panel_Win.isOpen && uic.panel_Win.IsClickContinue()) {
+        if (uic.panel_Win!=null&& uic.panel_Win.isOpen && uic.panel_Win.IsClickContinue()) {
             return true;
         }
         return false;
     }
     public static void Win_Draw(UIContext uic) {
-        if (uic.panel_Win.isOpen) {
+        if (uic.panel_Win!=null&&uic.panel_Win.isOpen) {
             uic.panel_Win.Draw();
         }
     }
