@@ -3,7 +3,7 @@ using System.Numerics;
 using Raylib_cs;
 public class AssetsContext {
     public Texture2D map1;
-    // public Texture2D map2;
+    public Texture2D map2;
     // ====plane===
     public Texture2D player1;
     public Texture2D enemy1;
@@ -20,7 +20,7 @@ public class AssetsContext {
     public Texture2D boss1;
     public void Init() {
         map1 = LoadTexture("Assets/map1.png");
-        // map1 = LoadTexture("Assets/map2.png");
+        map2 = LoadTexture("Assets/map2.png");
         // plane
         player1 = LoadTexture("Assets/player1.png");
         enemy1 = LoadTexture("Assets/enemy1.png");
@@ -44,7 +44,7 @@ public class AssetsContext {
     }
     public void UnloadTexture() {
         Raylib.UnloadTexture(map1);
-        // Raylib.UnloadTexture(map2);
+        Raylib.UnloadTexture(map2);
         // plane
         Raylib.UnloadTexture(player1);
         Raylib.UnloadTexture(enemy1);

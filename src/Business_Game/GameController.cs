@@ -36,7 +36,8 @@ public static class GameController {
             }
         }
         // 获取当前波次
-        WaveEntity wave = game.TtyGetWave();
+        WaveEntity wave = con.gameContext.TtyGetWave();
+        // System.Console.WriteLine("当前是第"+wave.typeID+"波");
         // 生成波次里的entity
         WaveDomain.SpwanEntities(con, wave, dt);
         // 飞机移动
@@ -53,33 +54,37 @@ public static class GameController {
             var bul = all_Bullets[i];
             BulletDomain.Move(con, dt, bul);
             // 碰撞检测 移除死亡的子弹 和死亡的飞机
-            BulletDomain.Remove(con, bul);
-
+            if (bul.ally == Ally.enemy) {
+                PlaneEntity nearlyEnemy = game.TryGetPlayer();
+                BulletDomain.Remove(con, bul, nearlyEnemy);
+            }
+            if (bul.ally == Ally.player) {
+                if (con.gameContext.planeRepo.FindNearlyEnemy(bul.pos, bul.size.X, out PlaneEntity nearlyEnemy)) {
+                    BulletDomain.Remove(con, bul, nearlyEnemy);
+                }
+            }
         }
         // 食物移动
         // 吃食物
         int foodLen = game.foodRepo.TakeAll(out FoodEntity[] all_foods);
         for (int i = 0; i < foodLen; i++) {
             var food = all_foods[i];
-            FoodDomain.EatFood(con, player, food);
+            PlaneDomain.EatFood(con, player, food);
         }
         // 判定是否过关
         if (wave.isDead) {
             UIApp.Win_Open(uic);
             if (UIApp.Win_IsClickContinue(uic)) {
-                UIApp.Win_Closed(uic);
-                wave.entityID += 1;
-                game.isInGame = true;
+                con.gameContext.WaveEntityID += 1;
+                System.Console.WriteLine(wave.entityID);
                 if (wave.entityID > 5) {
                     // 总共5关
                     //通关页
                 }
+                UIApp.Win_Closed(uic);
             }
         }
-
         // 判定是否过关失败
-
-
     }
     public static void IsFailed(Context con) {
         // if(con.gameContext.TryGetPlayer()==null){

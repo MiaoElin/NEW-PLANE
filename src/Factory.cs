@@ -9,6 +9,11 @@ public static class Factory {
         }
         PlaneEntity plane = new PlaneEntity();
         plane.ally = ally;
+        if(ally==Ally.enemy){
+            plane.dir=new Vector2 (0,1);
+        }if(ally==Ally.player){
+            plane.dir=new Vector2 (0,-1);
+        }
         plane.typeID = typeID;
         plane.pos = pos;
         plane.entityID = iDService.planeIDRecord++;
@@ -83,7 +88,7 @@ public static class Factory {
         return bullet;
     }
     public static WaveEntity CreateWave(Template template, IDService iDService, int typeID) {
-        bool has = template.tryGetWaveTM(1, out WaveTM tm);
+        bool has = template.tryGetWaveTM(typeID, out WaveTM tm);
         if (!has) {
             PLog.LogError($"Factory.CreateWava: typeID{typeID} not found");
         }
@@ -95,6 +100,7 @@ public static class Factory {
         wave.map = tm.map;
         wave.spawnMaintainSec = tm.spawnMaintainSec;
         wave.waveSpawnTMs = tm.waveSpawnTMs;
+        wave.typeID=tm.typeID;
         return wave;
     }
 }

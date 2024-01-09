@@ -23,8 +23,8 @@ public static class PlaneDomain {
         }
     }
     public static void TryShootBul(Context con, PlaneEntity plane, float dt) {
-        if(plane.isDead){
-            return ;
+        if (plane.isDead) {
+            return;
         }
         plane.planeSkillComponent.ForEach((SkillModel skill) => {
             if (skill.shooterType != plane.shooterType) {
@@ -45,15 +45,39 @@ public static class PlaneDomain {
                 return;
             }
             skill.bulSpawntimer = skill.bulSpawnInterval;
-            BulletDomain.SpawnBulShooterType(con, plane, dt);
+            if (plane.ally == Ally.enemy) {
+                BulletDomain.SpawnBulShooterType(con, plane, dt);
+            }
+            if (plane.ally == Ally.player) {
+                if (con.input.isSpaceDown) {
+                    BulletDomain.SpawnBulShooterType(con, plane, dt);
+                }
+            }
         });
 
+    }
+    public static void EatFood(Context con, PlaneEntity player, FoodEntity food) {
+        if (IntersectHelper.IsRectCircleIntersect(player.pos, player.size, food.pos, food.size)) {
+            if (food.foodType == FoodType.TwoBulFood) {
+                player.shooterType = ShooterType.twobul;
+            }
+            if (food.foodType == FoodType.ThreeBulFood) {
+                player.shooterType = ShooterType.threebul;
+            }
+            if (food.foodType == FoodType.HpFood) {
+                player.hp += 10;
+                if (player.hp >= 100) {
+                    player.hp = 100;
+                }
+            }
+            con.gameContext.foodRepo.Remove(food);
+        }
     }
     public static void Draw(Context con) {
         int PlaneLen = con.gameContext.planeRepo.TakeAll(out PlaneEntity[] nowAll);
         for (int i = 0; i < PlaneLen; i++) {
             var tem = nowAll[i];
-            if(tem.isDead){
+            if (tem.isDead) {
                 return;
             }
             tem.Draw();

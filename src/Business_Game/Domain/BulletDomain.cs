@@ -10,44 +10,23 @@ public static class BulletDomain {
         return bul;
     }
     public static void SpawnBulShooterType(Context con, PlaneEntity plane, float dt) {
-        if (plane.ally == Ally.enemy) {
-            if (plane.shooterType == ShooterType.onebul) {
-                SpawnBul(con, plane, dt, new(0, 1));
-            } else if (plane.shooterType == ShooterType.twobul) {
-                BulletEntity bul1 = SpawnBul(con, plane, dt, new(0, 1));
-                bul1.pos.X -= 0.25f * bul1.size.X;
-                BulletEntity bul2 = SpawnBul(con, plane, dt, new(0, 1));
-                bul2.pos.X += 0.25f * bul2.size.X;
-            } else if (plane.shooterType == ShooterType.threebul) {
-                Vector2 dir1 = new Vector2(MathF.Sin(MathF.PI / -45), 1 * MathF.Cos(MathF.PI / -45)); //Vector2(-1, -1)
-                Vector2 dir3 = new Vector2(MathF.Sin(MathF.PI / 45), 1 * MathF.Cos(MathF.PI / 45));
-                BulletEntity bu1 = SpawnBul(con, plane, dt, dir1);
-                bu1.pos.X -= 0.25f * bu1.size.X;
-                BulletEntity bu2 = SpawnBul(con, plane, dt, new(0, 1));
-                BulletEntity bu3 = SpawnBul(con, plane, dt, dir3);
-                bu3.pos.X += 0.25f * bu3.size.X;
-            }
-        }
-        if (plane.ally == Ally.player) {
-            if (!con.input.isSpaceDown) {
-                return;
-            }
-            if (plane.shooterType == ShooterType.onebul) {
-                SpawnBul(con, plane, dt, new(0, -1));
-            } else if (plane.shooterType == ShooterType.twobul) {
-                BulletEntity bu1 = SpawnBul(con, plane, dt, new(0, -1));
-                bu1.pos.X -= 0.25f * bu1.size.X;
-                BulletEntity bu2 = SpawnBul(con, plane, dt, new(0, -1));
-                bu2.pos.X += 0.25f * bu2.size.X;
-            } else if (plane.shooterType == ShooterType.threebul) {
-                Vector2 dir1 = new Vector2(MathF.Sin(MathF.PI / -45), -MathF.Cos(MathF.PI / -45));
-                Vector2 dir3 = new Vector2(MathF.Sin(MathF.PI / 45),-MathF.Cos(MathF.PI / 45));
-                BulletEntity bu1 = SpawnBul(con, plane, dt, dir1);
-                bu1.pos.X -= 0.25f * bu1.size.X;
-                BulletEntity bu2 = SpawnBul(con, plane, dt, new(0, -1));
-                BulletEntity bu3 = SpawnBul(con, plane, dt, dir3);
-                bu3.pos.X += 0.25f * bu3.size.X;
-            }
+        if (plane.shooterType == ShooterType.onebul) {
+            SpawnBul(con, plane, dt, plane.dir);
+        } else if (plane.shooterType == ShooterType.twobul) {
+            BulletEntity bul1 = SpawnBul(con, plane, dt, plane.dir);
+            bul1.pos.X -= 0.25f * bul1.size.X;
+            BulletEntity bul2 = SpawnBul(con, plane, dt, plane.dir);
+            bul2.pos.X += 0.25f * bul2.size.X;
+        } else if (plane.shooterType == ShooterType.threebul) {
+            float x=plane.dir.X;
+            float y=plane.dir.Y;
+            Vector2 dir1 = new Vector2(x*MathF.Cos(MathF.PI/-45)-y*MathF.Sin(MathF.PI / -45),x*MathF.Sin(MathF.PI/-45)+y*MathF.Cos(MathF.PI / -45));
+            Vector2 dir3 = new Vector2(x*MathF.Cos(MathF.PI/45)-y*MathF.Sin(MathF.PI / 45),x*MathF.Sin(MathF.PI/45)+y*MathF.Cos(MathF.PI / 45));
+            BulletEntity bu1 = SpawnBul(con, plane, dt, dir1);
+            bu1.pos.X -=-y*0.25f * bu1.size.X;
+            BulletEntity bu2 = SpawnBul(con, plane, dt, plane.dir);
+            BulletEntity bu3 = SpawnBul(con, plane, dt, dir3);
+            bu3.pos.X +=-y*0.25f * bu3.size.X;
         }
     }
     public static void Move(Context con, float dt, BulletEntity bul) {
@@ -78,38 +57,20 @@ public static class BulletDomain {
         }
 
     }
-    public static void Remove(Context con, BulletEntity bul) {
-        if (bul.ally == Ally.enemy) {
-            PlaneEntity player = con.gameContext.TryGetPlayer();
-            if (IntersectHelper.IscircleIntersect(bul.pos, bul.size.X, player.pos, player.size.X)) {
-                player.hp -= bul.lethality;
-                player.shooterType = ShooterType.onebul;
-                bul.isDead = true;
-                con.gameContext.bulRepo.Remove(bul);
-                if (player.hp <= 0) {
-                    player.isDead = true;
-                    // con.gameContext.planeRepo.Remove(player);
-                }
-            }
-        }
-        if (bul.ally == Ally.player) {
-            if (con.gameContext.planeRepo.FindNearlyEnemy(bul.pos,bul.size.X, out PlaneEntity nearlyEnemy)) {
+    public static void Remove(Context con, BulletEntity bul,PlaneEntity nearlyEnemy) {
                 if (IntersectHelper.IscircleIntersect(bul.pos, bul.size.X, nearlyEnemy.pos, nearlyEnemy.size.X)) {
                     nearlyEnemy.hp -= bul.lethality;
                     System.Console.WriteLine(nearlyEnemy.hp);
                     if (nearlyEnemy.hp <= 0) {
                         nearlyEnemy.isDead = true;
-                        if(nearlyEnemy.entityID==con.gameContext.bossEntityID){
-                            return ;
+                        if (nearlyEnemy.entityID == con.gameContext.bossEntityID||nearlyEnemy.entityID==con.gameContext.playerEntityID) {
+                            return;
                         }
                         con.gameContext.planeRepo.Remove(nearlyEnemy);
                     }
                     bul.isDead = true;
                     con.gameContext.bulRepo.Remove(bul);
                 }
-            }
-        }
-
     }
     public static void Draw(Context con) {
         int bulLen = con.gameContext.bulRepo.TakeAll(out BulletEntity[] all_Buls);

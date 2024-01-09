@@ -6,21 +6,6 @@ public static class FoodDomain {
         con.gameContext.foodRepo.Add(food);
         return food;
     }
-    public static void EatFood(Context con,PlaneEntity player,FoodEntity food){
-        if(IntersectHelper.IsRectCircleIntersect(player.pos,player.size,food.pos,food.size)){
-            if(food.foodType==FoodType.TwoBulFood){
-                player.shooterType=ShooterType.twobul;
-            }if(food.foodType==FoodType.ThreeBulFood){
-                player.shooterType=ShooterType.threebul;
-            }if(food.foodType==FoodType.HpFood){
-                player.hp+=10;
-                if(player.hp>=100){
-                    player.hp=100;
-                }
-            }
-            con.gameContext.foodRepo.Remove(food);
-        }
-    }
     public static void Draw(Context con) {
         int foodLen = con.gameContext.foodRepo.TakeAll(out FoodEntity[] allFoods);
         for (int i = 0; i < foodLen; i++) {

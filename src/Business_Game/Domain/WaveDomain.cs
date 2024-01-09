@@ -7,6 +7,7 @@ public static class WaveDomain {
         con.gameContext.waveRepo.Add(wave1);
         WaveEntity wave2=Factory.CreateWave(con.template,con.iDService,2);
         con.gameContext.waveRepo.Add(wave2);
+
     }
     public static void SpwanEntities(Context con, WaveEntity wave, float dt) {
         ref float time = ref wave.time;
