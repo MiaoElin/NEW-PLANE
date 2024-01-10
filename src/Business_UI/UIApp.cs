@@ -56,6 +56,9 @@ public static class UIApp {
         panel.Init();
     }
     public static void Failed_Closed(UIContext uic) {
+        if(uic.panel_Failed==null){
+            return;
+        }
         uic.panel_Failed.isOpen = false;
     }
     public static bool Failed_IsClickRebirth(UIContext uic) {
@@ -68,10 +71,9 @@ public static class UIApp {
         return false;
     }
     public static void Failed_Draw(UIContext uic) {
-        if (uic.panel_Failed.isOpen != true) {
-            return;
-        }
+        if (uic.panel_Failed!=null&&uic.panel_Failed.isOpen) {
         uic.panel_Failed.Draw();
+        }
     }
     #endregion Failed:Panel
     #region Win:Panel

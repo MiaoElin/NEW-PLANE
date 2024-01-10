@@ -94,6 +94,7 @@ public static class GameController {
             if (UIApp.Failed_IsClickRebirth(uic)) {
                 con.TryGetPlayer().isDead = false;
                 con.TryGetPlayer().hp = 100;
+                game.gameStage=GameStage.Ingame;
                 UIApp.Failed_Closed(uic);
             }
             if (UIApp.Failed_isClickExit(uic)) {
@@ -146,7 +147,7 @@ public static class GameController {
     }
     public static void DrawUI(GameContext con) {
         GameEntity game = con.gameEntity;
-        if (game.gameStage != GameStage.Ingame && game.gameStage != GameStage.Win) {
+        if (game.gameStage != GameStage.Ingame && game.gameStage != GameStage.Win&&game.gameStage!=GameStage.Failed) {
             return;
         }
         float hpInsGreen = con.TryGetPlayer().hp;
@@ -157,6 +158,7 @@ public static class GameController {
 
         //panel 绘制
         UIApp.Win_Draw(con.uIContext);
+        UIApp.Failed_Draw(con.uIContext);
 
     }
 }

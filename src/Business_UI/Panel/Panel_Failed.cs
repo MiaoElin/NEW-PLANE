@@ -36,7 +36,8 @@ public class Panel_Failed {
         return btn_Exit.isClick();
     }
     public void Draw() {
+        Raylib.DrawRectangle(0,0,720,1080,Color.BLACK);
         btn_Rebirth.Draw();
-        Raylib.DrawText(text_Defeat, 310, 390, 50, Color.BLACK);
+        Raylib.DrawText(text_Defeat, 250, 390, 50, Color.WHITE);
     }
 }
