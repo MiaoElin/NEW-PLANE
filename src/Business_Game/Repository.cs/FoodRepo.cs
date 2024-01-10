@@ -13,8 +13,19 @@ public class FoodRepo {
     public bool TryGetFood(int entityID, out FoodEntity food) {
         return all.TryGetValue(entityID, out food);
     }
-    public void Remove(FoodEntity food) {
-        all.Remove(food.entityID);
+    public void Remove() {
+        int foodLen = TakeAll(out FoodEntity[] temp);
+        for (int i = 0; i < foodLen; i++) {
+            var fo = temp[i];
+            if (fo.isDead) {
+                all.Remove(fo.entityID);
+            }
+        }
+    }
+    public void AllToDead(){
+        foreach(FoodEntity food in all.Values){
+            food.isDead=true;
+        }
     }
     public int TakeAll(out FoodEntity[] temp) {
         if (all.Count > tempArray.Length) {

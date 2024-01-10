@@ -1,7 +1,7 @@
 using System.Numerics;
 using Raylib_cs;
 public static class PlaneDomain {
-    public static PlaneEntity SpawnPlane(GameContext  con, int typeID, Vector2 pos, Ally ally) {
+    public static PlaneEntity SpawnPlane(GameContext con, int typeID, Vector2 pos, Ally ally) {
         PlaneEntity plane = Factory.CreatePlane(con.template, con.iDService, typeID, pos, ally);
         // System.Console.WriteLine(plane.planeSkillComponent.all[0].cd);
         con.planeRepo.Add(plane);
@@ -60,6 +60,7 @@ public static class PlaneDomain {
         if (IntersectHelper.IsRectCircleIntersect(player.pos, player.size, food.pos, food.size)) {
             if (food.foodType == FoodType.TwoBulFood) {
                 player.shooterType = ShooterType.twobul;
+
             }
             if (food.foodType == FoodType.ThreeBulFood) {
                 player.shooterType = ShooterType.threebul;
@@ -70,7 +71,7 @@ public static class PlaneDomain {
                     player.hp = 100;
                 }
             }
-            con.foodRepo.Remove(food);
+            food.isDead = true;
         }
     }
     public static void Draw(GameContext con) {

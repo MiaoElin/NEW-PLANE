@@ -3,23 +3,21 @@ using Raylib_cs;
 public static class WaveDomain {
     public static void SpawnWave(GameContext con) {
         // 生成波次
-        WaveEntity wave1= Factory.CreateWave(con.template, con.iDService,1);
+        WaveEntity wave1 = Factory.CreateWave(con.template, con.iDService, 1);
         con.waveRepo.Add(wave1);
-        WaveEntity wave2=Factory.CreateWave(con.template,con.iDService,2);
+        WaveEntity wave2 = Factory.CreateWave(con.template, con.iDService, 2);
         con.waveRepo.Add(wave2);
 
     }
     public static void SpwanEntities(GameContext con, WaveEntity wave, float dt) {
         ref float time = ref wave.time;
         time += dt;
-        if (time >=wave.spawnMaintainSec) {
-            // 判定boss是否死亡
-            PlaneEntity boss=con.TryGetBoss();
-            if(boss.isDead==true){
-                wave.isDead=true;
+        if (time > wave.spawnMaintainSec) {
+            // 不再生成entity
+            if (con.planeRepo.IsAllEnemyDead()) {
+                wave.isDead = true;
             }
             return;
-            // 不再生成entity
         }
         WaveSpawnTM[] waveSpawnTMs = wave.waveSpawnTMs;
         for (int i = 0; i < waveSpawnTMs.Length; i++) {
@@ -58,7 +56,6 @@ public static class WaveDomain {
                 }
                 if (tm.spawnPos == SpawnPos.TopMiddle) {
                     PlaneEntity boss = PlaneDomain.SpawnPlane(con, tm.entityTypeID, new Vector2(0, -460), tm.ally);
-                    con.gameEntity.bossEntityID=boss.entityID;
                 }
             }
         }

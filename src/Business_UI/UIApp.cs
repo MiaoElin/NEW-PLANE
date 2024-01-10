@@ -39,10 +39,10 @@ public static class UIApp {
     }
     #endregion Login:Panel
     #region Setting:Panel
-    public static void Setting_Open(UIContext con) {
+    public static void Pause_Open(UIContext con) {
 
     }
-    public static void Setting_Closed(UIContext con) {
+    public static void Pause_Closed(UIContext con) {
 
     }
     #endregion Setting:Panel

@@ -63,13 +63,12 @@ public static class BulletDomain {
                     // System.Console.WriteLine(nearlyEnemy.hp);
                     if (nearlyEnemy.hp <= 0) {
                         nearlyEnemy.isDead = true;
-                        if (nearlyEnemy.entityID == con.gameEntity.bossEntityID||nearlyEnemy.entityID==con.gameEntity.playerEntityID) {
-                            return;
-                        }
-                        con.planeRepo.Remove(nearlyEnemy);
+                        // if (nearlyEnemy.entityID==con.gameEntity.playerEntityID) {
+                        //     return;
+                        // }
+                        // con.planeRepo.Remove(nearlyEnemy);
                     }
                     bul.isDead = true;
-                    con.bulRepo.Remove(bul);
                 }
     }
     public static void Draw(GameContext con) {

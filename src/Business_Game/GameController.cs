@@ -9,32 +9,12 @@ public static class GameController {
         // 生成我方飞机
         PlaneEntity player = PlaneDomain.SpawnPlane(con, 4, new Vector2(0, 460), Ally.player);
         con.gameEntity.playerEntityID = player.entityID;
-        con.gameEntity.isInGame = true;
+        con.gameEntity.gameStage = GameStage.Ingame;
         // 初始化所有波次
         WaveDomain.SpawnWave(con);
     }
-    public static void InBattle_Tick(GameContext con, float dt) {
-        UIContext uic = con.uIContext;
-        GameEntity game = con.gameEntity;
+    public static void InGame_Tick(GameContext con, float dt) {
         PlaneEntity player = con.TryGetPlayer();
-        if (game.isEnteringGame) {
-            game.isEnteringGame = false;
-            EnterGame(con);
-        }
-        if (!game.isInGame || game.isPause) {
-            return;
-        }
-        if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE)) {
-            game.isPause = true;
-            UIApp.Setting_Open(uic);
-        }
-        if (game.isPause == true) {
-            if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE)) {
-                game.isPause = false;
-                UIApp.Setting_Closed(uic);
-
-            }
-        }
         // 获取当前波次
         WaveEntity wave = con.TtyGetWave();
         // System.Console.WriteLine("当前是第"+wave.typeID+"波");
@@ -60,11 +40,13 @@ public static class GameController {
                 BulletDomain.Remove(con, bul, nearlyEnemy);
             }
             if (bul.ally == Ally.player) {
-                if (con.planeRepo.FindNearlyEnemy(bul.pos, bul.size.X, out PlaneEntity nearlyEnemy)) {
+                PlaneEntity nearlyEnemy = con.planeRepo.FindNearlyEnemy(bul.pos, bul.size.X);
+                if (nearlyEnemy != null) {
                     BulletDomain.Remove(con, bul, nearlyEnemy);
                 }
             }
         }
+
         // 食物移动
         // 吃食物
         int foodLen = con.foodRepo.TakeAll(out FoodEntity[] all_foods);
@@ -72,44 +54,79 @@ public static class GameController {
             var food = all_foods[i];
             PlaneDomain.EatFood(con, player, food);
         }
-        // 判定是否过关
-        if (wave.isDead) {
+        // 飞机移除
+        con.planeRepo.Remove(player);
+        // 子弹移除
+        con.bulRepo.Remove();
+        // 食物移除
+        con.foodRepo.Remove();
+        ApplyResult(con);
+    }
+    public static void Tick(GameContext con, float dt) {
+        GameEntity game = con.gameEntity;
+        UIContext uic = con.uIContext;
+        WaveEntity wave = con.TtyGetWave();
+        if (game.gameStage == GameStage.EnteringGame) {
+            EnterGame(con);
+        }
+        if (game.gameStage == GameStage.Ingame) {
+            InGame_Tick(con, dt);
+        }
+        if (game.gameStage == GameStage.Win) {
             UIApp.Win_Open(uic);
             if (UIApp.Win_IsClickContinue(uic)) {
                 game.WaveEntityID += 1;
-                System.Console.WriteLine(wave.entityID);
                 if (wave.entityID > 5) {
                     // 总共5关
-                    //通关页
+                    //通关
                 }
+                // 清除剩余的子弹食物
+                con.foodRepo.AllToDead();
+                con.foodRepo.Remove();
+                con.bulRepo.AllToDead();
+                con.bulRepo.Remove();
                 UIApp.Win_Closed(uic);
+                game.gameStage = GameStage.Ingame;
             }
         }
-        // 判定是否过关失败
+        if (game.gameStage == GameStage.Failed) {
+            UIApp.Failed_Open(uic);
+            if (UIApp.Failed_IsClickRebirth(uic)) {
+                con.TryGetPlayer().isDead = false;
+                con.TryGetPlayer().hp = 100;
+                UIApp.Failed_Closed(uic);
+            }
+            if (UIApp.Failed_isClickExit(uic)) {
+                Raylib.CloseWindow();
+            }
+        }
+        if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE)) {
+            game.gameStage = GameStage.Pause;
+            UIApp.Pause_Open(uic);
+        }
+        if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE) && game.gameStage == GameStage.Pause) {
+            game.gameStage = GameStage.Ingame;
+            UIApp.Pause_Closed(uic);
+        }
     }
-    public static void IsFailed(Context con) {
-        // if(con.gameContext.TryGetPlayer()==null){
-        //     return;
-        // }
-        // GameContext game=con.gameContext;
-        // UIContext uic=con.uIContext;
-        // if (game.TryGetPlayer().isDead) {
-        //     game.isPause = true;
-        //     UIApp.Failed_Open(uic);
-        //     if (UIApp.Failed_IsClickRebirth(uic)) {
-        //         game.TryGetPlayer().isDead = false;
-        //         game.TryGetPlayer().hp = 100;
-        //         UIApp.Failed_Closed(uic);
-        //         game.isPause = false;
-        //     }
-        //     if (UIApp.Failed_isClickExit(uic)) {
-        //         Raylib.CloseWindow();
-        //     }
-        // }
+    public static void ApplyResult(GameContext con) {
+        // 判定是否过关
+        WaveEntity wave = con.TtyGetWave();
+        UIContext uic = con.uIContext;
+        GameEntity game = con.gameEntity;
+        if (wave.isDead) {
+            game.gameStage = GameStage.Win;
+        }
+        // 判定是否过关失败
+        if (con.TryGetPlayer().isDead == true) {
+            game.gameStage = GameStage.Failed;
+
+        }
+
     }
     public static void Draw(GameContext con) {
-        GameEntity  game = con.gameEntity;
-        if (!game.isInGame) {
+        GameEntity game = con.gameEntity;
+        if (game.gameStage != GameStage.Ingame) {
             return;
         }
         // 生成地图
@@ -128,10 +145,8 @@ public static class GameController {
 
     }
     public static void DrawUI(GameContext con) {
-        GameEntity  game = con.gameEntity;
-
-        if (!game.isInGame) {
-            // PLog.LogError("not ingame");
+        GameEntity game = con.gameEntity;
+        if (game.gameStage != GameStage.Ingame && game.gameStage != GameStage.Win) {
             return;
         }
         float hpInsGreen = con.TryGetPlayer().hp;
@@ -139,6 +154,7 @@ public static class GameController {
         Raylib.DrawRectangleV(new Vector2(0, 0), new Vector2(hpInsGreen * 2, 30), Color.GREEN);
         string hp = hpInsGreen.ToString();
         Raylib.DrawText(hp + "/100", 95, 10, 15, Color.WHITE);
+
         //panel 绘制
         UIApp.Win_Draw(con.uIContext);
 

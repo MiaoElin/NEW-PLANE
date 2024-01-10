@@ -22,8 +22,7 @@ public class Program {
             // =====Tick=====
             InfraController.Tick(con, dt);//包含相机初始化
             LoginController.Tick(con);
-            GameController.InBattle_Tick(con.gameContext, dt);
-            GameController.IsFailed(con);
+            GameController.Tick(con.gameContext,dt);
 
 
             // =====Draw World=====
