@@ -4,19 +4,19 @@ public static class GameController {
     public static void Init() {
 
     }
-    public static void EnterGame(Context con) {
+    public static void EnterGame(GameContext con) {
 
         // 生成我方飞机
         PlaneEntity player = PlaneDomain.SpawnPlane(con, 4, new Vector2(0, 460), Ally.player);
-        con.gameContext.playerEntityID = player.entityID;
-        con.gameContext.isInGame = true;
+        con.gameEntity.playerEntityID = player.entityID;
+        con.gameEntity.isInGame = true;
         // 初始化所有波次
         WaveDomain.SpawnWave(con);
     }
-    public static void Tick(Context con, float dt) {
-        GameContext game = con.gameContext;
+    public static void InBattle_Tick(GameContext con, float dt) {
         UIContext uic = con.uIContext;
-        PlaneEntity player = con.gameContext.TryGetPlayer();
+        GameEntity game = con.gameEntity;
+        PlaneEntity player = con.TryGetPlayer();
         if (game.isEnteringGame) {
             game.isEnteringGame = false;
             EnterGame(con);
@@ -36,12 +36,13 @@ public static class GameController {
             }
         }
         // 获取当前波次
-        WaveEntity wave = con.gameContext.TtyGetWave();
+        WaveEntity wave = con.TtyGetWave();
         // System.Console.WriteLine("当前是第"+wave.typeID+"波");
         // 生成波次里的entity
         WaveDomain.SpwanEntities(con, wave, dt);
         // 飞机移动
-        int planeLen = game.planeRepo.TakeAll(out PlaneEntity[] all_Plane);
+        int planeLen = con.planeRepo.TakeAll(out PlaneEntity[] all_Plane);
+        System.Console.WriteLine(planeLen);
         for (int i = 0; i < planeLen; i++) {
             var plane = all_Plane[i];
             PlaneDomain.Move(con, plane, dt);
@@ -49,24 +50,24 @@ public static class GameController {
             PlaneDomain.TryShootBul(con, plane, dt);
         }
         // 子弹移动
-        int bulLen = game.bulRepo.TakeAll(out BulletEntity[] all_Bullets);
+        int bulLen = con.bulRepo.TakeAll(out BulletEntity[] all_Bullets);
         for (int i = 0; i < bulLen; i++) {
             var bul = all_Bullets[i];
             BulletDomain.Move(con, dt, bul);
             // 碰撞检测 移除死亡的子弹 和死亡的飞机
             if (bul.ally == Ally.enemy) {
-                PlaneEntity nearlyEnemy = game.TryGetPlayer();
+                PlaneEntity nearlyEnemy = con.TryGetPlayer();
                 BulletDomain.Remove(con, bul, nearlyEnemy);
             }
             if (bul.ally == Ally.player) {
-                if (con.gameContext.planeRepo.FindNearlyEnemy(bul.pos, bul.size.X, out PlaneEntity nearlyEnemy)) {
+                if (con.planeRepo.FindNearlyEnemy(bul.pos, bul.size.X, out PlaneEntity nearlyEnemy)) {
                     BulletDomain.Remove(con, bul, nearlyEnemy);
                 }
             }
         }
         // 食物移动
         // 吃食物
-        int foodLen = game.foodRepo.TakeAll(out FoodEntity[] all_foods);
+        int foodLen = con.foodRepo.TakeAll(out FoodEntity[] all_foods);
         for (int i = 0; i < foodLen; i++) {
             var food = all_foods[i];
             PlaneDomain.EatFood(con, player, food);
@@ -75,7 +76,7 @@ public static class GameController {
         if (wave.isDead) {
             UIApp.Win_Open(uic);
             if (UIApp.Win_IsClickContinue(uic)) {
-                con.gameContext.WaveEntityID += 1;
+                game.WaveEntityID += 1;
                 System.Console.WriteLine(wave.entityID);
                 if (wave.entityID > 5) {
                     // 总共5关
@@ -106,13 +107,13 @@ public static class GameController {
         //     }
         // }
     }
-    public static void Draw(Context con) {
-        GameContext game = con.gameContext;
+    public static void Draw(GameContext con) {
+        GameEntity  game = con.gameEntity;
         if (!game.isInGame) {
             return;
         }
         // 生成地图
-        WaveEntity wave = game.TtyGetWave();
+        WaveEntity wave = con.TtyGetWave();
         Rectangle src = new Rectangle(0, 0, wave.map.Width, wave.map.Height);
         Rectangle dest = new Rectangle(0, 0, 720, 1080);
         Raylib.DrawTexturePro(wave.map, src, dest, new(360, 540), 0, Color.WHITE);
@@ -126,13 +127,14 @@ public static class GameController {
 
 
     }
-    public static void DrawUI(Context con) {
-        GameContext game = con.gameContext;
+    public static void DrawUI(GameContext con) {
+        GameEntity  game = con.gameEntity;
+
         if (!game.isInGame) {
             // PLog.LogError("not ingame");
             return;
         }
-        float hpInsGreen = game.TryGetPlayer().hp;
+        float hpInsGreen = con.TryGetPlayer().hp;
         Raylib.DrawRectangleV(new Vector2(0, 0), new Vector2(200, 30), Color.RED);
         Raylib.DrawRectangleV(new Vector2(0, 0), new Vector2(hpInsGreen * 2, 30), Color.GREEN);
         string hp = hpInsGreen.ToString();

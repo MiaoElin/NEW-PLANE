@@ -1,15 +1,15 @@
 using System.Numerics;
 using Raylib_cs;
 public static class BulletDomain {
-    public static BulletEntity SpawnBul(Context con, PlaneEntity plane, float dt, Vector2 firstDir) {
+    public static BulletEntity SpawnBul(GameContext con, PlaneEntity plane, float dt, Vector2 firstDir) {
         BulletEntity bul = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, firstDir, plane.ally);
-        con.gameContext.bulRepo.Add(bul);
+        con.bulRepo.Add(bul);
         if (bul.moveType == MoveType.ByLine) {
-            bul.firstDir = con.gameContext.TryGetPlayer().pos - bul.pos;
+            bul.firstDir = con.TryGetPlayer().pos - bul.pos;
         }
         return bul;
     }
-    public static void SpawnBulShooterType(Context con, PlaneEntity plane, float dt) {
+    public static void SpawnBulShooterType(GameContext con, PlaneEntity plane, float dt) {
         if (plane.shooterType == ShooterType.onebul) {
             SpawnBul(con, plane, dt, plane.dir);
         } else if (plane.shooterType == ShooterType.twobul) {
@@ -29,8 +29,8 @@ public static class BulletDomain {
             bu3.pos.X +=-y*0.25f * bu3.size.X;
         }
     }
-    public static void Move(Context con, float dt, BulletEntity bul) {
-        PlaneEntity player = con.gameContext.TryGetPlayer();
+    public static void Move(GameContext con, float dt, BulletEntity bul) {
+        PlaneEntity player = con.TryGetPlayer();
         if (bul.ally == Ally.player) {
             if (bul.moveType == MoveType.StaticDirection) {
                 bul.Move(bul.firstDir, dt);
@@ -57,23 +57,23 @@ public static class BulletDomain {
         }
 
     }
-    public static void Remove(Context con, BulletEntity bul,PlaneEntity nearlyEnemy) {
+    public static void Remove(GameContext con, BulletEntity bul,PlaneEntity nearlyEnemy) {
                 if (IntersectHelper.IscircleIntersect(bul.pos, bul.size.X, nearlyEnemy.pos, nearlyEnemy.size.X)) {
                     nearlyEnemy.hp -= bul.lethality;
-                    System.Console.WriteLine(nearlyEnemy.hp);
+                    // System.Console.WriteLine(nearlyEnemy.hp);
                     if (nearlyEnemy.hp <= 0) {
                         nearlyEnemy.isDead = true;
-                        if (nearlyEnemy.entityID == con.gameContext.bossEntityID||nearlyEnemy.entityID==con.gameContext.playerEntityID) {
+                        if (nearlyEnemy.entityID == con.gameEntity.bossEntityID||nearlyEnemy.entityID==con.gameEntity.playerEntityID) {
                             return;
                         }
-                        con.gameContext.planeRepo.Remove(nearlyEnemy);
+                        con.planeRepo.Remove(nearlyEnemy);
                     }
                     bul.isDead = true;
-                    con.gameContext.bulRepo.Remove(bul);
+                    con.bulRepo.Remove(bul);
                 }
     }
-    public static void Draw(Context con) {
-        int bulLen = con.gameContext.bulRepo.TakeAll(out BulletEntity[] all_Buls);
+    public static void Draw(GameContext con) {
+        int bulLen = con.bulRepo.TakeAll(out BulletEntity[] all_Buls);
         for (int i = 0; i < bulLen; i++) {
             var bul = all_Buls[i];
             bul.Draw();

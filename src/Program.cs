@@ -18,23 +18,23 @@ public class Program {
             ref Camera2D cam = ref con.camera2D;
 
             // 全局输入
-            con.input.Process();
+            Input(con);
             // =====Tick=====
             InfraController.Tick(con, dt);//包含相机初始化
             LoginController.Tick(con);
-            GameController.Tick(con,dt);
+            GameController.InBattle_Tick(con.gameContext, dt);
             GameController.IsFailed(con);
 
 
             // =====Draw World=====
             Raylib.BeginMode2D(cam);
             LoginController.Draw(con);
-            GameController.Draw(con);
+            GameController.Draw(con.gameContext);
             Raylib.EndMode2D();
 
             // =====Draw UI=====
             LoginController.DrawUI(con);
-            GameController.DrawUI(con);
+            GameController.DrawUI(con.gameContext);
 
             Raylib.EndDrawing();
         }
@@ -44,5 +44,8 @@ public class Program {
     static void Init(Context con) {
         InfraController.Init(con);
         LoginController.Init(con);
+    }
+    static void Input(Context con) {
+        con.gameContext.input.Process();
     }
 }

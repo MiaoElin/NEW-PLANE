@@ -35,11 +35,10 @@ public class PlaneEntity {
         Rectangle src = new Rectangle(0, 0, texture2D.Width, texture2D.Height);
         Rectangle dest = new Rectangle(pos.X, pos.Y, size.X * 2, size.X * 2);
         Vector2 center = new Vector2(size.X, size.X);
-        float rotation =Raymath.Vector2LineAngle(new Vector2 (0,-1),dir);
+        //   我的朝向的角度                           目标的朝向，我的朝向
+        float rotation =Raymath.Vector2LineAngle(new Vector2 (0,-1),dir); 
         rotation =rotation/(float)Math.PI*180;
         Raylib.DrawTexturePro(texture2D, src, dest, center, rotation, Color.WHITE);
-
-        // Raylib.DrawCircleV(pos,size.X,Color.RED);
 
     }
 }

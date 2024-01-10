@@ -1,40 +1,51 @@
 using System.Numerics;
 using Raylib_cs;
 public class GameContext {
-    public bool isInGame;
-    public bool isEnteringGame;
-    public bool isPause;
+
     // =====Repository====
     public PlaneRepo planeRepo;
     public WaveRepo waveRepo;
     public BulRepo bulRepo;
     public FoodRepo foodRepo;
-    // =====player====
-    public int playerEntityID;
-    // =====Wave=====
-    public int WaveEntityID;
-    // ====boss====
-    public int bossEntityID;
+    //=====Entity===
+    public GameEntity gameEntity;
+    public InputEntity input;
+    // =====Context====
+    public UIContext uIContext;
+
+
+    // ====Template====
+    public Template template;
+    // ====Service====
+    public IDService iDService;
+    public RandomService r;
+    // ====Assets====
+    public AssetsContext assets;
 
     public GameContext() {
-        isEnteringGame = false;
-        isInGame = false;
-        isPause = false;
+
         planeRepo = new PlaneRepo();
         waveRepo = new WaveRepo();
         bulRepo = new BulRepo();
         foodRepo = new FoodRepo();
+        uIContext = new UIContext();
+        template = new Template();
+        iDService = new IDService();
+        r = new RandomService();
+        assets = new AssetsContext();
+        gameEntity = new GameEntity();
+        input =new InputEntity ();
     }
     public PlaneEntity TryGetPlayer() {
-        planeRepo.TryGet(playerEntityID, out PlaneEntity  player);
+        planeRepo.TryGet(gameEntity.playerEntityID, out PlaneEntity player);
         return player;
     }
-    public WaveEntity TtyGetWave(){
-        waveRepo.TryGet(WaveEntityID,out WaveEntity wave);
+    public WaveEntity TtyGetWave() {
+        waveRepo.TryGet(gameEntity.WaveEntityID, out WaveEntity wave);
         return wave;
     }
-    public PlaneEntity TryGetBoss(){
-        planeRepo.TryGet(bossEntityID,out PlaneEntity boss);
+    public PlaneEntity TryGetBoss() {
+        planeRepo.TryGet(gameEntity.bossEntityID, out PlaneEntity boss);
         return boss;
     }
 }

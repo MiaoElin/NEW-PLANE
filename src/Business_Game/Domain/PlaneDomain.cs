@@ -1,19 +1,19 @@
 using System.Numerics;
 using Raylib_cs;
 public static class PlaneDomain {
-    public static PlaneEntity SpawnPlane(Context con, int typeID, Vector2 pos, Ally ally) {
+    public static PlaneEntity SpawnPlane(GameContext  con, int typeID, Vector2 pos, Ally ally) {
         PlaneEntity plane = Factory.CreatePlane(con.template, con.iDService, typeID, pos, ally);
         // System.Console.WriteLine(plane.planeSkillComponent.all[0].cd);
-        con.gameContext.planeRepo.Add(plane);
+        con.planeRepo.Add(plane);
         return plane;
     }
-    public static void Move(Context con, PlaneEntity plane, float dt) {
+    public static void Move(GameContext con, PlaneEntity plane, float dt) {
         if (plane.ally == Ally.player) {
             plane.Move(con.input.moveAxis, dt);
         }
         if (plane.ally == Ally.enemy) {
             if (plane.moveType == MoveType.ByTrack) {
-                Vector2 dir = con.gameContext.TryGetPlayer().pos - plane.pos;
+                Vector2 dir = con.TryGetPlayer().pos - plane.pos;
                 plane.Move(dir, dt);
             }
             if (plane.moveType == MoveType.DontMove) {
@@ -22,7 +22,7 @@ public static class PlaneDomain {
 
         }
     }
-    public static void TryShootBul(Context con, PlaneEntity plane, float dt) {
+    public static void TryShootBul(GameContext con, PlaneEntity plane, float dt) {
         if (plane.isDead) {
             return;
         }
@@ -56,7 +56,7 @@ public static class PlaneDomain {
         });
 
     }
-    public static void EatFood(Context con, PlaneEntity player, FoodEntity food) {
+    public static void EatFood(GameContext con, PlaneEntity player, FoodEntity food) {
         if (IntersectHelper.IsRectCircleIntersect(player.pos, player.size, food.pos, food.size)) {
             if (food.foodType == FoodType.TwoBulFood) {
                 player.shooterType = ShooterType.twobul;
@@ -70,11 +70,11 @@ public static class PlaneDomain {
                     player.hp = 100;
                 }
             }
-            con.gameContext.foodRepo.Remove(food);
+            con.foodRepo.Remove(food);
         }
     }
-    public static void Draw(Context con) {
-        int PlaneLen = con.gameContext.planeRepo.TakeAll(out PlaneEntity[] nowAll);
+    public static void Draw(GameContext con) {
+        int PlaneLen = con.planeRepo.TakeAll(out PlaneEntity[] nowAll);
         for (int i = 0; i < PlaneLen; i++) {
             var tem = nowAll[i];
             if (tem.isDead) {

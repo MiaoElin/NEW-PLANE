@@ -13,10 +13,11 @@ public static class LoginController
 
     public static void Tick(Context con)
     {
+            GameEntity game=con.gameContext.gameEntity;
         if (UIApp.Login_IsClickStart(con.uIContext))
         {
             UIApp.Login_Closed(con.uIContext);
-            con.gameContext.isEnteringGame = true;
+            game.isEnteringGame = true;
 
         }
         if (UIApp.Login_IsClickExit(con.uIContext))

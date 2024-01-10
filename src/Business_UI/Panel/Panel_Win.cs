@@ -10,9 +10,8 @@ public class Panel_Win {
         btn_Continue.colorText = Color.WHITE;
         btn_Continue.pos = new Vector2(285, 800);
         btn_Continue.size = new Vector2(150, 45);
-        btn_Continue.font = "   CONTINUE";
+        btn_Continue.font = " CONTINUE";
         btn_Continue.fontSize=20;
-        
     }
     public void Init() {
         isOpen = true;

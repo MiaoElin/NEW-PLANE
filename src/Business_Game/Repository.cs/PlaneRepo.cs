@@ -16,7 +16,7 @@ public class PlaneRepo {
         return all.TryGetValue(entityID, out plane);
     }
     public void Remove(PlaneEntity role) {
-        System.Console.WriteLine(role.entityID);
+        // System.Console.WriteLine(role.entityID);
         all.Remove(role.entityID);
     }
     public int TakeAll(out PlaneEntity[] temp) {
