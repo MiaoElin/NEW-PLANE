@@ -66,6 +66,20 @@ public static class GameController {
         GameEntity game = con.gameEntity;
         UIContext uic = con.uIContext;
         WaveEntity wave = con.TtyGetWave();
+        if (con.input.isEscPressed) {
+            if(!game.isPause){
+                game.isPause=true;
+                System.Console.WriteLine("kkkk");
+                game.gameStage=GameStage.Pause;
+                UIApp.Pause_Open(uic);
+            }
+            else{
+                game.isPause=false;
+                System.Console.WriteLine("lllll");
+                game.gameStage=GameStage.Ingame;
+                UIApp.Pause_Closed(uic);
+            }
+        }
         if (game.gameStage == GameStage.EnteringGame) {
             EnterGame(con);
         }
@@ -94,21 +108,22 @@ public static class GameController {
             if (UIApp.Failed_IsClickRebirth(uic)) {
                 con.TryGetPlayer().isDead = false;
                 con.TryGetPlayer().hp = 100;
-                game.gameStage=GameStage.Ingame;
+                game.gameStage = GameStage.Ingame;
                 UIApp.Failed_Closed(uic);
             }
             if (UIApp.Failed_isClickExit(uic)) {
+                con.assets.UnloadTexture();
                 Raylib.CloseWindow();
             }
         }
-        if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE)) {
-            game.gameStage = GameStage.Pause;
-            UIApp.Pause_Open(uic);
-        }
-        if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE) && game.gameStage == GameStage.Pause) {
-            game.gameStage = GameStage.Ingame;
-            UIApp.Pause_Closed(uic);
-        }
+        // if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE)) {
+        //     System.Console.WriteLine("kkkkkk");
+        //     if (game.gameStage == GameStage.Pause) {
+        //         UIApp.Pause_Closed(uic);
+        //         game.gameStage = GameStage.Ingame;
+
+        //     }
+        // }
     }
     public static void ApplyResult(GameContext con) {
         // 判定是否过关
@@ -121,13 +136,16 @@ public static class GameController {
         // 判定是否过关失败
         if (con.TryGetPlayer().isDead == true) {
             game.gameStage = GameStage.Failed;
-
         }
-
+        // if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE)) {
+        //     System.Console.WriteLine("lllll");
+        //     game.gameStage = GameStage.Pause;
+        //     UIApp.Pause_Open(uic);
+        // }
     }
     public static void Draw(GameContext con) {
         GameEntity game = con.gameEntity;
-        if (game.gameStage != GameStage.Ingame) {
+        if (game.gameStage == GameStage.None || game.gameStage == GameStage.EnteringGame) {
             return;
         }
         // 生成地图
@@ -147,7 +165,11 @@ public static class GameController {
     }
     public static void DrawUI(GameContext con) {
         GameEntity game = con.gameEntity;
-        if (game.gameStage != GameStage.Ingame && game.gameStage != GameStage.Win&&game.gameStage!=GameStage.Failed) {
+        UIContext uic = con.uIContext;
+        // if (game.gameStage != GameStage.Ingame && game.gameStage != GameStage.Win && game.gameStage != GameStage.Failed&&game.gameStage!=GameStage.Pause) {
+        //     return;
+        // }
+        if (game.gameStage == GameStage.None || game.gameStage == GameStage.EnteringGame) {
             return;
         }
         float hpInsGreen = con.TryGetPlayer().hp;
@@ -157,8 +179,9 @@ public static class GameController {
         Raylib.DrawText(hp + "/100", 95, 10, 15, Color.WHITE);
 
         //panel 绘制
-        UIApp.Win_Draw(con.uIContext);
-        UIApp.Failed_Draw(con.uIContext);
+        UIApp.Win_Draw(uic);
+        UIApp.Failed_Draw(uic);
+        UIApp.Pause_Draw(uic);
 
     }
 }

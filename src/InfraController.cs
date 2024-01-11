@@ -2,8 +2,8 @@ using Raylib_cs;
 using System.Numerics;
 public static class InfraController {
     public static void Init(Context con) {
-        con.assets.Init();
-        con.gameContext.template.Init(con.assets);
+        con.gameContext.assets.Init();
+        con.gameContext.template.Init(con.gameContext.assets);
         con.widowWidth = 720;
         con.widowHeigth = 1080;
         con.baseSize = 60;

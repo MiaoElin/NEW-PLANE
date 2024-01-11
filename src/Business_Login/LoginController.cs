@@ -27,7 +27,7 @@ public static class LoginController
         if (UIApp.Login_IsClickSetting(con.uIContext))
         {
             UIApp.Login_Closed(con.uIContext);
-            UIApp.Pause_Open(con.uIContext);
+            // UIApp.Setting_Open(con.uIContext);
         }
 
     }

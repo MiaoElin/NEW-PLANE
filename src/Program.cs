@@ -37,7 +37,7 @@ public class Program {
 
             Raylib.EndDrawing();
         }
-        con.assets.UnloadTexture();
+        con.gameContext.assets.UnloadTexture();
         Raylib.CloseWindow();
     }
     static void Init(Context con) {

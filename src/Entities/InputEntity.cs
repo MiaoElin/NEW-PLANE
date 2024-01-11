@@ -4,6 +4,7 @@ public class InputEntity
 {
     public Vector2 moveAxis;
     public bool isSpaceDown;
+    public bool isEscPressed;
     public void Process()
     {
         float x = 0;
@@ -26,6 +27,7 @@ public class InputEntity
         }
         moveAxis = new Vector2(x, y);
         isSpaceDown=Raylib.IsKeyDown(KeyboardKey.KEY_SPACE);
+        isEscPressed=Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE);
 
     }
 }

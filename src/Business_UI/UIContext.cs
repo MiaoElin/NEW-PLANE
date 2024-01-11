@@ -5,6 +5,7 @@ public class UIContext{
     public Panel_Setting panel_Setting;
     public Panel_Failed panel_Failed;
     public Panel_Win panel_Win;
+    public Panel_Pause panel_Pause;
     public UIContext(){
 
     }

@@ -38,14 +38,30 @@ public static class UIApp {
         }
     }
     #endregion Login:Panel
-    #region Setting:Panel
+    #region Pause:Panel
     public static void Pause_Open(UIContext con) {
-
+        ref Panel_Pause panel = ref con.panel_Pause;
+        if (panel == null) {
+            panel = new Panel_Pause();
+            panel.Ctor();
+        }
+        panel.Init();
     }
+    // public static bool Pause_IsKeyDownEsc(UIContext con) {
+    //         return con.panel_Pause.IsKeyDown;
+    // }
     public static void Pause_Closed(UIContext con) {
-
+        if (con.panel_Pause!=null&&con.panel_Pause.isOpen) {
+            con.panel_Pause.isOpen = false;
+        }
     }
-    #endregion Setting:Panel
+    public static void Pause_Draw(UIContext con) {
+        Panel_Pause panel = con.panel_Pause;
+        if (panel != null && panel.isOpen) {
+            con.panel_Pause.Draw();
+        }
+    }
+    #endregion Pause:Panel
     #region Failed:Panel
     public static void Failed_Open(UIContext uic) {
         ref Panel_Failed panel = ref uic.panel_Failed;
@@ -56,7 +72,7 @@ public static class UIApp {
         panel.Init();
     }
     public static void Failed_Closed(UIContext uic) {
-        if(uic.panel_Failed==null){
+        if (uic.panel_Failed == null) {
             return;
         }
         uic.panel_Failed.isOpen = false;
@@ -65,14 +81,14 @@ public static class UIApp {
         return uic.panel_Failed.IsClickRebirth();
     }
     public static bool Failed_isClickExit(UIContext uic) {
-        if(uic.panel_Failed.isOpen&&uic.panel_Failed.IsClickExit()){
+        if (uic.panel_Failed.isOpen && uic.panel_Failed.IsClickExit()) {
             return true;
         }
         return false;
     }
     public static void Failed_Draw(UIContext uic) {
-        if (uic.panel_Failed!=null&&uic.panel_Failed.isOpen) {
-        uic.panel_Failed.Draw();
+        if (uic.panel_Failed != null && uic.panel_Failed.isOpen) {
+            uic.panel_Failed.Draw();
         }
     }
     #endregion Failed:Panel
@@ -86,19 +102,19 @@ public static class UIApp {
         panel.Init();
     }
     public static void Win_Closed(UIContext uic) {
-        if(uic.panel_Win==null){
-            return ;
+        if (uic.panel_Win == null) {
+            return;
         }
         uic.panel_Win.isOpen = false;
     }
     public static bool Win_IsClickContinue(UIContext uic) {
-        if (uic.panel_Win!=null&& uic.panel_Win.isOpen && uic.panel_Win.IsClickContinue()) {
+        if (uic.panel_Win != null && uic.panel_Win.isOpen && uic.panel_Win.IsClickContinue()) {
             return true;
         }
         return false;
     }
     public static void Win_Draw(UIContext uic) {
-        if (uic.panel_Win!=null&&uic.panel_Win.isOpen) {
+        if (uic.panel_Win != null && uic.panel_Win.isOpen) {
             uic.panel_Win.Draw();
         }
     }
