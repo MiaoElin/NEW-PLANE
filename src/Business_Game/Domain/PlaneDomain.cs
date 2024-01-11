@@ -8,19 +8,43 @@ public static class PlaneDomain {
         return plane;
     }
     public static void Move(GameContext con, PlaneEntity plane, float dt) {
-        if (plane.ally == Ally.player) {
+        if (plane.moveType == MoveType.ByInput) {
             plane.Move(con.input.moveAxis, dt);
         }
-        if (plane.ally == Ally.enemy) {
-            if (plane.moveType == MoveType.ByTrack) {
-                Vector2 dir = con.TryGetPlayer().pos - plane.pos;
-                plane.Move(dir, dt);
-            }
-            if (plane.moveType == MoveType.DontMove) {
-                plane.Move(new(0, 0), dt);
-            }
-
+        if (plane.moveType == MoveType.ByTrack) {
+            Vector2 dir = con.TryGetPlayer().pos - plane.pos;
+            plane.Move(dir, dt);
         }
+        if (plane.moveType == MoveType.DontMove) {
+        }
+        if (plane.moveType == MoveType.RightLeft) {
+            Vector2 dir1 = new Vector2(1, 0);
+            Vector2 dir2 = new Vector2(-1, 0);
+            plane.timer-=dt;
+            if(plane.timer>0){
+            plane.Move(dir1,dt);
+            }
+            if(plane.timer<=0){
+                plane.Move(dir2,dt);
+            }
+            if(plane.timer<=-0.5f){
+                plane.timer=0.5f;
+            }    
+            // float moveAxis = plane.pos.X - plane.x;
+            // if (moveAxis > 0 && moveAxis <= 10) {
+            //     plane.Move(dir1, dt);
+            // }
+            // if (moveAxis >= -10 && moveAxis <= 0) {
+            //     plane.Move(dir2, dt);
+            // }
+            // if (moveAxis<=-10) {
+            //     plane.x = plane.pos.X+0.1f;
+            // }
+            // if(moveAxis>=10){
+            //     plane.x=plane.pos.X+0.1f;
+            // }
+        }
+
     }
     public static void TryShootBul(GameContext con, PlaneEntity plane, float dt) {
         if (plane.isDead) {

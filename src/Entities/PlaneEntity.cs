@@ -19,6 +19,8 @@ public class PlaneEntity {
     // public float bulTimer;
     public PlaneSkillComponent planeSkillComponent;
     public bool isDead;
+    public float timer;
+    // public float x;
 
     public PlaneEntity() {
         planeSkillComponent = new PlaneSkillComponent();

@@ -4,6 +4,26 @@ public static class GameController {
     public static void Init() {
 
     }
+    public static void Tick(GameContext con, float dt) {
+        GameEntity game = con.gameEntity;
+        UIContext uic = con.uIContext;
+        WaveEntity wave = con.TtyGetWave();
+        if (game.gameStage == GameStage.EnteringGame) {
+            EnterGame(con);
+        }
+        if (game.gameStage == GameStage.Ingame) {
+            InGame_Tick(con, dt);
+        }
+        if (game.gameStage == GameStage.Win) {
+            Win_Tick(con);
+        }
+        if (game.gameStage == GameStage.Failed) {
+            Failed_Tick(con);
+        }
+        if (game.gameStage == GameStage.Pause) {
+            Pause_Tick(con);
+        }
+    }
     public static void EnterGame(GameContext con) {
 
         // 生成我方飞机
@@ -46,7 +66,6 @@ public static class GameController {
                 }
             }
         }
-
         // 食物移动
         // 吃食物
         int foodLen = con.foodRepo.TakeAll(out FoodEntity[] all_foods);
@@ -54,76 +73,13 @@ public static class GameController {
             var food = all_foods[i];
             PlaneDomain.EatFood(con, player, food);
         }
-        // 飞机移除
+        // 飞机移除(忽略player)
         con.planeRepo.Remove(player);
         // 子弹移除
         con.bulRepo.Remove();
         // 食物移除
         con.foodRepo.Remove();
         ApplyResult(con);
-    }
-    public static void Tick(GameContext con, float dt) {
-        GameEntity game = con.gameEntity;
-        UIContext uic = con.uIContext;
-        WaveEntity wave = con.TtyGetWave();
-        if (con.input.isEscPressed) {
-            if(!game.isPause){
-                game.isPause=true;
-                System.Console.WriteLine("kkkk");
-                game.gameStage=GameStage.Pause;
-                UIApp.Pause_Open(uic);
-            }
-            else{
-                game.isPause=false;
-                System.Console.WriteLine("lllll");
-                game.gameStage=GameStage.Ingame;
-                UIApp.Pause_Closed(uic);
-            }
-        }
-        if (game.gameStage == GameStage.EnteringGame) {
-            EnterGame(con);
-        }
-        if (game.gameStage == GameStage.Ingame) {
-            InGame_Tick(con, dt);
-        }
-        if (game.gameStage == GameStage.Win) {
-            UIApp.Win_Open(uic);
-            if (UIApp.Win_IsClickContinue(uic)) {
-                game.WaveEntityID += 1;
-                if (wave.entityID > 5) {
-                    // 总共5关
-                    //通关
-                }
-                // 清除剩余的子弹食物
-                con.foodRepo.AllToDead();
-                con.foodRepo.Remove();
-                con.bulRepo.AllToDead();
-                con.bulRepo.Remove();
-                UIApp.Win_Closed(uic);
-                game.gameStage = GameStage.Ingame;
-            }
-        }
-        if (game.gameStage == GameStage.Failed) {
-            UIApp.Failed_Open(uic);
-            if (UIApp.Failed_IsClickRebirth(uic)) {
-                con.TryGetPlayer().isDead = false;
-                con.TryGetPlayer().hp = 100;
-                game.gameStage = GameStage.Ingame;
-                UIApp.Failed_Closed(uic);
-            }
-            if (UIApp.Failed_isClickExit(uic)) {
-                con.assets.UnloadTexture();
-                Raylib.CloseWindow();
-            }
-        }
-        // if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE)) {
-        //     System.Console.WriteLine("kkkkkk");
-        //     if (game.gameStage == GameStage.Pause) {
-        //         UIApp.Pause_Closed(uic);
-        //         game.gameStage = GameStage.Ingame;
-
-        //     }
-        // }
     }
     public static void ApplyResult(GameContext con) {
         // 判定是否过关
@@ -137,11 +93,55 @@ public static class GameController {
         if (con.TryGetPlayer().isDead == true) {
             game.gameStage = GameStage.Failed;
         }
-        // if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE)) {
-        //     System.Console.WriteLine("lllll");
-        //     game.gameStage = GameStage.Pause;
-        //     UIApp.Pause_Open(uic);
-        // }
+        // 暂停
+        if (con.input.isEscPressed) {
+            game.gameStage = GameStage.Pause;
+            con.input.isEscPressed = false;
+        }
+    }
+    public static void Win_Tick(GameContext con) {
+        GameEntity game = con.gameEntity;
+        UIContext uic = con.uIContext;
+        WaveEntity wave = con.TtyGetWave();
+        UIApp.Win_Open(uic,wave.typeID);
+        if (UIApp.Win_IsClickContinue(uic)) {
+            game.WaveEntityID += 1;
+            if (wave.entityID > 5) {
+                // 总共5关
+                //通关
+            }
+            // 清除剩余的子弹食物
+            con.foodRepo.AllToDead();
+            con.foodRepo.Remove();
+            con.bulRepo.AllToDead();
+            con.bulRepo.Remove();
+            UIApp.Win_Closed(uic);
+            game.gameStage = GameStage.Ingame;
+        }
+    }
+    public static void Failed_Tick(GameContext con) {
+        GameEntity game = con.gameEntity;
+        UIContext uic = con.uIContext;
+        UIApp.Failed_Open(uic);
+        if (UIApp.Failed_IsClickRebirth(uic)) {
+            con.TryGetPlayer().isDead = false;
+            con.TryGetPlayer().hp = 100;
+            game.gameStage = GameStage.Ingame;
+            UIApp.Failed_Closed(uic);
+        }
+        if (UIApp.Failed_isClickExit(uic)) {
+            con.assets.UnloadTexture();
+            Raylib.CloseWindow();
+        }
+    }
+    public static void Pause_Tick(GameContext con) {
+        GameEntity game = con.gameEntity;
+        UIContext uic = con.uIContext;
+        UIApp.Pause_Open(uic);
+        if (con.input.isEscPressed) {
+            UIApp.Pause_Closed(uic);
+            game.gameStage = GameStage.Ingame;
+        }
     }
     public static void Draw(GameContext con) {
         GameEntity game = con.gameEntity;

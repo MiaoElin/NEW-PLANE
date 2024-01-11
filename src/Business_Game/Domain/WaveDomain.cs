@@ -56,6 +56,9 @@ public static class WaveDomain {
                 }
                 if (tm.spawnPos == SpawnPos.TopMiddle) {
                     PlaneEntity boss = PlaneDomain.SpawnPlane(con, tm.entityTypeID, new Vector2(0, -460), tm.ally);
+                    boss.timer = 0.5f;
+                    // boss.x = boss.pos.X;
+
                 }
             }
         }

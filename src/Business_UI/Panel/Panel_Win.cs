@@ -3,6 +3,7 @@ using Raylib_cs;
 public class Panel_Win {
     public GUIButton btn_Continue;
     public bool isOpen;
+    public string waveTypeID;
     public void Ctor() {
         btn_Continue = new GUIButton();
         btn_Continue.colorBg = Color.BLACK;
@@ -13,14 +14,16 @@ public class Panel_Win {
         btn_Continue.font = " CONTINUE";
         btn_Continue.fontSize=20;
     }
-    public void Init() {
+    public void Init(int waveTypeID) {
         isOpen = true;
+        this.waveTypeID=waveTypeID.ToString();
     }
     public bool IsClickContinue() {
         return btn_Continue.isClick();
     }
     public void Draw() {
         Raylib.DrawRectangle(0,0,720,1080,Color.BLACK);
+        Raylib.DrawText("LEVEL "+waveTypeID+"  COMPLETE",225,400,30,Color.WHITE);
         btn_Continue.Draw();
     }
 

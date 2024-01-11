@@ -8,8 +8,6 @@ public class GameEntity {
     // ====boss====
     public int bossEntityID;
     public GameStage gameStage;
-    public bool isPause;
     public GameEntity() {
-        isPause=false;
     }
 }

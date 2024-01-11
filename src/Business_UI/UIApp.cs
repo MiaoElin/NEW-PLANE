@@ -93,13 +93,13 @@ public static class UIApp {
     }
     #endregion Failed:Panel
     #region Win:Panel
-    public static void Win_Open(UIContext uic) {
+    public static void Win_Open(UIContext uic,int waveTypeID) {
         ref Panel_Win panel = ref uic.panel_Win;
         if (panel == null) {
             panel = new Panel_Win();
             panel.Ctor();
         }
-        panel.Init();
+        panel.Init(waveTypeID);
     }
     public static void Win_Closed(UIContext uic) {
         if (uic.panel_Win == null) {

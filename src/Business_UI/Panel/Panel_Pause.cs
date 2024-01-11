@@ -9,9 +9,9 @@ public class Panel_Pause{
     }
     public void Init(){
         isOpen=true;
-        IsKeyDown=Raylib.IsKeyDown(KeyboardKey.KEY_ESCAPE);
+        // IsKeyDown=Raylib.IsKeyDown(KeyboardKey.KEY_ESCAPE);
     }
     public void Draw(){
-        Raylib.DrawText(tip,250,500,16,Color.WHITE);
+        Raylib.DrawText(tip,220,500,20,Color.WHITE);
     }
 }

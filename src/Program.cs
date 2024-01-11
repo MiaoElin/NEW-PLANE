@@ -23,8 +23,6 @@ public class Program {
             InfraController.Tick(con, dt);//包含相机初始化
             LoginController.Tick(con);
             GameController.Tick(con.gameContext,dt);
-
-
             // =====Draw World=====
             Raylib.BeginMode2D(cam);
             LoginController.Draw(con);
