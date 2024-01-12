@@ -23,6 +23,8 @@ public static class Factory {
         plane.size = tm.size;
         plane.sharpType = tm.sharpType;
         plane.moveType = tm.moveType;
+        plane.moveInterval=tm.moveInterval;
+        plane.moveTimer=tm.moveInterval;
         plane.shooterType = tm.shooterType;
         plane.bulTypeID = tm.bulTypeID;
         plane.isDead =false;

@@ -15,6 +15,7 @@ public class PlaneSkillComponent {
         int index=all.FindIndex(skill=>skill.typeID==oldeTypeID);
         all[index]=newModel;
     }
+    // public void TryGetSkill()
     public void ForEach(Action<SkillModel>action){
         all.ForEach(action);
     }

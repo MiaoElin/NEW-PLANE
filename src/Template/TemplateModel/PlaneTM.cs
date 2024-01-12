@@ -14,5 +14,6 @@ public struct PlaneTM{
     public  SharpType sharpType;
     public SpawnPos spawnPos;
     public SkillTM[]skillTMs;
+    public float moveInterval;
 
 }

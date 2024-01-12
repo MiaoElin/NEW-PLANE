@@ -20,36 +20,20 @@ public static class PlaneDomain {
         if (plane.moveType == MoveType.RightLeft) {
             Vector2 dir1 = new Vector2(1, 0);
             Vector2 dir2 = new Vector2(-1, 0);
-            plane.timer-=dt;
-            if(plane.timer>0){
+            plane.moveTimer-=dt;
+            if(plane.moveTimer>0){
             plane.Move(dir1,dt);
             }
-            if(plane.timer<=0){
+            if(plane.moveTimer<=0){
                 plane.Move(dir2,dt);
             }
-            if(plane.timer<=-0.5f){
-                plane.timer=0.5f;
+            if(plane.moveTimer<=-plane.moveInterval){
+                plane.moveTimer=plane.moveInterval;
             }    
-            // float moveAxis = plane.pos.X - plane.x;
-            // if (moveAxis > 0 && moveAxis <= 10) {
-            //     plane.Move(dir1, dt);
-            // }
-            // if (moveAxis >= -10 && moveAxis <= 0) {
-            //     plane.Move(dir2, dt);
-            // }
-            // if (moveAxis<=-10) {
-            //     plane.x = plane.pos.X+0.1f;
-            // }
-            // if(moveAxis>=10){
-            //     plane.x=plane.pos.X+0.1f;
-            // }
         }
 
     }
     public static void TryShootBul(GameContext con, PlaneEntity plane, float dt) {
-        if (plane.isDead) {
-            return;
-        }
         plane.planeSkillComponent.ForEach((SkillModel skill) => {
             if (skill.shooterType != plane.shooterType) {
                 return;
