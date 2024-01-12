@@ -17,31 +17,33 @@ public class Template {
 
     }
     public void Init(AssetsContext assets) {
-        SkillTM s1 = new SkillTM(1, 1, 0.6f, 0.3f, ShooterType.threebul, 1);
-        SkillTM s2 = new SkillTM(2, 1, 0.6f, 0.3f, ShooterType.twobul, 2);
-        SkillTM s3 = new SkillTM(3, 1, 1f, 0.3f, ShooterType.onebul, 3);
-        SkillTM s4 = new SkillTM(4, 0, 0.2f, 0.2f, ShooterType.onebul, 4);
-        SkillTM s5 = new SkillTM(5, 0, 0.2f, 0.2f, ShooterType.twobul, 5);
-        SkillTM s6 = new SkillTM(6, 0, 0.2f, 0.2f, ShooterType.threebul, 6);
+        SkillTM s1 = new SkillTM(1, true, 1, 0.6f, 0.3f, ShooterType.threebul, 1);
+        SkillTM s2 = new SkillTM(2, true, 1, 0.6f, 0.3f, ShooterType.twobul, 2);
+        SkillTM s3 = new SkillTM(3, true, 1, 1f, 0.3f, ShooterType.onebul, 3);
+        SkillTM s4 = new SkillTM(4, true, 0, 0.2f, 0.2f, ShooterType.onebul, 4);
+        SkillTM s5 = new SkillTM(5, true, 0, 0.2f, 0.2f, ShooterType.twobul, 5);
+        SkillTM s6 = new SkillTM(6, true, 0, 0.2f, 0.2f, ShooterType.threebul, 6);
         skillTMs.Add(1, s1);
         skillTMs.Add(2, s2);
         skillTMs.Add(3, s3);
         skillTMs.Add(4, s4);
+        skillTMs.Add(5, s5);
+        skillTMs.Add(6, s6);
         // 飞机
-        SkillTM[] ps1 = new SkillTM[] { s1 };
-        planeTMs.Add(1, CreatePlaneTM(typeID: 1, hp: 20, moveSpeed: 300, ShooterType.threebul, bulTypeID: 4, assets.boss1, size: new Vector2(100, 100), SharpType.circle, MoveType.RightLeft,0.5f, SpawnPos.TopMiddle, skillTMs: ps1));
+        SkillTM[] ps1 = new SkillTM[] { s1, s3 };
+        planeTMs.Add(1, CreatePlaneTM(typeID: 1, hp: 20, moveSpeed: 300, assets.boss1, size: new Vector2(100, 100), SharpType.circle, MoveType.RightLeft, 0.5f, SpawnPos.TopMiddle, skillTMs: ps1));
         SkillTM[] ps2 = new SkillTM[] { s2 };
-        PlaneTM p2 = CreatePlaneTM(2, 20, 60, ShooterType.twobul, 2, assets.enemy1, new Vector2(40, 40), SharpType.circle, MoveType.ByTrack,0, SpawnPos.RandomPosOn_Top, ps2);
+        PlaneTM p2 = CreatePlaneTM(2, 20, 60, assets.enemy1, new Vector2(40, 40), SharpType.circle, MoveType.ByTrack, 0, SpawnPos.RandomPosOn_Top, ps2);
         planeTMs.Add(2, p2);
         SkillTM[] ps3 = new SkillTM[] { s3 };
-        planeTMs.Add(3, CreatePlaneTM(3, 20, 0, ShooterType.onebul, 3, assets.enemy2, new Vector2(40, 40), SharpType.circle, MoveType.DontMove, 0,SpawnPos.RandomPosOn_UpperHalf, ps3));
-        SkillTM[] ps4 = new SkillTM[] { s4, s5, s6 };
-        planeTMs.Add(4, CreatePlaneTM(4, 100, 300, ShooterType.onebul, 4, assets.player1, new Vector2(30, 30), SharpType.circle, MoveType.ByInput,0, SpawnPos.BottomMiddle, ps4));
+        planeTMs.Add(3, CreatePlaneTM(3, 20, 0, assets.enemy2, new Vector2(40, 40), SharpType.circle, MoveType.DontMove, 0, SpawnPos.RandomPosOn_UpperHalf, ps3));
+        SkillTM[] ps4 = new SkillTM[] { s4 };
+        planeTMs.Add(4, CreatePlaneTM(4, 100, 300, assets.player1, new Vector2(30, 30), SharpType.circle, MoveType.ByInput, 0, SpawnPos.BottomMiddle, ps4));
 
         // 食物
-        foodTMs.Add(1, CreateFoodTM(1, assets.food1, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.HpFood));
-        foodTMs.Add(2, CreateFoodTM(2, assets.food2, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.TwoBulFood));
-        foodTMs.Add(3, CreateFoodTM(2, assets.food3, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.ThreeBulFood));
+        foodTMs.Add(1, CreateFoodTM(1, assets.food1, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.HpFood, -1));
+        foodTMs.Add(2, CreateFoodTM(2, assets.food2, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.TwoBulFood, 5));
+        foodTMs.Add(3, CreateFoodTM(2, assets.food3, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.ThreeBulFood, 6));
         // 子弹 4号是player的初始子弹
         bulTMs.Add(4, CreateBulTM(1, assets.bullet1, new Vector2(30, 30), 800, SharpType.circle, MoveType.StaticDirection, ShooterType.onebul, 10));
         bulTMs.Add(2, CreateBulTM(2, assets.bullet2, new Vector2(30, 30), 300, SharpType.circle, MoveType.StaticDirection, ShooterType.twobul, 5));
@@ -133,7 +135,7 @@ public class Template {
         w1_s5.ally = Ally.player;
         w1_all[5] = w1_s5;
         waveTMs.Add(1, w1);
-        
+
         // 第二波
         WaveTM w2 = new WaveTM();
         w2.typeID = 2;
@@ -210,7 +212,7 @@ public class Template {
         waveTMs.Add(2, w2);
 
     }
-    PlaneTM CreatePlaneTM(int typeID, int hp, float moveSpeed, ShooterType shooterType, int bulTypeID, Texture2D texture2D, Vector2 size, SharpType sharpType, MoveType moveType,float moveInterval, SpawnPos spawnPos, SkillTM[] skillTMs) {
+    PlaneTM CreatePlaneTM(int typeID, int hp, float moveSpeed, Texture2D texture2D, Vector2 size, SharpType sharpType, MoveType moveType, float moveInterval, SpawnPos spawnPos, SkillTM[] skillTMs) {
         PlaneTM tm = new PlaneTM();
         tm.typeID = typeID;
         tm.hp = hp;
@@ -218,15 +220,15 @@ public class Template {
         tm.texture2D = texture2D;
         tm.size = size;
         tm.sharpType = sharpType;
-        tm.shooterType = shooterType;
-        tm.bulTypeID = bulTypeID;
+        // tm.shooterType = shooterType;
+        // tm.bulTypeID = bulTypeID;
         tm.moveType = moveType;
         tm.spawnPos = spawnPos;
         tm.skillTMs = skillTMs;
-        tm.moveInterval=moveInterval;
+        tm.moveInterval = moveInterval;
         return tm;
     }
-    FoodTM CreateFoodTM(int typeID, Texture2D texture2D, Vector2 size, SharpType sharpType, MoveType moveType, FoodType foodType) {
+    FoodTM CreateFoodTM(int typeID, Texture2D texture2D, Vector2 size, SharpType sharpType, MoveType moveType, FoodType foodType, int skillTypeID) {
         FoodTM tm = new FoodTM();
         tm.texture2D = texture2D;
         tm.typeID = typeID;
@@ -234,6 +236,7 @@ public class Template {
         tm.sharpType = sharpType;
         tm.moveType = moveType;
         tm.foodType = foodType;
+        tm.skillTypeID = skillTypeID;
         return tm;
     }
     BulTM CreateBulTM(int typeID, Texture2D texture2D, Vector2 size, float moveSpeed, SharpType sharpType, MoveType moveType, ShooterType shooterType, int lethality) {
@@ -263,5 +266,8 @@ public class Template {
     public bool tryGetWaveTM(int typeID, out WaveTM tm) {
         bool has = waveTMs.TryGetValue(typeID, out tm);
         return has;
+    }
+    public bool TryGetSkillTM(int typeID, out SkillTM tm) {
+        return skillTMs.TryGetValue(typeID, out tm);
     }
 }

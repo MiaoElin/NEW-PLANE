@@ -20,22 +20,22 @@ public static class PlaneDomain {
         if (plane.moveType == MoveType.RightLeft) {
             Vector2 dir1 = new Vector2(1, 0);
             Vector2 dir2 = new Vector2(-1, 0);
-            plane.moveTimer-=dt;
-            if(plane.moveTimer>0){
-            plane.Move(dir1,dt);
+            plane.moveTimer -= dt;
+            if (plane.moveTimer > 0) {
+                plane.Move(dir1, dt);
             }
-            if(plane.moveTimer<=0){
-                plane.Move(dir2,dt);
+            if (plane.moveTimer <= 0) {
+                plane.Move(dir2, dt);
             }
-            if(plane.moveTimer<=-plane.moveInterval){
-                plane.moveTimer=plane.moveInterval;
-            }    
+            if (plane.moveTimer <= -plane.moveInterval) {
+                plane.moveTimer = plane.moveInterval;
+            }
         }
 
     }
     public static void TryShootBul(GameContext con, PlaneEntity plane, float dt) {
         plane.planeSkillComponent.ForEach((SkillModel skill) => {
-            if (skill.shooterType != plane.shooterType) {
+            if (!skill.hasBul) {
                 return;
             }
             skill.cd -= dt;
@@ -54,11 +54,11 @@ public static class PlaneDomain {
             }
             skill.bulSpawntimer = skill.bulSpawnInterval;
             if (plane.ally == Ally.enemy) {
-                BulletDomain.SpawnBulShooterType(con, plane, dt);
+                BulletDomain.SpawnBulShooterType(con, plane, skill, dt);
             }
             if (plane.ally == Ally.player) {
                 if (con.input.isSpaceDown) {
-                    BulletDomain.SpawnBulShooterType(con, plane, dt);
+                    BulletDomain.SpawnBulShooterType(con, plane, skill, dt);
                 }
             }
         });
@@ -66,18 +66,15 @@ public static class PlaneDomain {
     }
     public static void EatFood(GameContext con, PlaneEntity player, FoodEntity food) {
         if (IntersectHelper.IsRectCircleIntersect(player.pos, player.size, food.pos, food.size)) {
-            if (food.foodType == FoodType.TwoBulFood) {
-                player.shooterType = ShooterType.twobul;
-
-            }
-            if (food.foodType == FoodType.ThreeBulFood) {
-                player.shooterType = ShooterType.threebul;
-            }
             if (food.foodType == FoodType.HpFood) {
                 player.hp += 10;
                 if (player.hp >= 100) {
                     player.hp = 100;
                 }
+            } else {
+                SkillModel skill = Factory.CreateSkillModel(con.template, food.skillTypeID);
+                SkillModel current = player.planeSkillComponent.TryGetCurrent();
+                player.planeSkillComponent.Replace(current.typeID, skill);
             }
             food.isDead = true;
         }

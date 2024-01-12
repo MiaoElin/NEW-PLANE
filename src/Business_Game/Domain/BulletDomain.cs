@@ -1,31 +1,31 @@
 using System.Numerics;
 using Raylib_cs;
 public static class BulletDomain {
-    public static BulletEntity SpawnBul(GameContext con, PlaneEntity plane, float dt, Vector2 firstDir) {
-        BulletEntity bul = Factory.CreateBul(con.template, con.iDService, plane.bulTypeID, plane.pos, firstDir, plane.ally);
+    public static BulletEntity SpawnBul(GameContext con, PlaneEntity plane,SkillModel skill, float dt, Vector2 firstDir) {
+        BulletEntity bul = Factory.CreateBul(con.template, con.iDService, skill.bulTypeID, plane.pos, firstDir, plane.ally);
         con.bulRepo.Add(bul);
         if (bul.moveType == MoveType.ByLine) {
             bul.firstDir = con.TryGetPlayer().pos - bul.pos;
         }
         return bul;
     }
-    public static void SpawnBulShooterType(GameContext con, PlaneEntity plane, float dt) {
-        if (plane.shooterType == ShooterType.onebul) {
-            SpawnBul(con, plane, dt, plane.dir);
-        } else if (plane.shooterType == ShooterType.twobul) {
-            BulletEntity bul1 = SpawnBul(con, plane, dt, plane.dir);
+    public static void SpawnBulShooterType(GameContext con, PlaneEntity plane,SkillModel skill, float dt) {
+        if (skill.shooterType == ShooterType.onebul) {
+            SpawnBul(con, plane,skill, dt, plane.dir);
+        } else if (skill.shooterType == ShooterType.twobul) {
+            BulletEntity bul1 = SpawnBul(con, plane,skill, dt, plane.dir);
             bul1.pos.X -= 0.25f * bul1.size.X;
-            BulletEntity bul2 = SpawnBul(con, plane, dt, plane.dir);
+            BulletEntity bul2 = SpawnBul(con, plane,skill, dt, plane.dir);
             bul2.pos.X += 0.25f * bul2.size.X;
-        } else if (plane.shooterType == ShooterType.threebul) {
+        } else if (skill.shooterType == ShooterType.threebul) {
             float x=plane.dir.X;
             float y=plane.dir.Y;
             Vector2 dir1 = new Vector2(x*MathF.Cos(MathF.PI/-45)-y*MathF.Sin(MathF.PI / -45),x*MathF.Sin(MathF.PI/-45)+y*MathF.Cos(MathF.PI / -45));
             Vector2 dir3 = new Vector2(x*MathF.Cos(MathF.PI/45)-y*MathF.Sin(MathF.PI / 45),x*MathF.Sin(MathF.PI/45)+y*MathF.Cos(MathF.PI / 45));
-            BulletEntity bu1 = SpawnBul(con, plane, dt, dir1);
+            BulletEntity bu1 = SpawnBul(con, plane,skill, dt, dir1);
             bu1.pos.X -=-y*0.25f * bu1.size.X;
-            BulletEntity bu2 = SpawnBul(con, plane, dt, plane.dir);
-            BulletEntity bu3 = SpawnBul(con, plane, dt, dir3);
+            BulletEntity bu2 = SpawnBul(con, plane,skill, dt, plane.dir);
+            BulletEntity bu3 = SpawnBul(con, plane,skill,dt, dir3);
             bu3.pos.X +=-y*0.25f * bu3.size.X;
         }
     }
@@ -60,13 +60,13 @@ public static class BulletDomain {
     public static void Remove(GameContext con, BulletEntity bul,PlaneEntity nearlyEnemy) {
                 if (IntersectHelper.IscircleIntersect(bul.pos, bul.size.X, nearlyEnemy.pos, nearlyEnemy.size.X)) {
                     nearlyEnemy.hp -= bul.lethality;
+                    if (bul.ally == Ally.enemy){
+                       SkillModel current= nearlyEnemy.planeSkillComponent.TryGetCurrent();
+                       nearlyEnemy.planeSkillComponent.Replace(current.typeID,nearlyEnemy.planeSkillComponent.firstSkill);
+                    }
                     // System.Console.WriteLine(nearlyEnemy.hp);
                     if (nearlyEnemy.hp <= 0) {
                         nearlyEnemy.isDead = true;
-                        // if (nearlyEnemy.entityID==con.gameEntity.playerEntityID) {
-                        //     return;
-                        // }
-                        // con.planeRepo.Remove(nearlyEnemy);
                     }
                     bul.isDead = true;
                 }

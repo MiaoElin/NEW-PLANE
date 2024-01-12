@@ -6,8 +6,8 @@ public class PlaneEntity {
     public SharpType sharpType;
     public MoveType moveType;
     public Ally ally;
-    public ShooterType shooterType;
-    public int bulTypeID;
+    // public ShooterType shooterType;
+    // public int bulTypeID;
     public Vector2 pos;
     public Vector2 dir;
     public int entityID;

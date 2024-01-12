@@ -5,6 +5,7 @@ public class FoodEntity {
     public int entityID;
     public int typeID;
     public Ally ally;
+    public int skillTypeID;
     // draw
     public Texture2D texture2D;
     public Vector2 size;

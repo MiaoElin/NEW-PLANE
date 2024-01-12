@@ -42,7 +42,7 @@ public static class GameController {
         WaveDomain.SpwanEntities(con, wave, dt);
         // 飞机移动
         int planeLen = con.planeRepo.TakeAll(out PlaneEntity[] all_Plane);
-        System.Console.WriteLine(planeLen);
+        // System.Console.WriteLine(planeLen);
         for (int i = 0; i < planeLen; i++) {
             var plane = all_Plane[i];
             PlaneDomain.Move(con, plane, dt);
@@ -80,6 +80,7 @@ public static class GameController {
         // 食物移除
         con.foodRepo.Remove();
         ApplyResult(con);
+
     }
     public static void ApplyResult(GameContext con) {
         // 判定是否过关
@@ -103,7 +104,7 @@ public static class GameController {
         GameEntity game = con.gameEntity;
         UIContext uic = con.uIContext;
         WaveEntity wave = con.TtyGetWave();
-        UIApp.Win_Open(uic,wave.typeID);
+        UIApp.Win_Open(uic, wave.typeID);
         if (UIApp.Win_IsClickContinue(uic)) {
             game.WaveEntityID += 1;
             if (wave.entityID > 5) {

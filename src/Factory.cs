@@ -1,10 +1,30 @@
 using System.Numerics;
 using Raylib_cs;
 public static class Factory {
+    public static SkillModel CreateSkillModel(Template template,int typeID){
+        bool has =template.TryGetSkillTM(typeID,out SkillTM tm);
+        if(!has){
+            PLog.LogError($"Factory.CreateSkillModel: typeID{typeID} not found");
+            return null;
+        }
+        SkillModel skill=new SkillModel ();
+        skill.typeID=typeID;
+        skill.hasBul=tm.hasbul;
+        skill.cd=tm.cdMax;
+        skill.cdMax=tm.cdMax;
+        skill.bulTypeID=tm.bulTypeID;
+        skill.shooterType=tm.shooterType;
+        skill.bulSpawnInterval=tm.bulSpawnInterval;
+        skill.bulSpawntimer=tm.bulSpawnInterval;
+        skill.shootMaintainSec=tm.shootMaintainSec;
+        skill.shootMaintainTimer=tm.shootMaintainSec;
+        return skill;
+
+    }
     public static PlaneEntity CreatePlane(Template template, IDService iDService, int typeID, Vector2 pos, Ally ally) {
         bool has = template.TryGetPlaneTM(typeID, out PlaneTM tm);
         if (!has) {
-            PLog.LogError("Factory.Createplane: typeID{typeID} not found");
+            PLog.LogError($"Factory.Createplane: typeID{typeID} not found");
             return null;
         }
         PlaneEntity plane = new PlaneEntity();
@@ -25,8 +45,8 @@ public static class Factory {
         plane.moveType = tm.moveType;
         plane.moveInterval=tm.moveInterval;
         plane.moveTimer=tm.moveInterval;
-        plane.shooterType = tm.shooterType;
-        plane.bulTypeID = tm.bulTypeID;
+        // plane.shooterType = tm.shooterType;
+        // plane.bulTypeID = tm.bulTypeID;
         plane.isDead =false;
         SkillTM[] skillTMs = tm.skillTMs;
         if (skillTMs != null) {
@@ -34,6 +54,7 @@ public static class Factory {
                 var skillTM = skillTMs[i];
                 SkillModel skill = new SkillModel();
                 skill.typeID = skillTM.typeID;
+                skill.hasBul=skillTM.hasbul;
                 skill.cdMax = skillTM.cdMax;
                 skill.cd = skillTM.cdMax;
                 skill.bulTypeID=skillTM.bulTypeID;
@@ -43,6 +64,7 @@ public static class Factory {
                 skill.bulSpawnInterval = skillTM.bulSpawnInterval;
                 skill.bulSpawntimer = skillTM.bulSpawnInterval;
                 plane.planeSkillComponent.Add(skill);
+                plane.planeSkillComponent.firstSkill=skill;
             }
 
         }
@@ -51,7 +73,7 @@ public static class Factory {
     public static FoodEntity CreateFood(Template template, IDService iDService, int typeID, Vector2 pos) {
         bool has = template.TryGetFoodTM(typeID, out FoodTM tm);
         if (!has) {
-            PLog.LogError("Factory.CreateFood: typeID{typeID} not found");
+            PLog.LogError($"Factory.CreateFood: typeID{typeID} not found");
             return null;
         }
         FoodEntity food = new FoodEntity();
@@ -63,6 +85,7 @@ public static class Factory {
         food.sharpType = tm.sharpType;
         food.ally=tm.ally;
         food.foodType=tm.foodType;
+        food.skillTypeID=tm.skillTypeID;
         food.isDead=false;
         return food;
     }
