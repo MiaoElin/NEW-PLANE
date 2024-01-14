@@ -11,5 +11,5 @@ public class SkillModel {
     public float shootMaintainTimer;
     public float bulSpawnInterval;
     public float bulSpawntimer;
-    public int nextLevelSkillTypeID;
+    public int skillLevel;
 }

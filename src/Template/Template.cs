@@ -17,22 +17,71 @@ public class Template {
 
     }
     public void Init(AssetsContext assets) {
-        SkillTM s1 = new SkillTM(1, -1, true, 1, 0.6f, 0.3f, ShooterType.threebul, 1);
-        SkillTM s2 = new SkillTM(2, -1, true, 1, 0.3f, 0.3f, ShooterType.twobul, 2);
-        SkillTM s3 = new SkillTM(3, -1, true, 1, 0.4f, 0.4f, ShooterType.onebul, 3);
-        SkillTM s4 = new SkillTM(4, -1, true, 0, 0.2f, 0.2f, ShooterType.onebul, 4);
-        SkillTM s5 = new SkillTM(5, 500, true, 0, 0.3f, 0.3f, ShooterType.twobul, 5);
-        SkillTM s6 = new SkillTM(6, 600, true, 0, 0.3f, 0.3f, ShooterType.threebul, 6);
-        SkillTM s500 = new SkillTM(500, 500, true, 0, 0.2f, 0.2f, ShooterType.twobul, 5);
-        SkillTM s600 = new SkillTM(600, 600, true, 0, 0.2f, 0.2f, ShooterType.threebul, 6);
+        SkillLevelTM[] skillLevelTMs1 = new SkillLevelTM[1];
+        SkillLevelTM s1_1 =CreateSKillLevelTM(1, 0.6f, 0.3f, ShooterType.threebul, 1);
+        skillLevelTMs1[0] = s1_1;
+        SkillTM s1 = new SkillTM();
+        s1.typeID = 1;
+        s1.skillLevel = 1;
+        s1.hasbul = true;
+        s1.skillLevelTMs = skillLevelTMs1;
         skillTMs.Add(1, s1);
+
+        SkillLevelTM[] skillLevelTMs2 = new SkillLevelTM[1];
+        SkillLevelTM s2_1 = CreateSKillLevelTM(1, 0.3f, 0.3f, ShooterType.twobul, 2);
+        skillLevelTMs2[0] = s2_1;
+        SkillTM s2 = new SkillTM();
+        s2.typeID = 2;
+        s2.skillLevel = 1;
+        s2.hasbul = true;
+        s2.skillLevelTMs = skillLevelTMs2;
         skillTMs.Add(2, s2);
+
+        SkillLevelTM[] skillLevelTMs3 = new SkillLevelTM[1];
+        SkillLevelTM s3_1 = CreateSKillLevelTM(1, 0.4f, 0.4f, ShooterType.onebul, 3);
+        skillLevelTMs3[0] = s3_1;
+        SkillTM s3 = new SkillTM();
+        s3.typeID = 3;
+        s3.skillLevel = 1;
+        s3.hasbul = true;
+        s3.skillLevelTMs = skillLevelTMs3;
         skillTMs.Add(3, s3);
+
+        SkillLevelTM[] skillLevelTMs4 = new SkillLevelTM[1];
+        SkillLevelTM s4_1 = CreateSKillLevelTM(0, 0.2f, 0.2f, ShooterType.onebul, 4);
+        skillLevelTMs4[0] = s4_1;
+        System.Console.WriteLine(skillLevelTMs1[0].cdMax);
+        SkillTM s4 = new SkillTM();
+        s4.typeID = 4;
+        s4.skillLevel = 1;
+        s4.hasbul = true;
+        s4.skillLevelTMs = skillLevelTMs4;
         skillTMs.Add(4, s4);
+
+        SkillLevelTM[] skillLevelTMs5 = new SkillLevelTM[2];
+        SkillLevelTM s5_1 = CreateSKillLevelTM(0, 0.3f, 0.3f, ShooterType.twobul, 5);
+        SkillLevelTM s5_2 = CreateSKillLevelTM(0, 0.2f, 0.2f, ShooterType.twobul, 5);
+        skillLevelTMs5[0] = s5_1;
+        skillLevelTMs5[1] = s5_2;
+        SkillTM s5 = new SkillTM();
+        s5.typeID = 5;
+        s5.skillLevel = 1;
+        s5.hasbul = true;
+        s5.skillLevelTMs = skillLevelTMs5;
         skillTMs.Add(5, s5);
+
+        SkillLevelTM[] skillLevelTMs6 = new SkillLevelTM[2];
+        SkillLevelTM s6_1 = CreateSKillLevelTM(0, 0.3f, 0.3f, ShooterType.threebul, 6);
+        SkillLevelTM s6_2 = CreateSKillLevelTM(0, 0.2f, 0.2f, ShooterType.threebul, 6);
+        skillLevelTMs6[0] = s6_1;
+        skillLevelTMs6[1] = s6_2;
+        SkillTM s6 = new SkillTM();
+        s6.typeID = 5;
+        s6.skillLevel = 1;
+        s6.hasbul = true;
+        s6.skillLevelTMs = skillLevelTMs6;
         skillTMs.Add(6, s6);
-        skillTMs.Add(500,s500);
-        skillTMs.Add(600,s600);
+
         // 飞机
         SkillTM[] ps1 = new SkillTM[] { s1, s3 };
         planeTMs.Add(1, CreatePlaneTM(typeID: 1, hp: 20, moveSpeed: 300, assets.boss1, size: new Vector2(100, 100), SharpType.circle, MoveType.RightLeft, 0.5f, SpawnPos.TopMiddle, skillTMs: ps1));
@@ -254,6 +303,15 @@ public class Template {
         tm.moveSpeed = moveSpeed;
         tm.lethality = lethality;
         tm.shooterType = shooterType;
+        return tm;
+    }
+    SkillLevelTM CreateSKillLevelTM(int cdMax, float shootMaintainSec, float bulSpawnInterval, ShooterType shooterType, int bulTypeID) {
+        SkillLevelTM tm=new SkillLevelTM ();
+        tm.cdMax = cdMax;
+        tm.shooterType = shooterType;
+        tm.bulTypeID = bulTypeID;
+        tm.bulSpawnInterval = bulSpawnInterval;
+        tm.shootMaintainSec=shootMaintainSec;
         return tm;
     }
     public bool TryGetPlaneTM(int typeID, out PlaneTM tm) {

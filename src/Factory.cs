@@ -1,24 +1,30 @@
 using System.Numerics;
 using Raylib_cs;
 public static class Factory {
-    public static SkillModel CreateSkillModel(Template template,int typeID){
-        bool has =template.TryGetSkillTM(typeID,out SkillTM tm);
-        if(!has){
+    public static SkillModel CreateSkillModel(Template template, int typeID, int level) {
+        bool has = template.TryGetSkillTM(typeID, out SkillTM tm);
+        if (!has) {
             PLog.LogError($"Factory.CreateSkillModel: typeID{typeID} not found");
             return null;
         }
-        SkillModel skill=new SkillModel ();
-        skill.typeID=typeID;
-        skill.nextLevelSkillTypeID=tm.nextLevelSkillTypeID;
-        skill.hasBul=tm.hasbul;
-        skill.cd=tm.cdMax;
-        skill.cdMax=tm.cdMax;
-        skill.bulTypeID=tm.bulTypeID;
-        skill.shooterType=tm.shooterType;
-        skill.bulSpawnInterval=tm.bulSpawnInterval;
-        skill.bulSpawntimer=tm.bulSpawnInterval;
-        skill.shootMaintainSec=tm.shootMaintainSec;
-        skill.shootMaintainTimer=tm.shootMaintainSec;
+        SkillModel skill = new SkillModel();
+        skill.typeID = typeID;
+        skill.skillLevel = level;
+        skill.hasBul = tm.hasbul;
+        SkillLevelTM[]levelTMs=tm.skillLevelTMs;
+        if(level>levelTMs.Length){
+            skill.skillLevel=level-1;  // 当前等级超过可升级数的时候，skill减去一级
+        }
+        // System.Console.WriteLine("当前的等级是"+skill.skillLevel);
+        SkillLevelTM levelTM = tm.skillLevelTMs[skill.skillLevel-1];// 数组下标要减一
+        skill.cd = levelTM.cdMax;
+        skill.cdMax = levelTM.cdMax;
+        skill.bulTypeID = levelTM.bulTypeID;
+        skill.shooterType = levelTM.shooterType;
+        skill.bulSpawnInterval = levelTM.bulSpawnInterval;
+        skill.bulSpawntimer = levelTM.bulSpawnInterval;
+        skill.shootMaintainSec = levelTM.shootMaintainSec;
+        skill.shootMaintainTimer = levelTM.shootMaintainSec;
         return skill;
 
     }
@@ -30,10 +36,11 @@ public static class Factory {
         }
         PlaneEntity plane = new PlaneEntity();
         plane.ally = ally;
-        if(ally==Ally.enemy){
-            plane.dir=new Vector2 (0,1);
-        }if(ally==Ally.player){
-            plane.dir=new Vector2 (0,-1);
+        if (ally == Ally.enemy) {
+            plane.dir = new Vector2(0, 1);
+        }
+        if (ally == Ally.player) {
+            plane.dir = new Vector2(0, -1);
         }
         plane.typeID = typeID;
         plane.pos = pos;
@@ -44,30 +51,31 @@ public static class Factory {
         plane.size = tm.size;
         plane.sharpType = tm.sharpType;
         plane.moveType = tm.moveType;
-        plane.moveInterval=tm.moveInterval;
-        plane.moveTimer=tm.moveInterval;
+        plane.moveInterval = tm.moveInterval;
+        plane.moveTimer = tm.moveInterval;
         // plane.shooterType = tm.shooterType;
         // plane.bulTypeID = tm.bulTypeID;
-        plane.isDead =false;
+        plane.isDead = false;
         SkillTM[] skillTMs = tm.skillTMs;
         if (skillTMs != null) {
             for (int i = 0; i < skillTMs.Length; i++) {
                 var skillTM = skillTMs[i];
                 SkillModel skill = new SkillModel();
                 skill.typeID = skillTM.typeID;
-                skill.hasBul=skillTM.hasbul;
-                skill.cdMax = skillTM.cdMax;
-                skill.cd = skillTM.cdMax;
-                skill.bulTypeID=skillTM.bulTypeID;
-                skill.shooterType=skillTM.shooterType;
-                skill.shootMaintainSec = skillTM.shootMaintainSec;
-                skill.shootMaintainTimer = skillTM.shootMaintainSec;
-                skill.bulSpawnInterval = skillTM.bulSpawnInterval;
-                skill.bulSpawntimer = skillTM.bulSpawnInterval;
+                skill.hasBul = skillTM.hasbul;
+                skill.skillLevel = skillTM.skillLevel;
+                SkillLevelTM level = skillTM.skillLevelTMs[skill.skillLevel-1];//当前的等级的模版
+                skill.cdMax = level.cdMax;
+                skill.cd = level.cdMax;
+                skill.bulTypeID = level.bulTypeID;
+                skill.shooterType = level.shooterType;
+                skill.shootMaintainSec = level.shootMaintainSec;
+                skill.shootMaintainTimer = level.shootMaintainSec;
+                skill.bulSpawnInterval = level.bulSpawnInterval;
+                skill.bulSpawntimer = level.bulSpawnInterval;
                 plane.planeSkillComponent.Add(skill);
-                plane.planeSkillComponent.firstSkill=skill;
+                plane.planeSkillComponent.firstSkill = skill;
             }
-
         }
         return plane;
     }
@@ -84,13 +92,13 @@ public static class Factory {
         food.texture2D = tm.texture2D;
         food.size = tm.size;
         food.sharpType = tm.sharpType;
-        food.ally=tm.ally;
-        food.foodType=tm.foodType;
-        food.skillTypeID=tm.skillTypeID;
-        food.isDead=false;
+        food.ally = tm.ally;
+        food.foodType = tm.foodType;
+        food.skillTypeID = tm.skillTypeID;
+        food.isDead = false;
         return food;
     }
-    public static BulletEntity CreateBul(Template template, IDService iDService, int typeID, Vector2 pos,Vector2 firstDir, Ally ally) {
+    public static BulletEntity CreateBul(Template template, IDService iDService, int typeID, Vector2 pos, Vector2 firstDir, Ally ally) {
         bool has = template.TryGetBulTM(typeID, out BulTM tm);
         if (!has) {
             PLog.LogError($"Factory.CreateBul: typeID{typeID} not found");
@@ -101,16 +109,16 @@ public static class Factory {
         bullet.pos = pos;
         bullet.typeID = typeID;
         bullet.entityID = iDService.bulIDRecord++;
-        bullet.firstDir=firstDir;
+        bullet.firstDir = firstDir;
         bullet.size = tm.size;
         bullet.texture2D = tm.texture2D;
         bullet.sharpType = tm.sharpType;
         bullet.moveSpeed = tm.moveSpeed;
         bullet.moveType = tm.moveType;
-        bullet.sharpType=tm.sharpType;
-        bullet.lethality=tm.lethality;
-        bullet.shooterType=tm.shooterType;
-        bullet.isDead=false;
+        bullet.sharpType = tm.sharpType;
+        bullet.lethality = tm.lethality;
+        bullet.shooterType = tm.shooterType;
+        bullet.isDead = false;
         return bullet;
     }
     public static WaveEntity CreateWave(Template template, IDService iDService, int typeID) {
@@ -121,12 +129,12 @@ public static class Factory {
         WaveEntity wave = new WaveEntity();
         wave.entityID = iDService.waveIDRecord++;
         wave.time = 0;
-        wave.isDead=false;
+        wave.isDead = false;
         wave.level = tm.level;
         wave.map = tm.map;
         wave.spawnMaintainSec = tm.spawnMaintainSec;
         wave.waveSpawnTMs = tm.waveSpawnTMs;
-        wave.typeID=tm.typeID;
+        wave.typeID = tm.typeID;
         return wave;
     }
 }

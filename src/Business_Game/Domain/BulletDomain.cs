@@ -62,7 +62,14 @@ public static class BulletDomain {
                     nearlyEnemy.hp -= bul.lethality;
                     if (bul.ally == Ally.enemy){
                        SkillModel current= nearlyEnemy.planeSkillComponent.TryGetCurrent();
+                       if(current.skillLevel==1){
                        nearlyEnemy.planeSkillComponent.Replace(current.typeID,nearlyEnemy.planeSkillComponent.firstSkill);
+                       }
+                       else{
+                        int skillLevel=current.skillLevel-1;
+                        SkillModel skill=Factory.CreateSkillModel(con.template,current.typeID,skillLevel);
+                        nearlyEnemy.planeSkillComponent.Replace(current.typeID,skill);
+                       }
                     }
                     // System.Console.WriteLine(nearlyEnemy.hp);
                     if (nearlyEnemy.hp <= 0) {

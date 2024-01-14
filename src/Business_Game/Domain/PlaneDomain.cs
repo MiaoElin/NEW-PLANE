@@ -21,7 +21,7 @@ public static class PlaneDomain {
             Vector2 dir1 = new Vector2(1, 0);
             Vector2 dir2 = new Vector2(-1, 0);
             plane.moveTimer -= dt;
-            if (plane.moveTimer > 0) {
+            if (plane.moveTimer > 0) {                                                    
                 plane.Move(dir1, dt);
             }
             if (plane.moveTimer <= 0) {
@@ -44,7 +44,7 @@ public static class PlaneDomain {
             }
             skill.shootMaintainTimer -= dt;
             skill.bulSpawntimer -= dt;
-            if (skill.shootMaintainTimer <= 0) {
+            if (skill.shootMaintainTimer <= 0) {                                     
                 skill.shootMaintainTimer = skill.shootMaintainSec;
                 skill.cd = skill.cdMax;
                 return;
@@ -74,10 +74,12 @@ public static class PlaneDomain {
             } else {
                 SkillModel current = player.planeSkillComponent.TryGetCurrent();
                 if (current.typeID == food.skillTypeID) {
-                    SkillModel skill = Factory.CreateSkillModel(con.template, current.nextLevelSkillTypeID);
+                    int skillLevel=current.skillLevel+1;
+                    SkillModel skill = Factory.CreateSkillModel(con.template,food.skillTypeID,skillLevel);
                     player.planeSkillComponent.Replace(current.typeID, skill);
                 } else {
-                    SkillModel skill = Factory.CreateSkillModel(con.template, food.skillTypeID);
+                    int skillLevel=1;
+                    SkillModel skill = Factory.CreateSkillModel(con.template, food.skillTypeID,skillLevel);
                     player.planeSkillComponent.Replace(current.typeID, skill);
                 }
 
