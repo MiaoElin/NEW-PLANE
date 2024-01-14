@@ -72,9 +72,15 @@ public static class PlaneDomain {
                     player.hp = 100;
                 }
             } else {
-                SkillModel skill = Factory.CreateSkillModel(con.template, food.skillTypeID);
                 SkillModel current = player.planeSkillComponent.TryGetCurrent();
-                player.planeSkillComponent.Replace(current.typeID, skill);
+                if (current.typeID == food.skillTypeID) {
+                    SkillModel skill = Factory.CreateSkillModel(con.template, current.nextLevelSkillTypeID);
+                    player.planeSkillComponent.Replace(current.typeID, skill);
+                } else {
+                    SkillModel skill = Factory.CreateSkillModel(con.template, food.skillTypeID);
+                    player.planeSkillComponent.Replace(current.typeID, skill);
+                }
+
             }
             food.isDead = true;
         }

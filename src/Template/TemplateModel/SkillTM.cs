@@ -9,8 +9,10 @@ public class SkillTM {
     public int bulTypeID;
     public float shootMaintainSec;
     public float bulSpawnInterval;
-    public SkillTM(int typeID,bool hasbul, int cdMax, float shootMaintainSec, float bulSpawnInterval,ShooterType shooterType,int bulTypeID) {
+    public int nextLevelSkillTypeID;
+    public SkillTM(int typeID,int nextLevelSkillTypeID,bool hasbul, int cdMax, float shootMaintainSec, float bulSpawnInterval,ShooterType shooterType,int bulTypeID) {
         this.typeID = typeID;
+        this.nextLevelSkillTypeID=nextLevelSkillTypeID;
         this.hasbul=hasbul;
         this.cdMax = cdMax;
         this.shooterType = shooterType;

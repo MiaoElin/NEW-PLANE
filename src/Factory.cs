@@ -9,6 +9,7 @@ public static class Factory {
         }
         SkillModel skill=new SkillModel ();
         skill.typeID=typeID;
+        skill.nextLevelSkillTypeID=tm.nextLevelSkillTypeID;
         skill.hasBul=tm.hasbul;
         skill.cd=tm.cdMax;
         skill.cdMax=tm.cdMax;

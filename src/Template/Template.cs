@@ -17,18 +17,22 @@ public class Template {
 
     }
     public void Init(AssetsContext assets) {
-        SkillTM s1 = new SkillTM(1, true, 1, 0.6f, 0.3f, ShooterType.threebul, 1);
-        SkillTM s2 = new SkillTM(2, true, 1, 0.6f, 0.3f, ShooterType.twobul, 2);
-        SkillTM s3 = new SkillTM(3, true, 1, 1f, 0.3f, ShooterType.onebul, 3);
-        SkillTM s4 = new SkillTM(4, true, 0, 0.2f, 0.2f, ShooterType.onebul, 4);
-        SkillTM s5 = new SkillTM(5, true, 0, 0.2f, 0.2f, ShooterType.twobul, 5);
-        SkillTM s6 = new SkillTM(6, true, 0, 0.2f, 0.2f, ShooterType.threebul, 6);
+        SkillTM s1 = new SkillTM(1, -1, true, 1, 0.6f, 0.3f, ShooterType.threebul, 1);
+        SkillTM s2 = new SkillTM(2, -1, true, 1, 0.3f, 0.3f, ShooterType.twobul, 2);
+        SkillTM s3 = new SkillTM(3, -1, true, 1, 0.4f, 0.4f, ShooterType.onebul, 3);
+        SkillTM s4 = new SkillTM(4, -1, true, 0, 0.2f, 0.2f, ShooterType.onebul, 4);
+        SkillTM s5 = new SkillTM(5, 500, true, 0, 0.3f, 0.3f, ShooterType.twobul, 5);
+        SkillTM s6 = new SkillTM(6, 600, true, 0, 0.3f, 0.3f, ShooterType.threebul, 6);
+        SkillTM s500 = new SkillTM(500, 500, true, 0, 0.2f, 0.2f, ShooterType.twobul, 5);
+        SkillTM s600 = new SkillTM(600, 600, true, 0, 0.2f, 0.2f, ShooterType.threebul, 6);
         skillTMs.Add(1, s1);
         skillTMs.Add(2, s2);
         skillTMs.Add(3, s3);
         skillTMs.Add(4, s4);
         skillTMs.Add(5, s5);
         skillTMs.Add(6, s6);
+        skillTMs.Add(500,s500);
+        skillTMs.Add(600,s600);
         // 飞机
         SkillTM[] ps1 = new SkillTM[] { s1, s3 };
         planeTMs.Add(1, CreatePlaneTM(typeID: 1, hp: 20, moveSpeed: 300, assets.boss1, size: new Vector2(100, 100), SharpType.circle, MoveType.RightLeft, 0.5f, SpawnPos.TopMiddle, skillTMs: ps1));
@@ -106,9 +110,9 @@ public class Template {
         WaveSpawnTM w1_s4 = new WaveSpawnTM();
         w1_s4.entityType = EntityType.Food;
         w1_s4.entityTypeID = 2;
-        w1_s4.beginTime = 15;
+        w1_s4.beginTime = 5;
         w1_s4.endTime = 30;
-        w1_s4.interval = 16f;
+        w1_s4.interval = 5f;
         w1_s4.timer = 0;
         w1_s4.spawnPos = SpawnPos.RandomPosOn_LowerHalf;
         w1_s4.ally = Ally.player;
@@ -124,6 +128,7 @@ public class Template {
         w1_boss.spawnPos = SpawnPos.TopMiddle;
         w1_boss.ally = Ally.enemy;
         w1_all[4] = w1_boss;
+        // 第三种食物
         WaveSpawnTM w1_s5 = new WaveSpawnTM();
         w1_s5.entityType = EntityType.Food;
         w1_s5.entityTypeID = 3;
