@@ -18,7 +18,7 @@ public class Template {
     }
     public void Init(AssetsContext assets) {
         SkillLevelTM[] skillLevelTMs1 = new SkillLevelTM[1];
-        SkillLevelTM s1_1 =CreateSKillLevelTM(1, 0.6f, 0.3f, ShooterType.threebul, 1);
+        SkillLevelTM s1_1 = CreateSKillLevelTM(1, 0.6f, 0.3f, ShooterType.threebul, 1);
         skillLevelTMs1[0] = s1_1;
         SkillTM s1 = new SkillTM();
         s1.typeID = 1;
@@ -59,8 +59,8 @@ public class Template {
         skillTMs.Add(4, s4);
 
         SkillLevelTM[] skillLevelTMs5 = new SkillLevelTM[2];
-        SkillLevelTM s5_1 = CreateSKillLevelTM(0, 0.3f, 0.3f, ShooterType.twobul, 5);
-        SkillLevelTM s5_2 = CreateSKillLevelTM(0, 0.2f, 0.2f, ShooterType.twobul, 5);
+        SkillLevelTM s5_1 = CreateSKillLevelTM(0, 0.2f, 0.2f, ShooterType.twobul, 5);
+        SkillLevelTM s5_2 = CreateSKillLevelTM(0, 0.2f, 0.2f, ShooterType.threebul, 5);
         skillLevelTMs5[0] = s5_1;
         skillLevelTMs5[1] = s5_2;
         SkillTM s5 = new SkillTM();
@@ -71,7 +71,7 @@ public class Template {
         skillTMs.Add(5, s5);
 
         SkillLevelTM[] skillLevelTMs6 = new SkillLevelTM[2];
-        SkillLevelTM s6_1 = CreateSKillLevelTM(0, 0.3f, 0.3f, ShooterType.threebul, 6);
+        SkillLevelTM s6_1 = CreateSKillLevelTM(0, 0.2f, 0.2f, ShooterType.twobul, 6);
         SkillLevelTM s6_2 = CreateSKillLevelTM(0, 0.2f, 0.2f, ShooterType.threebul, 6);
         skillLevelTMs6[0] = s6_1;
         skillLevelTMs6[1] = s6_2;
@@ -98,12 +98,12 @@ public class Template {
         foodTMs.Add(2, CreateFoodTM(2, assets.food2, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.TwoBulFood, 5));
         foodTMs.Add(3, CreateFoodTM(2, assets.food3, new Vector2(30, 30), SharpType.rectangle, MoveType.DontMove, FoodType.ThreeBulFood, 6));
         // 子弹 4号是player的初始子弹
-        bulTMs.Add(4, CreateBulTM(1, assets.bullet1, new Vector2(30, 30), 800, SharpType.circle, MoveType.StaticDirection, ShooterType.onebul, 10));
+        bulTMs.Add(4, CreateBulTM(4, assets.bullet1, new Vector2(30, 30), 800, SharpType.circle, MoveType.StaticDirection, ShooterType.onebul, 10));
         bulTMs.Add(2, CreateBulTM(2, assets.bullet2, new Vector2(30, 30), 300, SharpType.circle, MoveType.StaticDirection, ShooterType.twobul, 5));
         bulTMs.Add(3, CreateBulTM(3, assets.bullet3, new Vector2(30, 30), 200, SharpType.circle, MoveType.ByLine, ShooterType.onebul, 10));
-        bulTMs.Add(1, CreateBulTM(4, assets.bullet4, new Vector2(40, 40), 600, SharpType.circle, MoveType.StaticDirection, ShooterType.threebul, 10));
-        bulTMs.Add(5, CreateBulTM(1, assets.bullet1, new Vector2(30, 30), 800, SharpType.circle, MoveType.StaticDirection, ShooterType.twobul, 5));
-        bulTMs.Add(6, CreateBulTM(1, assets.bullet1, new Vector2(30, 30), 800, SharpType.circle, MoveType.StaticDirection, ShooterType.threebul, 5));
+        bulTMs.Add(1, CreateBulTM(1, assets.bullet4, new Vector2(40, 40), 600, SharpType.circle, MoveType.StaticDirection, ShooterType.threebul, 10));
+        bulTMs.Add(5, CreateBulTM(5, assets.bullet1, new Vector2(30, 30), 800, SharpType.circle, MoveType.StaticDirection, ShooterType.twobul, 5));
+        bulTMs.Add(6, CreateBulTM(6, assets.bullet5, new Vector2(30, 30), 800, SharpType.circle, MoveType.StaticDirection, ShooterType.twobul, 5));
 
 
         // Wave 波次
@@ -306,12 +306,12 @@ public class Template {
         return tm;
     }
     SkillLevelTM CreateSKillLevelTM(int cdMax, float shootMaintainSec, float bulSpawnInterval, ShooterType shooterType, int bulTypeID) {
-        SkillLevelTM tm=new SkillLevelTM ();
+        SkillLevelTM tm = new SkillLevelTM();
         tm.cdMax = cdMax;
         tm.shooterType = shooterType;
         tm.bulTypeID = bulTypeID;
         tm.bulSpawnInterval = bulSpawnInterval;
-        tm.shootMaintainSec=shootMaintainSec;
+        tm.shootMaintainSec = shootMaintainSec;
         return tm;
     }
     public bool TryGetPlaneTM(int typeID, out PlaneTM tm) {
