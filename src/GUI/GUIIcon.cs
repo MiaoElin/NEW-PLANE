@@ -18,15 +18,15 @@ public class GUIIcon {
         for (int i = 0; i < y.Length; i++) {
             var a = y[i];
             if (a == pos.Y) {
-                if (pos.Y == 425) {
+                if (pos.Y == y[0]) {
                     FindPosY(i, x3, x2);
                     FindPosX(x1);
                 }
-                if (pos.Y == 525) {
+                if (pos.Y == y[1]) {
                     FindPosX(x2);
                     FindPosY(i, x1, x3);
                 }
-                if (pos.Y == 625) {
+                if (pos.Y == y[2]) {
                     FindPosX(x3);
                     FindPosY(i, x2, x1);
                 }
@@ -35,15 +35,22 @@ public class GUIIcon {
         }
     }
     void FindPosY(int i, int[] xUp, int[] xDown) {
-        for (int j = 0; j < xUp.Length; j++) {
-            var b = xUp[j];
-            if (b != pos.X) {
-                continue;
-            }
-            if (Raylib.IsKeyPressed(KeyboardKey.KEY_UP)) {
+
+        if (Raylib.IsKeyPressed(KeyboardKey.KEY_UP)) {
+            for (int j = 0; j < xUp.Length; j++) {
+                var b = xUp[j];
+                if (b != pos.X) {
+                    continue;
+                }
                 indexY = i - 1;
             }
-            if (Raylib.IsKeyPressed(KeyboardKey.KEY_DOWN)) {
+        }
+        if (Raylib.IsKeyPressed(KeyboardKey.KEY_DOWN)) {
+            for (int j = 0; j < xDown.Length; j++) {
+                var b = xDown[j];
+                if (b != pos.X) {
+                    continue;
+                }
                 indexY = i + 1;
             }
         }
