@@ -31,11 +31,14 @@ public static class UIApp {
         }
         return false;
     }
+    public static void Login_IconMove(UIContext con) {
+        if (con.panel_Login.isOpen) {
+            con.panel_Login.Move();
+        }
+    }
     public static void Login_Draw(UIContext con) {
         if (con.panel_Login.isOpen) {
             con.panel_Login.Draw();
-            con.panel_Login.Move();
-
         }
     }
     #endregion Login:Panel
