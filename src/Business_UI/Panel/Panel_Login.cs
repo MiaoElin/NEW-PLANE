@@ -7,6 +7,9 @@ public class Panel_Login {
     public GUIButton btn_Test1;
     public GUIButton btn_Test2;
     public GUIIcon icon;
+
+    Dictionary<int, GUIButton[]> lines;
+
     public bool isOpen;
     public Panel_Login() {
 
@@ -44,12 +47,6 @@ public class Panel_Login {
         icon.texture = assets.player1;
         icon.pos = new Vector2(260, 425);
         icon.size = new Vector2(40, 40);
-        icon.indexX = 0;
-        icon.indexY = 0;
-        icon.x1 = new int[] { 260 };
-        icon.x2 = new int[] { 260, 420, 570 };
-        icon.x3 = new int[] { 260 };
-        icon.y = new int[] { 425, 525, 625 };
 
         btn_Test1 = new GUIButton();
         btn_Test1.colorBg = Color.BLACK;
@@ -82,20 +79,22 @@ public class Panel_Login {
     public bool IsClickSetting() {
         return btn_setting.isClick();
     }
-    public void Move() {
-        icon.Move();
+    public void Move(int axis_x, int axis_y) {
+        icon.Move(axis_x, axis_y);
     }
     public void Draw() {
         // 画图标
-        Rectangle src = new Rectangle(0, 0, icon.texture.Width, icon.texture.Height);
-        Rectangle dest = new Rectangle(icon.pos.X, icon.pos.Y, icon.size.X, icon.size.Y);
-        Raylib.DrawTexturePro(icon.texture, src, dest, new Vector2(0, 0), 0, Color.WHITE);
-        // 画按钮
-        btn_start.Draw();
-        btn_exit.Draw();
-        btn_setting.Draw();
-        btn_Test1.Draw();
-        btn_Test2.Draw();
+        // Rectangle src = new Rectangle(0, 0, icon.texture.Width, icon.texture.Height);
+        // Rectangle dest = new Rectangle(icon.pos.X, icon.pos.Y, icon.size.X, icon.size.Y);
+        // Raylib.DrawTexturePro(icon.texture, src, dest, new Vector2(0, 0), 0, Color.WHITE);
+        // // 画按钮
+        // btn_start.Draw();
+        // btn_exit.Draw();
+        // btn_setting.Draw();
+        // btn_Test1.Draw();
+        // btn_Test2.Draw();
+
+        icon.DrawUI();
 
     }
 

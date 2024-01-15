@@ -2,7 +2,8 @@ using System.Numerics;
 using Raylib_cs;
 public class GUIButton
 {
-    public Vector2 pos;
+    public Vector2 pos; // 像素坐标
+    public Vector2 linePos; // 行列坐标
     public Vector2 size;
     public Color colorBg;
     public Color colorMouseIN;

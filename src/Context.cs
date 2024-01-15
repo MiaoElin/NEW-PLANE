@@ -31,5 +31,7 @@ public class Context {
         camera2D = new Camera2D();
         r=new RandomService ();
 
+        gameContext.Inject(input);
+
     }
 }

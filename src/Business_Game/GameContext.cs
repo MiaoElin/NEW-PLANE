@@ -34,8 +34,12 @@ public class GameContext {
         r = new RandomService();
         assets = new AssetsContext();
         gameEntity = new GameEntity();
-        input =new InputEntity ();
     }
+
+    public void Inject(InputEntity input) {
+        this.input = input;
+    }
+
     public PlaneEntity TryGetPlayer() {
         planeRepo.TryGet(gameEntity.playerEntityID, out PlaneEntity player);
         return player;

@@ -22,7 +22,7 @@ public static class LoginController {
             UIApp.Login_Closed(con.uIContext);
             // UIApp.Setting_Open(con.uIContext);
         }
-        UIApp.Login_IconMove(con.uIContext);
+        UIApp.Login_IconMove(con.uIContext, (int)con.input.uiMoveAxis.X, (int)con.input.uiMoveAxis.Y);
     }
     public static void Draw(Context con) {
 

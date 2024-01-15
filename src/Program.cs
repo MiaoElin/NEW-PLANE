@@ -2,7 +2,7 @@
 using Raylib_cs;
 public class Program {
     public static void Main() {
-        Raylib.InitWindow(720, 1080, "PlaneGame");
+        Raylib.InitWindow(720, 540, "PlaneGame");
         Raylib.SetTargetFPS(60);
         Raylib.SetExitKey(KeyboardKey.KEY_NULL);
 
@@ -43,6 +43,6 @@ public class Program {
         LoginController.Init(con);
     }
     static void Input(Context con) {
-        con.gameContext.input.Process();
+        con.input.Process();
     }
 }
