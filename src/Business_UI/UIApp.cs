@@ -6,10 +6,9 @@ public static class UIApp {
         ref Panel_Login Panel = ref con.panel_Login;
         if (Panel == null) {
             Panel = new Panel_Login();
-            Panel.Ctor(); //构造函数，延迟构造，可以先new。把初始的参数放这里，这样不会重复初始化赋值
+            Panel.Ctor(con.assets); //构造函数，延迟构造，可以先new。把初始的参数放这里，这样不会重复初始化赋值
         }
         con.panel_Login.Init();
-
     }
     public static void Login_Closed(UIContext con) {
         con.panel_Login.isOpen = false;
@@ -35,6 +34,8 @@ public static class UIApp {
     public static void Login_Draw(UIContext con) {
         if (con.panel_Login.isOpen) {
             con.panel_Login.Draw();
+            con.panel_Login.Move();
+
         }
     }
     #endregion Login:Panel
@@ -51,7 +52,7 @@ public static class UIApp {
     //         return con.panel_Pause.IsKeyDown;
     // }
     public static void Pause_Closed(UIContext con) {
-        if (con.panel_Pause!=null&&con.panel_Pause.isOpen) {
+        if (con.panel_Pause != null && con.panel_Pause.isOpen) {
             con.panel_Pause.isOpen = false;
         }
     }
@@ -93,7 +94,7 @@ public static class UIApp {
     }
     #endregion Failed:Panel
     #region Win:Panel
-    public static void Win_Open(UIContext uic,int waveTypeID) {
+    public static void Win_Open(UIContext uic, int waveTypeID) {
         ref Panel_Win panel = ref uic.panel_Win;
         if (panel == null) {
             panel = new Panel_Win();

@@ -2,6 +2,7 @@ using Raylib_cs;
 using System.Numerics;
 public static class InfraController {
     public static void Init(Context con) {
+        con.uIContext.assets.Init();
         con.gameContext.assets.Init();
         con.gameContext.template.Init(con.gameContext.assets);
         con.widowWidth = 720;

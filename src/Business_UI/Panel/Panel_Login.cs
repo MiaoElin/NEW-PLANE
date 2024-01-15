@@ -4,11 +4,12 @@ public class Panel_Login {
     public GUIButton btn_start;
     public GUIButton btn_exit;
     public GUIButton btn_setting;
+    public GUIIcon icon;
     public bool isOpen;
     public Panel_Login() {
 
     }
-    public void Ctor() {
+    public void Ctor(AssetsContext assets) {
         
         btn_start = new GUIButton();
         btn_start.colorBg = Color.BLACK;
@@ -36,6 +37,9 @@ public class Panel_Login {
         btn_setting.colorMouseIN = Color.GREEN;
         btn_setting.colorText = Color.WHITE;
         btn_setting.fontSize=12;
+        icon=new GUIIcon (assets);
+
+
 
     }
     // Ctor 延迟构造的作用
@@ -51,7 +55,15 @@ public class Panel_Login {
     public bool IsClickSetting() {
         return btn_setting.isClick();
     }
+    public void Move(){
+        icon.Move();
+    }
     public void Draw() {
+        // 画图标
+        Rectangle src=new Rectangle (0,0,icon.texture.Width,icon.texture.Height);
+        Rectangle dest=new Rectangle (icon.pos.X,icon.pos.Y,icon.size.X,icon.size.Y);
+        Raylib.DrawTexturePro(icon.texture,src,dest,new Vector2(0,0),0,Color.WHITE);
+        // 画按钮
         btn_start.Draw();
         btn_exit.Draw();
         btn_setting.Draw();
