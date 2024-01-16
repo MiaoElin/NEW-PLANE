@@ -40,16 +40,6 @@ public class Panel_Login {
         btn_setting.colorText = Color.WHITE;
         btn_setting.fontSize = 12;
 
-        icon = new GUIIcon();
-        icon.texture = assets.player1;
-        icon.pos = new Vector2(260, 425);
-        icon.size = new Vector2(40, 40);
-        icon.indexX = 0;
-        icon.indexY = 0;
-        icon.x1 = new int[] { 260 };
-        icon.x2 = new int[] { 260, 420, 570 };
-        icon.x3 = new int[] { 260 };
-        icon.y = new int[] { 425, 525, 625 };
 
         btn_Test1 = new GUIButton();
         btn_Test1.colorBg = Color.BLACK;
@@ -68,6 +58,10 @@ public class Panel_Login {
         btn_Test2.colorMouseIN = Color.GREEN;
         btn_Test2.colorText = Color.WHITE;
         btn_Test2.fontSize = 12;
+        icon=new GUIIcon();
+        icon.texture=assets.player1;
+        icon.size=new Vector2 (40,40);
+        
     }
     // Ctor 延迟构造的作用
     public void Init() {
@@ -82,21 +76,19 @@ public class Panel_Login {
     public bool IsClickSetting() {
         return btn_setting.isClick();
     }
-    public void Move() {
-        icon.Move();
+    public void Move(int axis_X,int axis_Y) {
+        icon.Move(axis_X,axis_Y);
     }
     public void Draw() {
         // 画图标
-        Rectangle src = new Rectangle(0, 0, icon.texture.Width, icon.texture.Height);
-        Rectangle dest = new Rectangle(icon.pos.X, icon.pos.Y, icon.size.X, icon.size.Y);
-        Raylib.DrawTexturePro(icon.texture, src, dest, new Vector2(0, 0), 0, Color.WHITE);
-        // 画按钮
-        btn_start.Draw();
-        btn_exit.Draw();
-        btn_setting.Draw();
-        btn_Test1.Draw();
-        btn_Test2.Draw();
 
+        // 画按钮
+        // btn_start.Draw();
+        // btn_exit.Draw();
+        // btn_setting.Draw();
+        // btn_Test1.Draw();
+        // btn_Test2.Draw();
+        icon.Draw();
     }
 
 }

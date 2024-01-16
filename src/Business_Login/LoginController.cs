@@ -22,7 +22,8 @@ public static class LoginController {
             UIApp.Login_Closed(con.uIContext);
             // UIApp.Setting_Open(con.uIContext);
         }
-        UIApp.Login_IconMove(con.uIContext);
+        Vector2 axis =con.gameContext.input.iconMoveAxis;
+        UIApp.Login_IconMove(con.uIContext,(int)axis.X,(int)axis.Y);
     }
     public static void Draw(Context con) {
 

@@ -11,20 +11,20 @@ Panel_Pause
 ; 增加boss左右移动的方法(不完美)√
 ; 增加boss的子弹变化 √
 
-同种技能的话技能等级增加(子弹伤害变高,子弹变大？)√{
-  两种方式
-  第一种{  
-    1.给SkillModel加一个int skillLevel 的字段
-    2.在skillTM里存一个 SkillLevelTM[]skillLevelTMs 的数组,存下关于相同skillTypeID,不同level的数据
-    skillLevelTMs[1]存等级1;以此类推；
-    当前的skillTypeID==新获得的typeID时,就调取skillLeve+1的那个skill}
-  第二种{
-    1.给skillModel 加一个nextLevelTypeID
-    2. 当前的SkillTypeID==新获得的typeID时,直接生成nextLevelTypeID对应的skill
-    缺点(无法在受伤的时候回到上一等级的skill)第一种方式就可以用skillLevel-1回到上一个skill等级
-;   }
+; 同种技能的话技能等级增加(子弹伤害变高,子弹变大？)√{
+;   两种方式
+;   第一种{  
+;     1.给SkillModel加一个int skillLevel 的字段
+;     2.在skillTM里存一个 SkillLevelTM[]skillLevelTMs 的数组,存下关于相同skillTypeID,不同level的数据
+;     skillLevelTMs[1]存等级1;以此类推；
+;     当前的skillTypeID==新获得的typeID时,就调取skillLeve+1的那个skill}
+;   第二种{
+;     1.给skillModel 加一个nextLevelTypeID
+;     2. 当前的SkillTypeID==新获得的typeID时,直接生成nextLevelTypeID对应的skill
+;     缺点(无法在受伤的时候回到上一等级的skill)第一种方式就可以用skillLevel-1回到上一个skill等级
+; ;   }
 
-;   }
+; ;   }
 学习键盘控制按钮
 
 

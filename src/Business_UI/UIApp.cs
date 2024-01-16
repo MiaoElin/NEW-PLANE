@@ -31,9 +31,9 @@ public static class UIApp {
         }
         return false;
     }
-    public static void Login_IconMove(UIContext con) {
+    public static void Login_IconMove(UIContext con, int axis_X, int axis_Y) {
         if (con.panel_Login.isOpen) {
-            con.panel_Login.Move();
+            con.panel_Login.Move(axis_X, axis_Y);
         }
     }
     public static void Login_Draw(UIContext con) {
