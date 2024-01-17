@@ -6,6 +6,7 @@ public static class LoginController {
     }
     public static void Enter(Context con) {
         UIApp.Login_Open(con.uIContext);
+        System.Console.WriteLine("123");
     }
 
     public static void Tick(Context con) {
